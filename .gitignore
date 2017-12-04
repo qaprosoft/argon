@@ -8,6 +8,7 @@ target
 .classpath
 .project
 .idea
+.DS_Store
 *.iml
 .springBeans
 */bin
