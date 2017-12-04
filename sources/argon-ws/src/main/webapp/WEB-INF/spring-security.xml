@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+	<bean id="userAuthService" class="com.qaprosoft.argon.ws.security.UserPassAuthService" />
+	
+	<bean id="passwordEncoder" class="org.jasypt.springsecurity3.authentication.encoding.PasswordEncoder">
+		<property name="passwordEncryptor">
+			<ref bean="passwordEncryptor" />
+		</property>
+	</bean>
+	
+	<security:authentication-manager alias="authenticationManager">
+	
+		<security:authentication-provider user-service-ref="userAuthService">
+			<security:password-encoder ref="passwordEncoder" />
+		</security:authentication-provider>
+		
+	</security:authentication-manager>
+	
+	<bean id="authenticationTokenProcessingFilter" class="com.qaprosoft.argon.ws.security.filter.JwtTokenAuthenticationFilter" />
+	
+	<bean id="unauthorizedEntryPoint" class="com.qaprosoft.argon.ws.security.filter.SecurityAuthenticationEntryPoint" />
+	
+	<bean id="accessDeniedHandler" class="com.qaprosoft.argon.ws.security.filter.RestAccessDeniedHandler" />
+	
+	<security:http pattern="/api/auth/login" security="none" />
+	<security:http pattern="/api/auth/refresh" security="none" />
+	
+	<!-- Protected API end-points -->
+	<security:http realm="Protected API" use-expressions="true" auto-config="false" create-session="stateless" entry-point-ref="unauthorizedEntryPoint" >
+		
+		<security:csrf disabled="true"/>
+		
+		<security:access-denied-handler ref="accessDeniedHandler" />
+		
+		<security:custom-filter ref="authenticationTokenProcessingFilter" after="EXCEPTION_TRANSLATION_FILTER" />
+		
+		<security:intercept-url pattern="/api/users/**" access="isAuthenticated()" />
+		
+	</security:http>
+	
+</beans>

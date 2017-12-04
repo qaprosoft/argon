@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+<profiles>
+    <profile>
+        <id>argon</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+        <properties>
+            <argon.url>http://localhost:8080</argon.url>
+            <argon.ws.path>/argon-ws</argon.ws.path>
+            <argon.web.path>/argon</argon.web.path>
+
+            <argon.db.jdbc.driverClass>org.postgresql.Driver</argon.db.jdbc.driverClass>
+            <argon.db.jdbc.url>jdbc:mysql://localhost:3306/argon</argon.db.jdbc.url>
+            <argon.db.jdbc.user>root</argon.db.jdbc.user>
+            <argon.db.jdbc.password>change_me</argon.db.jdbc.password>
+            <argon.db.c3p0.maxPoolSize>100</argon.db.c3p0.maxPoolSize>
+        </properties>
+    </profile>
+</profiles>
+</settings>
