@@ -28,7 +28,8 @@
 	<bean id="abortFrozenTestRunsTask"
 		class="com.qaprosoft.argon.batchservices.tasks.AbortFrozenTestRunsTask" />
 
-	<bean id="schedulerService" class="com.qaprosoft.argon.batchservices.service.impl.SchedulerService" />
+	<bean id="schedulerService"
+		class="com.qaprosoft.argon.batchservices.service.impl.SchedulerService" />
 
 	<!-- Job Details -->
 	<bean id="abortFrozenTestRunsTaskJobDetail"

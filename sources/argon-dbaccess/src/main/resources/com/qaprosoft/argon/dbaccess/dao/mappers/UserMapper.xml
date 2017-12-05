@@ -68,7 +68,7 @@
 			WHERE U.USERNAME = #{username};
 		]]>
 	</select>
-	
+
 	<select id="searchUsers" resultMap="UserResultMap">
 		<![CDATA[
 			SELECT
@@ -126,7 +126,7 @@
 			LIMIT #{pageSize} OFFSET #{offset}
 		]]>
 	</select>
-	
+
 	<select id="getUserSearchCount" resultType="java.lang.Integer">
 		<![CDATA[
 		SELECT 
@@ -183,44 +183,44 @@
 			UPDATE
 			    argon.USERS
 		]]>
-			<set>
-				<if test="null != firstName">
+		<set>
+			<if test="null != firstName">
 		            <![CDATA[
 		               FIRST_NAME = #{firstName},
 		            ]]>
-				</if>
-				<if test="null != lastName">
+			</if>
+			<if test="null != lastName">
 		            <![CDATA[
 		               LAST_NAME = #{lastName},
 		            ]]>
-				</if>
-				<if test="null != email">
+			</if>
+			<if test="null != email">
 		            <![CDATA[
 		               EMAIL = #{email},
 		            ]]>
-				</if>
-				<if test="null != username">
+			</if>
+			<if test="null != username">
 		            <![CDATA[
 		               USERNAME = #{username},	
 		            ]]>
-				</if>
-				<if test="null != password">
+			</if>
+			<if test="null != password">
 		            <![CDATA[
 		               PASSWORD = #{password},	
 		            ]]>
-				</if>
-				<if test="null != lastLogin">
+			</if>
+			<if test="null != lastLogin">
 		            <![CDATA[
 		               LAST_LOGIN = #{lastLogin}	
 		            ]]>
-				</if>
-			</set>
+			</if>
+		</set>
 		<![CDATA[
 			WHERE
 			    ID = #{id}
 		]]>
 	</update>
-	
+
 	<update id="updateLastLoginDate">
 		<![CDATA[
 			UPDATE
@@ -247,7 +247,8 @@
 		<include refid="deleteUser" />
 	</delete>
 
-	<resultMap type="com.qaprosoft.argon.models.db.User" id="UserResultMap" autoMapping="false">
+	<resultMap type="com.qaprosoft.argon.models.db.User" id="UserResultMap"
+		autoMapping="false">
 		<id column="USER_ID" property="id" />
 		<result column="USER_USERNAME" property="username" />
 		<result column="USER_PASSWORD" property="password" />
@@ -257,8 +258,11 @@
 		<result column="USER_LAST_LOGIN" property="lastLogin" />
 		<result column="USER_MODIFIED_AT" property="modifiedAt" />
 		<result column="USER_CREATED_AT" property="createdAt" />
-		<collection property="groups" ofType="com.qaprosoft.argon.models.db.Group" resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.GroupMapper.GroupResultMap"/>
-		<collection property="preferences" ofType="com.qaprosoft.argon.models.db.UserPreference" resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.UserPreferenceMapper.UserPreferenceResultMap"/>
+		<collection property="groups" ofType="com.qaprosoft.argon.models.db.Group"
+			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.GroupMapper.GroupResultMap" />
+		<collection property="preferences"
+			ofType="com.qaprosoft.argon.models.db.UserPreference"
+			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.UserPreferenceMapper.UserPreferenceResultMap" />
 	</resultMap>
 
 	<insert id="addUserToGroup">
@@ -274,9 +278,11 @@
 	<delete id="deleteUserFromGroup">
 		DELETE
 		FROM
-			argon.USER_GROUPS
+		argon.USER_GROUPS
 		WHERE
-			ID = (SELECT ID FROM argon.USER_GROUPS WHERE USER_ID = #{userId} AND GROUP_ID = #{groupId})
+		ID = (SELECT ID FROM
+		argon.USER_GROUPS WHERE USER_ID = #{userId} AND
+		GROUP_ID = #{groupId})
 	</delete>
 
 </mapper>

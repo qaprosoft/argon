@@ -1,23 +1,28 @@
 package com.qaprosoft.argon.models.db;
 
-public class Blacklist extends AbstractEntity {
+public class Blacklist extends AbstractEntity
+{
 
-    private User user = new User();
-    private Chat chat = new Chat();
+	private User user = new User();
+	private Chat chat = new Chat();
 
-    public User getUser() {
-        return user;
-    }
+	public User getUser()
+	{
+		return user;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public void setUser(User user)
+	{
+		this.user = user;
+	}
 
-    public Chat getChat() {
-        return chat;
-    }
+	public Chat getChat()
+	{
+		return chat;
+	}
 
-    public void setChat(Chat chat) {
-        this.chat = chat;
-    }
+	public void setChat(Chat chat)
+	{
+		this.chat = chat;
+	}
 }

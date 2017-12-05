@@ -1,4 +1,5 @@
 package com.qaprosoft.argon.models.db;
 
-public class Setting extends AbstractEntity {
+public class Setting extends AbstractEntity
+{
 }

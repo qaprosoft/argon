@@ -26,7 +26,8 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Users API")
 @CrossOrigin
 @RequestMapping("api/users")
-public class UsersAPIController extends AbstractController {
+public class UsersAPIController extends AbstractController
+{
 	@Autowired
 	private UserService userService;
 
@@ -36,12 +37,14 @@ public class UsersAPIController extends AbstractController {
 	@ResponseStatusDetails
 	@ApiOperation(value = "Get user profile", nickname = "getUserProfile", code = 200, httpMethod = "GET", response = UserType.class)
 	@ResponseStatus(HttpStatus.OK)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ApiImplicitParams(
+	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@RequestMapping(value = "profile", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody UserType getUserProfile() throws ServiceException {
+	public @ResponseBody UserType getUserProfile() throws ServiceException
+	{
 		User user = userService.getUserById(getPrincipalId());
 		UserType userType = mapper.map(user, UserType.class);
-		userType.setRoles(user.getRoles());
+		// userType.setRoles(user.getRoles());
 		return userType;
 	}
 }

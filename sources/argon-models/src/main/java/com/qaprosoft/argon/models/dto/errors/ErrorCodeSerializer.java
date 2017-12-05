@@ -8,10 +8,12 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.qaprosoft.argon.models.dto.errors.ErrorCode;
 
-public class ErrorCodeSerializer extends JsonSerializer<ErrorCode> {
+public class ErrorCodeSerializer extends JsonSerializer<ErrorCode>
+{
 	@Override
 	public void serialize(ErrorCode value, JsonGenerator jgen, SerializerProvider provider)
-			throws IOException, JsonProcessingException {
+			throws IOException, JsonProcessingException
+	{
 		jgen.writeNumber(value.getCode());
 	}
 }

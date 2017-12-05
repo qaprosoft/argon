@@ -3,24 +3,29 @@ package com.qaprosoft.argon.models.db;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Chat extends AbstractEntity {
+public class Chat extends AbstractEntity
+{
 
-    private String name;
-    private List<User> users = new ArrayList<>();
+	private String name;
+	private List<User> users = new ArrayList<>();
 
-    public List<User> getUsers() {
-        return users;
-    }
+	public List<User> getUsers()
+	{
+		return users;
+	}
 
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
+	public void setUsers(List<User> users)
+	{
+		this.users = users;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName()
+	{
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name)
+	{
+		this.name = name;
+	}
 }

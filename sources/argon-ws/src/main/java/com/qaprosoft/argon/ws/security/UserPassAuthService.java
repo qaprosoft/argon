@@ -26,6 +26,7 @@ public class UserPassAuthService implements UserDetailsService {
 		} catch (Exception e) {
 			throw new UsernameNotFoundException("User not found", e);
 		}
-		return new JwtUserType(user.getId(), username, user.getPassword(), user.getRoles());
+		return new JwtUserType();
+		// return new JwtUserType(user.getId(), username, user.getPassword(), user.getRoles());
 	}
 }

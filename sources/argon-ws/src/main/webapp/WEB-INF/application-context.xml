@@ -17,11 +17,13 @@
 	<import resource="classpath:argon-dbaccess.xml" />
 	<import resource="classpath:argon-services.xml" />
 
-	<websocket:message-broker application-destination-prefix="/websocket">
-		<websocket:stomp-endpoint path="/websockets" allowed-origins="*">
+	<websocket:message-broker
+		application-destination-prefix="/websocket">
+		<websocket:stomp-endpoint path="/websockets"
+			allowed-origins="*">
 			<websocket:sockjs />
 		</websocket:stomp-endpoint>
 		<websocket:simple-broker prefix="/topic" />
 	</websocket:message-broker>
-	
+
 </beans>

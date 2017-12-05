@@ -8,7 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 @JsonInclude(Include.NON_NULL)
-public class User extends AbstractEntity {
+public class User extends AbstractEntity
+{
 
 	private String username;
 	private String password;
@@ -21,83 +22,103 @@ public class User extends AbstractEntity {
 	private List<Authority> authorities = new ArrayList<>();
 	private Status status;
 
-	public String getUsername() {
+	public String getUsername()
+	{
 		return username;
 	}
 
-	public void setUsername(String username) {
+	public void setUsername(String username)
+	{
 		this.username = username;
 	}
 
-	public String getPassword() {
+	public String getPassword()
+	{
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(String password)
+	{
 		this.password = password;
 	}
 
-	public String getFirstName() {
+	public String getFirstName()
+	{
 		return firstName;
 	}
 
-	public void setFirstName(String firstName) {
+	public void setFirstName(String firstName)
+	{
 		this.firstName = firstName;
 	}
 
-	public String getLastName() {
+	public String getLastName()
+	{
 		return lastName;
 	}
 
-	public void setLastName(String lastName) {
+	public void setLastName(String lastName)
+	{
 		this.lastName = lastName;
 	}
 
-	public String getEmail() {
+	public String getEmail()
+	{
 		return email;
 	}
 
-	public void setEmail(String email) {
+	public void setEmail(String email)
+	{
 		this.email = email;
 	}
 
-	public boolean isEnabled() {
+	public boolean isEnabled()
+	{
 		return enabled;
 	}
 
-	public void setEnabled(boolean enabled) {
+	public void setEnabled(boolean enabled)
+	{
 		this.enabled = enabled;
 	}
 
-	public boolean isVerified() {
+	public boolean isVerified()
+	{
 		return verified;
 	}
 
-	public void setVerified(boolean verified) {
+	public void setVerified(boolean verified)
+	{
 		this.verified = verified;
 	}
 
-	public Date getDateOfBirtday() {
+	public Date getDateOfBirtday()
+	{
 		return dateOfBirtday;
 	}
 
-	public void setDateOfBirtday(Date dateOfBirtday) {
+	public void setDateOfBirtday(Date dateOfBirtday)
+	{
 		this.dateOfBirtday = dateOfBirtday;
 	}
 
-	public List<Authority> getAuthorities() {
+	public List<Authority> getAuthorities()
+	{
 		return authorities;
 	}
 
-	public void setAuthorities(List<Authority> authorities) {
+	public void setAuthorities(List<Authority> authorities)
+	{
 		this.authorities = authorities;
 	}
 
-	public Status getStatus() {
+	public Status getStatus()
+	{
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(Status status)
+	{
 		this.status = status;
 	}
 }

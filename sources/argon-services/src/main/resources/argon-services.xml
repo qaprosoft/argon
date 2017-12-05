@@ -22,7 +22,8 @@
 		<property name="serializationInclusion" value="NON_NULL" />
 	</bean>
 
-	<bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	<bean id="schedulerFactoryBean"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
 	</bean>
 
@@ -48,8 +49,8 @@
 
 	<bean id="jwtService" class="com.qaprosoft.argon.services.services.auth.JWTService">
 		<constructor-arg index="0" value="${argon.jwt.secret}" />
-		<constructor-arg index="1" value="${argon.jwt.authTokenExp}"  />
-		<constructor-arg index="2" value="${argon.jwt.refreshTokenExp}"  />
+		<constructor-arg index="1" value="${argon.jwt.authTokenExp}" />
+		<constructor-arg index="2" value="${argon.jwt.refreshTokenExp}" />
 	</bean>
 
 </beans>
