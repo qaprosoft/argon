@@ -73,21 +73,21 @@ public class AuthAPIController extends AbstractController
 			throws BadCredentialsException
 	{
 		AuthTokenType authToken = null;
-		try
-		{
-			Authentication authentication = this.authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword()));
-
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-
-			User user = userService.getUserByUsername(credentials.getUsername());
-
-			authToken = new AuthTokenType("Bearer", jwtService.generateAuthToken(user),
-					jwtService.generateRefreshToken(user), jwtService.getExpiration());
-		} catch (Exception e)
-		{
-			throw new BadCredentialsException(e.getMessage());
-		}
+//		try
+//		{
+//			Authentication authentication = this.authenticationManager.authenticate(
+//					new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword()));
+//
+//			SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//			User user = userService.getUserByUsername(credentials.getUsername());
+//
+//			authToken = new AuthTokenType("Bearer", jwtService.generateAuthToken(user),
+//					jwtService.generateRefreshToken(user), jwtService.getExpiration());
+//		} catch (Exception e)
+//		{
+//			throw new BadCredentialsException(e.getMessage());
+//		}
 		return authToken;
 	}
 
@@ -100,7 +100,7 @@ public class AuthAPIController extends AbstractController
 		// List<Group.Role> roles = new ArrayList<>();
 		// roles.add(Group.Role.ROLE_USER);
 		// userType.setRoles(roles);
-		userService.createUser(mapper.map(userType, User.class));
+//		userService.createUser(mapper.map(userType, User.class));
 	}
 
 	@ResponseStatusDetails
@@ -111,42 +111,42 @@ public class AuthAPIController extends AbstractController
 			throws BadCredentialsException, ForbiddenOperationException
 	{
 		AuthTokenType authToken = null;
-		try
-		{
-			User jwtUser = jwtService.parseRefreshToken(refreshToken.getRefreshToken());
-
-			User user = userService.getUserById(jwtUser.getId());
-			if (user == null)
-			{
-				throw new UserNotFoundException();
-			}
-
-			// TODO: Do not verify password for demo user as far as it breaks demo JWT token
-			if (!StringUtils.equals(adminUsername, user.getUsername())
-					&& !StringUtils.equals(user.getPassword(), jwtUser.getPassword()))
-			{
-				throw new InvalidCredentialsException();
-			}
-
-			authToken = new AuthTokenType("Bearer", jwtService.generateAuthToken(user),
-					jwtService.generateRefreshToken(user), jwtService.getExpiration());
-		} catch (Exception e)
-		{
-			throw new ForbiddenOperationException(e);
-		}
+//		try
+//		{
+//			User jwtUser = jwtService.parseRefreshToken(refreshToken.getRefreshToken());
+//
+//			User user = userService.getUserById(jwtUser.getId());
+//			if (user == null)
+//			{
+//				throw new UserNotFoundException();
+//			}
+//
+//			// TODO: Do not verify password for demo user as far as it breaks demo JWT token
+//			if (!StringUtils.equals(adminUsername, user.getUsername())
+//					&& !StringUtils.equals(user.getPassword(), jwtUser.getPassword()))
+//			{
+//				throw new InvalidCredentialsException();
+//			}
+//
+//			authToken = new AuthTokenType("Bearer", jwtService.generateAuthToken(user),
+//					jwtService.generateRefreshToken(user), jwtService.getExpiration());
+//		} catch (Exception e)
+//		{
+//			throw new ForbiddenOperationException(e);
+//		}
 
 		return authToken;
 	}
 
-	@ResponseStatusDetails
-	@ApiOperation(value = "Generates access token", nickname = "accessToken", code = 200, httpMethod = "GET", response = AuthTokenType.class)
-	@ResponseStatus(HttpStatus.OK)
-	@ApiImplicitParams(
-	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
-	@RequestMapping(value = "access", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody AccessTokenType accessToken() throws ServiceException
-	{
-		String token = jwtService.generateAccessToken(userService.getNotNullUserById(getPrincipalId()));
-		return new AccessTokenType(token);
-	}
+//	@ResponseStatusDetails
+//	@ApiOperation(value = "Generates access token", nickname = "accessToken", code = 200, httpMethod = "GET", response = AuthTokenType.class)
+//	@ResponseStatus(HttpStatus.OK)
+//	@ApiImplicitParams(
+//	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+//	@RequestMapping(value = "access", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+//	public @ResponseBody AccessTokenType accessToken() throws ServiceException
+//	{
+//		String token = jwtService.generateAccessToken(userService.getNotNullUserById(getPrincipalId()));
+//		return new AccessTokenType(token);
+//	}
 }
