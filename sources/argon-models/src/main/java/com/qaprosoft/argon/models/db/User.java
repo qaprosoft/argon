@@ -22,6 +22,7 @@ public class User extends AbstractEntity
 	private Date dateOfBirtday;
 	private List<Authority> authorities = new ArrayList<>();
 	private Status status;
+	private Setting setting;
 
 	public String getUsername()
 	{
@@ -121,5 +122,13 @@ public class User extends AbstractEntity
 	public void setStatus(Status status)
 	{
 		this.status = status;
+	}
+
+	public Setting getSetting() {
+		return setting;
+	}
+
+	public void setSetting(Setting setting) {
+		this.setting = setting;
 	}
 }
