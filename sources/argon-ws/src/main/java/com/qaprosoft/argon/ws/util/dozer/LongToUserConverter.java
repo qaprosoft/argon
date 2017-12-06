@@ -20,12 +20,15 @@ public class LongToUserConverter extends DozerConverter<Long, User> {
 
 	@Override
 	public User convertTo(Long source, User destination) {
-		try {
-			return (source == null) ? null : userService.getUserById(source);
-		} catch (ServiceException e) {
-			LOGGER.error("Couldn't get user by id", e);
-			return null;
-		}
+//		try {
+//			return (source == null) ? null : userService.getUserById(source);
+//		} catch (ServiceException e) {
+//			LOGGER.error("Couldn't get user by id", e);
+//			return null;
+//		}
+
+		//temp solution for next implementation
+		return new User();
 	}
 
 	@Override
