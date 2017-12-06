@@ -10,7 +10,8 @@ import org.springframework.data.annotation.Transient;
  * 
  * @author Alex Khursevich
  */
-public abstract class AbstractEntity implements Serializable {
+public abstract class AbstractEntity implements Serializable
+{
 	private static final long serialVersionUID = 6187567312503626298L;
 
 	private Long id;
@@ -19,27 +20,33 @@ public abstract class AbstractEntity implements Serializable {
 	@Transient
 	private Date createdAt;
 
-	public Long getId() {
+	public Long getId()
+	{
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Long id)
+	{
 		this.id = id;
 	}
 
-	public Date getModifiedAt() {
+	public Date getModifiedAt()
+	{
 		return modifiedAt;
 	}
 
-	public void setModifiedAt(Date modifiedAt) {
+	public void setModifiedAt(Date modifiedAt)
+	{
 		this.modifiedAt = modifiedAt;
 	}
 
-	public Date getCreatedAt() {
+	public Date getCreatedAt()
+	{
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(Date createdAt)
+	{
 		this.createdAt = createdAt;
 	}
 }

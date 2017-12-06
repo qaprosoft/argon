@@ -1,7 +1,7 @@
 package com.qaprosoft.argon.ws.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
 import javax.validation.Valid;
 
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.qaprosoft.argon.models.db.Group;
+//import com.qaprosoft.argon.models.db.Group;
 import com.qaprosoft.argon.models.db.User;
 import com.qaprosoft.argon.models.dto.UserType;
 import com.qaprosoft.argon.models.dto.auth.AccessTokenType;
@@ -48,7 +48,8 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Auth API")
 @CrossOrigin
 @RequestMapping("api/auth")
-public class AuthAPIController extends AbstractController {
+public class AuthAPIController extends AbstractController
+{
 	@Autowired
 	private JWTService jwtService;
 
@@ -69,9 +70,11 @@ public class AuthAPIController extends AbstractController {
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody AuthTokenType login(@Valid @RequestBody CredentialsType credentials)
-			throws BadCredentialsException {
+			throws BadCredentialsException
+	{
 		AuthTokenType authToken = null;
-		try {
+		try
+		{
 			Authentication authentication = this.authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword()));
 
@@ -81,7 +84,8 @@ public class AuthAPIController extends AbstractController {
 
 			authToken = new AuthTokenType("Bearer", jwtService.generateAuthToken(user),
 					jwtService.generateRefreshToken(user), jwtService.getExpiration());
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			throw new BadCredentialsException(e.getMessage());
 		}
 		return authToken;
@@ -91,10 +95,11 @@ public class AuthAPIController extends AbstractController {
 	@ApiOperation(value = "Registration", nickname = "register", code = 200, httpMethod = "POST")
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void register(@Valid @RequestBody UserType userType) throws BadCredentialsException, ServiceException {
-		List<Group.Role> roles = new ArrayList<>();
-		roles.add(Group.Role.ROLE_USER);
-		userType.setRoles(roles);
+	public void register(@Valid @RequestBody UserType userType) throws BadCredentialsException, ServiceException
+	{
+		// List<Group.Role> roles = new ArrayList<>();
+		// roles.add(Group.Role.ROLE_USER);
+		// userType.setRoles(roles);
 		userService.createUser(mapper.map(userType, User.class));
 	}
 
@@ -103,25 +108,30 @@ public class AuthAPIController extends AbstractController {
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "refresh", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody AuthTokenType refresh(@RequestBody @Valid RefreshTokenType refreshToken)
-			throws BadCredentialsException, ForbiddenOperationException {
+			throws BadCredentialsException, ForbiddenOperationException
+	{
 		AuthTokenType authToken = null;
-		try {
+		try
+		{
 			User jwtUser = jwtService.parseRefreshToken(refreshToken.getRefreshToken());
 
 			User user = userService.getUserById(jwtUser.getId());
-			if (user == null) {
+			if (user == null)
+			{
 				throw new UserNotFoundException();
 			}
 
 			// TODO: Do not verify password for demo user as far as it breaks demo JWT token
 			if (!StringUtils.equals(adminUsername, user.getUsername())
-					&& !StringUtils.equals(user.getPassword(), jwtUser.getPassword())) {
+					&& !StringUtils.equals(user.getPassword(), jwtUser.getPassword()))
+			{
 				throw new InvalidCredentialsException();
 			}
 
 			authToken = new AuthTokenType("Bearer", jwtService.generateAuthToken(user),
 					jwtService.generateRefreshToken(user), jwtService.getExpiration());
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			throw new ForbiddenOperationException(e);
 		}
 
@@ -131,9 +141,11 @@ public class AuthAPIController extends AbstractController {
 	@ResponseStatusDetails
 	@ApiOperation(value = "Generates access token", nickname = "accessToken", code = 200, httpMethod = "GET", response = AuthTokenType.class)
 	@ResponseStatus(HttpStatus.OK)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ApiImplicitParams(
+	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@RequestMapping(value = "access", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody AccessTokenType accessToken() throws ServiceException {
+	public @ResponseBody AccessTokenType accessToken() throws ServiceException
+	{
 		String token = jwtService.generateAccessToken(userService.getNotNullUserById(getPrincipalId()));
 		return new AccessTokenType(token);
 	}

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -29,19 +30,19 @@
 			<artifactId>javax.mail-api</artifactId>
 		</dependency>
 
-		 <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 		</dependency>
 		<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-        </dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
@@ -69,18 +70,18 @@
 			<artifactId>commons-codec</artifactId>
 		</dependency>
 		<dependency>
-				<groupId>commons-validator</groupId>
-				<artifactId>commons-validator</artifactId>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-collections4</artifactId>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
 		</dependency>
 
 		<dependency>
@@ -166,18 +167,18 @@
 		</dependency>
 
 		<dependency>
-		    <groupId>com.codeborne</groupId>
-		    <artifactId>phantomjsdriver</artifactId>
+			<groupId>com.codeborne</groupId>
+			<artifactId>phantomjsdriver</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>org.seleniumhq.selenium</groupId>
-		    <artifactId>selenium-java</artifactId>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
 		</dependency>
 
 		<dependency>
-		  	<groupId>com.amazonaws</groupId>
-		  	<artifactId>aws-java-sdk</artifactId>
-	  	</dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>io.evanwong.oss</groupId>
@@ -185,18 +186,18 @@
 		</dependency>
 
 		<dependency>
-		  <groupId>com.offbytwo.jenkins</groupId>
-		  <artifactId>jenkins-client</artifactId>
-		  <exclusions>
-	        <exclusion>
-	          <groupId>xml-apis</groupId>
-	          <artifactId>xml-apis</artifactId>
-	        </exclusion>
-	        <exclusion>
-	          <groupId>commons-beanutils</groupId>
-	          <artifactId>commons-beanutils</artifactId>
-	        </exclusion>
-	      </exclusions>
+			<groupId>com.offbytwo.jenkins</groupId>
+			<artifactId>jenkins-client</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-beanutils</groupId>
+					<artifactId>commons-beanutils</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -222,13 +223,13 @@
 		</dependency>
 
 		<dependency>
-		    <groupId>io.jsonwebtoken</groupId>
-		    <artifactId>jjwt</artifactId>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
 		</dependency>
 
 		<dependency>
-		    <groupId>in.ashwanthkumar</groupId>
-		  	<artifactId>slack-java-webhook</artifactId>
+			<groupId>in.ashwanthkumar</groupId>
+			<artifactId>slack-java-webhook</artifactId>
 		</dependency>
 
 	</dependencies>
@@ -240,12 +241,12 @@
 				<artifactId>aspectj-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
-			  <groupId>org.apache.maven.plugins</groupId>
-			  <artifactId>maven-deploy-plugin</artifactId>
-			  <version>2.7</version>
-			  <configuration>
-			    <skip>true</skip>
-			  </configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
