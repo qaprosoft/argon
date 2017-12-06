@@ -5,7 +5,8 @@ import java.util.List;
 
 public class Chat extends AbstractEntity
 {
-
+	private static final long serialVersionUID = -3241763413702060156L;
+	
 	private String name;
 	private List<User> users = new ArrayList<>();
 

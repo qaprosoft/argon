@@ -2,7 +2,8 @@ package com.qaprosoft.argon.models.db;
 
 public class Message extends AbstractEntity
 {
-
+	private static final long serialVersionUID = 8018686058027185177L;
+	
 	private String text;
 	private Attachment attachment;
 	private User user = new User();

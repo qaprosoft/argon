@@ -10,7 +10,8 @@ import java.util.List;
 @JsonInclude(Include.NON_NULL)
 public class User extends AbstractEntity
 {
-
+	private static final long serialVersionUID = -8127492654937722329L;
+	
 	private String username;
 	private String password;
 	private String firstName;
