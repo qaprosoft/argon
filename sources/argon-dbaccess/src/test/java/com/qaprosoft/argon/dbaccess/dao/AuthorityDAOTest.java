@@ -12,6 +12,10 @@ import com.qaprosoft.argon.dbaccess.dao.mysql.AuthorityDAO;
 import com.qaprosoft.argon.models.db.Authority;
 import com.qaprosoft.argon.models.db.Authority.AuthorityType;
 
+/**
+ * @author asemenkov
+ * @since 07 Dec 2017
+ */
 @Test
 @ContextConfiguration("classpath:com/qaprosoft/argon/dbaccess/dbaccess-test.xml")
 public class AuthorityDAOTest extends AbstractTestNGSpringContextTests

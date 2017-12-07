@@ -4,6 +4,10 @@ import org.apache.ibatis.annotations.Param;
 
 import com.qaprosoft.argon.models.db.User;
 
+/**
+ * @author asemenkov
+ * @since 07 Dec 2017
+ */
 public interface UserDAO
 {
 

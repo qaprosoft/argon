@@ -2,6 +2,10 @@ package com.qaprosoft.argon.dbaccess.dao.mysql;
 
 import com.qaprosoft.argon.models.db.Confirmation;
 
+/**
+ * @author asemenkov
+ * @since 07 Dec 2017
+ */
 public interface ConfirmationDAO
 {
 
