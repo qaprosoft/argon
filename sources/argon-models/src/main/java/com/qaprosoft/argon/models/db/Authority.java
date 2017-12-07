@@ -3,12 +3,12 @@ package com.qaprosoft.argon.models.db;
 public class Authority extends AbstractEntity
 {
 	private static final long serialVersionUID = 3820487023056423848L;
-	
+
 	private AuthorityType authority;
 
-	private enum AuthorityType
+	public enum AuthorityType
 	{
-		USER, ADMIN
+		USER, ADMIN, TEST_USER, TEST_ADMIN
 	}
 
 	public AuthorityType getAuthority()
