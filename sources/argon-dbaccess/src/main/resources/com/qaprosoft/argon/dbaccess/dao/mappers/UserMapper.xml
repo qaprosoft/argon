@@ -1,8 +1,173 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.qaprosoft.argon.dbaccess.dao.mysql.UserMapper">
+<mapper namespace="com.qaprosoft.argon.dbaccess.dao.mysql.UserDAO">
 
+	<insert id="createUser" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO argon.USERS (LAST_NAME, DOB, USERNAME, PASSWORD, ENABLED, VERIFIED, EMAIL, FIRST_NAME, STATUS_ID)
+			VALUES (
+				#{lastName},
+				#{dob},
+				#{username},
+				#{password},
+				#{enabled},
+				#{verified},
+				#{email},
+				#{firstName},
+				#{status.id}
+			)
+		]]>
+	</insert>
 
+	<sql id="getUser">
+		<![CDATA[
+			SELECT
+				U.ID AS USER_ID,
+				U.LAST_NAME AS USER_LAST_NAME,
+				U.DOB AS USER_DOB,
+				U.USERNAME AS USER_USERNAME,
+				U.PASSWORD AS USER_PASSWORD,
+				U.ENABLED AS USER_ENABLED,
+				U.VERIFIED AS USER_VERIFIED,
+				U.CREATED_AT AS USER_CREATED_AT,
+				U.EMAIL AS USER_EMAIL,
+				U.FIRST_NAME AS USER_FIRST_NAME,
+				U.MODIFIED_AT AS USER_MODIFIED_AT,
+				A.ID AS AUTHORITY_ID,
+				A.AUTHORITY AS AUTHORITY_AUTHORITY,
+				A.MODIFIED_AT AS AUTHORITY_MODIFIED_AT,
+				A.CREATED_AT AS AUTHORITY_CREATED_AT,
+				SE.MODIFIED_AT AS SETTING_MODIFIED_AT,
+				SE.USER_ID AS SETTING_USER,
+				SE.SOUND AS SETTING_SOUND,
+				SE.NEWS AS SETTING_NEWS,
+				SE.CREATED_AT AS SETTING_CREATED_AT,
+				SE.ID AS SETTING_ID,
+				ST.MODIFIED_AT AS STATUS_MODIFIED_AT,
+				ST.CREATED_AT AS STATUS_CREATED_AT,
+				ST.ID AS STATUS_ID,
+				ST.STATUS AS STATUS_STATUS
+			FROM argon.USERS U
+			LEFT JOIN argon.AUTHORITIES A
+			ON A.ID IN (
+				SELECT AUTHORITY_ID
+				FROM USER_AUTHORITIES UA
+				WHERE UA.USER_ID = U.ID)    
+			LEFT JOIN argon.SETTINGS SE
+			ON U.ID = SE.USER_ID
+			LEFT JOIN argon.STATUSES ST
+			ON U.STATUS_ID = ST.ID
+		]]>
+	</sql>
+
+	<select id="getUserById" resultMap="UserResultMap">
+		<include refid="getUser" />
+		<![CDATA[
+			WHERE U.ID = #{id}
+		]]>
+	</select>
+
+	<select id="getUserByEmail" resultMap="UserResultMap">
+		<include refid="getUser" />
+		<![CDATA[
+			WHERE U.EMAIL = #{email}
+		]]>
+	</select>
+
+	<select id="getUserByUsername" resultMap="UserResultMap">
+		<include refid="getUser" />
+		<![CDATA[
+			WHERE U.USERNAME = #{username}
+		]]>
+	</select>
+
+	<update id="updateUser">
+		<![CDATA[
+			UPDATE argon.USERS U
+			SET
+				LAST_NAME = #{lastName},
+				DOB = #{dob},
+				USERNAME = #{username},
+				PASSWORD = #{password},
+				ENABLED = #{enabled},
+				VERIFIED = #{verified},
+				EMAIL = #{email},
+				FIRST_NAME = #{firstName},
+				STATUS_ID = #{status.id}
+			WHERE U.ID = #{id}
+		]]>
+	</update>
+
+	<sql id="deleteUser">
+		<![CDATA[
+			DELETE
+			FROM argon.USERS 
+		]]>
+	</sql>
+
+	<delete id="deleteUserByEmail">
+		<include refid="deleteUser" />
+		<![CDATA[
+			WHERE USERS.EMAIL = #{email}
+		]]>
+	</delete>
+
+	<delete id="deleteUserByUsername">
+		<include refid="deleteUser" />
+		<![CDATA[
+			WHERE USERS.USERNAME = #{username}
+		]]>
+	</delete>
+
+	<delete id="deleteUserById">
+		<include refid="deleteUser" />
+		<![CDATA[
+			WHERE USERS.ID = #{id}
+		]]>
+	</delete>
+
+	<resultMap type="com.qaprosoft.argon.models.db.User" id="UserResultMap"
+		autoMapping="true">
+		<id column="USER_ID" property="id" />
+		<result column="USER_LAST_NAME" property="lastName" />
+		<result column="USER_DOB" property="dob" />
+		<result column="USER_USERNAME" property="username" />
+		<result column="USER_PASSWORD" property="password" />
+		<result column="USER_ENABLED" property="enabled" />
+		<result column="USER_VERIFIED" property="verified" />
+		<result column="USER_CREATED_AT" property="createdAt" />
+		<result column="USER_EMAIL" property="email" />
+		<result column="USER_FIRST_NAME" property="firstName" />
+		<result column="USER_MODIFIED_AT" property="modifiedAt" />
+		<association property="setting"
+			javaType="com.qaprosoft.argon.models.db.Setting"
+			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.SettingDAO.SettingResultMap" />
+		<association property="status"
+			javaType="com.qaprosoft.argon.models.db.Status"
+			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.StatusDAO.StatusResultMap" />
+		<collection property="authorities" javaType="java.util.List"
+			ofType="com.qaprosoft.argon.models.db.Authority"
+			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.AuthorityDAO.AuthorityResultMap" />
+	</resultMap>
+
+	<insert id="addAuthority">
+		<![CDATA[
+			INSERT INTO argon.USER_AUTHORITIES (USER_ID, AUTHORITY_ID)
+			VALUES (
+				#{userId},
+				#{authorityId}
+			)
+		]]>
+	</insert>
+
+	<delete id="deleteAuthority">
+		<![CDATA[
+			DELETE
+			FROM argon.USER_AUTHORITIES
+			WHERE USER_ID = #{userId}
+			AND AUTHORITY_ID = #{authorityId}
+		]]>
+	</delete>
 
 </mapper>

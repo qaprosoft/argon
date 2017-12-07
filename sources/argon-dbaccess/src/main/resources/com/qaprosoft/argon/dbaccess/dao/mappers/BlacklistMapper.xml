@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qaprosoft.argon.dbaccess.dao.mysql.BlacklistDAO">
+
+	<insert id="createBlacklist" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO argon.BLACKLIST (USER_ID, CHAT_ID)
+			VALUES (
+				#{user.id},
+				#{chat.id}
+			)
+		]]>
+	</insert>
+
+	<sql id="getBlacklist">
+		<![CDATA[
+			SELECT
+				B.ID AS BLACKLIST_ID,
+				B.CREATED_AT AS BLACKLIST_CREATED_AT,
+				B.MODIFIED_AT AS BLACKLIST_MODIFIED_AT,
+				U.PASSWORD AS USER_PASSWORD,
+				U.AUTHORITIES AS USER_AUTHORITIES,
+				U.DATE_OF_BIRTDAY AS USER_DATE_OF_BIRTDAY,
+				U.STATUS AS USER_STATUS,
+				U.MODIFIED_AT AS USER_MODIFIED_AT,
+				U.LAST_NAME AS USER_LAST_NAME,
+				U.SETTING AS USER_SETTING,
+				U.EMAIL AS USER_EMAIL,
+				U.ENABLED AS USER_ENABLED,
+				U.USERNAME AS USER_USERNAME,
+				U.VERIFIED AS USER_VERIFIED,
+				U.FIRST_NAME AS USER_FIRST_NAME,
+				U.ID AS USER_ID,
+				U.CREATED_AT AS USER_CREATED_AT,
+				C.ID AS CHAT_ID,
+				C.CREATED_AT AS CHAT_CREATED_AT,
+				C.USERS AS CHAT_USERS,
+				C.NAME AS CHAT_NAME,
+				C.MODIFIED_AT AS CHAT_MODIFIED_AT
+			FROM argon.BLACKLIST B
+			LEFT JOIN argon.USERS U
+			ON B.USER_ID = U.ID
+			LEFT JOIN argon.CHATS C
+			ON B.CHAT_ID = C.ID
+		]]>
+	</sql>
+
+	<select id="getBlacklistById" resultMap = "BlacklistResultMap">
+		<include refid="getBlacklist" />
+		<![CDATA[
+			WHERE B.ID = #{id}
+		]]>
+	</select>
+
+	<update id="updateBlacklist">
+		<![CDATA[
+			UPDATE argon.BLACKLIST B
+			SET
+				USER_ID = #{user.id},
+				CHAT_ID = #{chat.id}
+			WHERE B.ID = #{id}
+		]]>
+	</update>
+
+	<sql id="deleteBlacklist">
+		<![CDATA[
+			DELETE
+			FROM argon.BLACKLIST 
+		]]>
+	</sql>
+
+	<delete id="deleteBlacklistById">
+		<include refid="deleteBlacklist" />
+		<![CDATA[
+			WHERE BLACKLIST.ID = #{id}
+		]]>
+	</delete>
+
+	<resultMap type="com.qaprosoft.argon.models.db.Blacklist" id="BlacklistResultMap" autoMapping="true">
+		<id column="BLACKLIST_ID" property="id" />
+		<result column="BLACKLIST_CREATED_AT" property="createdAt" />
+		<result column="BLACKLIST_MODIFIED_AT" property="modifiedAt" />
+		<association property="user" javaType="com.qaprosoft.argon.models.db.User" 
+			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.UserDAO.UserResultMap" />
+		<association property="chat" javaType="com.qaprosoft.argon.models.db.Chat" 
+			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.ChatDAO.ChatResultMap" />
+	</resultMap>
+</mapper>

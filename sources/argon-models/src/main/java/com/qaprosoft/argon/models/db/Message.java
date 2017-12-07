@@ -2,13 +2,14 @@ package com.qaprosoft.argon.models.db;
 
 public class Message extends AbstractEntity
 {
+
 	private static final long serialVersionUID = 8018686058027185177L;
-	
+
 	private String text;
 	private Attachment attachment;
-	private User user = new User();
-	private Chat chat = new Chat();
-	private boolean isRead = false;
+	private User user;
+	private Chat chat;
+	private Boolean read;
 
 	public enum Attachment
 	{
@@ -55,13 +56,13 @@ public class Message extends AbstractEntity
 		this.chat = chat;
 	}
 
-	public boolean isRead()
+	public Boolean getRead()
 	{
-		return isRead;
+		return read;
 	}
 
-	public void setRead(boolean read)
+	public void setRead(Boolean read)
 	{
-		isRead = read;
+		this.read = read;
 	}
 }

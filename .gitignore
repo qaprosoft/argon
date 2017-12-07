@@ -24,10 +24,10 @@ bower_components
 /pgdata
 /sources/rapid-dbaccess/test-output
 /sources/rapid-services/test-output
-/sources/zafira-conf/.project
-/sources/zafira-conf/.classpath
-/sources/zafira-dbaccess/.project
-/sources/zafira-dbaccess/test-output
-/sources/zafira-dbaccess/.classpath
-/sources/zafira-client/com
-/sources/zafira-ws/phantomjs*
+/sources/argon-conf/.project
+/sources/argon-conf/.classpath
+/sources/argon-dbaccess/.project
+/sources/argon-dbaccess/test-output
+/sources/argon-dbaccess/.classpath
+/sources/argon-client/com
+/sources/argon-ws/phantomjs*

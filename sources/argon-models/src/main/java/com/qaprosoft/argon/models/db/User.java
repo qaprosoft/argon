@@ -3,7 +3,6 @@ package com.qaprosoft.argon.models.db;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,16 +10,16 @@ import java.util.List;
 public class User extends AbstractEntity
 {
 	private static final long serialVersionUID = -8127492654937722329L;
-	
+
 	private String username;
 	private String password;
 	private String firstName;
 	private String lastName;
 	private String email;
-	private boolean enabled;
-	private boolean verified;
-	private Date dateOfBirtday;
-	private List<Authority> authorities = new ArrayList<>();
+	private Boolean enabled;
+	private Boolean verified;
+	private Date dob;
+	private List<Authority> authorities;
 	private Status status;
 	private Setting setting;
 
@@ -74,34 +73,34 @@ public class User extends AbstractEntity
 		this.email = email;
 	}
 
-	public boolean isEnabled()
+	public Boolean getEnabled()
 	{
 		return enabled;
 	}
 
-	public void setEnabled(boolean enabled)
+	public void setEnabled(Boolean enabled)
 	{
 		this.enabled = enabled;
 	}
 
-	public boolean isVerified()
+	public Boolean getVerified()
 	{
 		return verified;
 	}
 
-	public void setVerified(boolean verified)
+	public void setVerified(Boolean verified)
 	{
 		this.verified = verified;
 	}
 
-	public Date getDateOfBirtday()
+	public Date getDob()
 	{
-		return dateOfBirtday;
+		return dob;
 	}
 
-	public void setDateOfBirtday(Date dateOfBirtday)
+	public void setDob(Date dob)
 	{
-		this.dateOfBirtday = dateOfBirtday;
+		this.dob = dob;
 	}
 
 	public List<Authority> getAuthorities()
@@ -124,11 +123,13 @@ public class User extends AbstractEntity
 		this.status = status;
 	}
 
-	public Setting getSetting() {
+	public Setting getSetting()
+	{
 		return setting;
 	}
 
-	public void setSetting(Setting setting) {
+	public void setSetting(Setting setting)
+	{
 		this.setting = setting;
 	}
 }

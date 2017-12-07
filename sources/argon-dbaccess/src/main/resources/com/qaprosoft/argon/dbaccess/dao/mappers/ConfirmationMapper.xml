@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qaprosoft.argon.dbaccess.dao.mysql.ConfirmationDAO">
+
+	<insert id="createConfirmation" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO argon.CONFIRMATIONS (ATTEMPTS, LINK, USER_ID)
+			VALUES (
+				#{attempts},
+				#{link},
+				#{user.id}
+			)
+		]]>
+	</insert>
+
+	<sql id="getConfirmation">
+		<![CDATA[
+			SELECT
+				C.ID AS CONFIRMATION_ID,
+				C.CREATED_AT AS CONFIRMATION_CREATED_AT,
+				C.ATTEMPTS AS CONFIRMATION_ATTEMPTS,
+				C.MODIFIED_AT AS CONFIRMATION_MODIFIED_AT,
+				C.LINK AS CONFIRMATION_LINK,
+				U.ID AS USER_ID,
+				U.PASSWORD AS USER_PASSWORD,
+				U.LAST_NAME AS USER_LAST_NAME,
+				U.CREATED_AT AS USER_CREATED_AT,
+				U.ENABLED AS USER_ENABLED,
+				U.FIRST_NAME AS USER_FIRST_NAME,
+				U.USERNAME AS USER_USERNAME,
+				U.VERIFIED AS USER_VERIFIED,
+				U.EMAIL AS USER_EMAIL,
+				U.AUTHORITIES AS USER_AUTHORITIES,
+				U.STATUS AS USER_STATUS,
+				U.DATE_OF_BIRTDAY AS USER_DATE_OF_BIRTDAY,
+				U.SETTING AS USER_SETTING,
+				U.MODIFIED_AT AS USER_MODIFIED_AT
+			FROM argon.CONFIRMATIONS C
+			LEFT JOIN argon.USERS U
+			ON C.USER_ID = U.ID
+		]]>
+	</sql>
+
+	<select id="getConfirmationListByLink" resultMap = "ConfirmationResultMap">
+		<include refid="getConfirmation" />
+		<![CDATA[
+			WHERE C.LINK = #{link}
+		]]>
+	</select>
+
+	<select id="getConfirmationById" resultMap = "ConfirmationResultMap">
+		<include refid="getConfirmation" />
+		<![CDATA[
+			WHERE C.ID = #{id}
+		]]>
+	</select>
+
+	<update id="updateConfirmation">
+		<![CDATA[
+			UPDATE argon.CONFIRMATIONS C
+			SET
+				ATTEMPTS = #{attempts},
+				LINK = #{link},
+				USER_ID = #{user.id}
+			WHERE C.ID = #{id}
+		]]>
+	</update>
+
+	<sql id="deleteConfirmation">
+		<![CDATA[
+			DELETE
+			FROM argon.CONFIRMATIONS 
+		]]>
+	</sql>
+
+	<delete id="deleteConfirmationById">
+		<include refid="deleteConfirmation" />
+		<![CDATA[
+			WHERE CONFIRMATIONS.ID = #{id}
+		]]>
+	</delete>
+
+	<delete id="deleteConfirmationByLink">
+		<include refid="deleteConfirmation" />
+		<![CDATA[
+			WHERE CONFIRMATIONS.LINK = #{link}
+		]]>
+	</delete>
+
+	<resultMap type="com.qaprosoft.argon.models.db.Confirmation" id="ConfirmationResultMap" autoMapping="true">
+		<id column="CONFIRMATION_ID" property="id" />
+		<result column="CONFIRMATION_CREATED_AT" property="createdAt" />
+		<result column="CONFIRMATION_ATTEMPTS" property="attempts" />
+		<result column="CONFIRMATION_MODIFIED_AT" property="modifiedAt" />
+		<result column="CONFIRMATION_LINK" property="link" />
+		<association property="user" javaType="com.qaprosoft.argon.models.db.User" 
+			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.UserDAO.UserResultMap" />
+	</resultMap>
+</mapper>

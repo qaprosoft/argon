@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qaprosoft.argon.dbaccess.dao.mysql.SettingDAO">
+
+	<insert id="createSetting" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO argon.SETTINGS (NEWS_ENABLED, SOUND_ENABLED, USER_ID)
+			VALUES (
+				#{newsEnabled},
+				#{soundEnabled},
+				#{user.id}
+			)
+		]]>
+	</insert>
+
+	<sql id="getSetting">
+		<![CDATA[
+			SELECT
+				S.ID AS SETTING_ID,
+				S.CREATED_AT AS SETTING_CREATED_AT,
+				S.MODIFIED_AT AS SETTING_MODIFIED_AT,
+				S.NEWS_ENABLED AS SETTING_NEWS_ENABLED,
+				S.SOUND_ENABLED AS SETTING_SOUND_ENABLED,
+				U.ID AS USER_ID,
+				U.ENABLED AS USER_ENABLED,
+				U.MODIFIED_AT AS USER_MODIFIED_AT,
+				U.STATUS AS USER_STATUS,
+				U.SETTING AS USER_SETTING,
+				U.DATE_OF_BIRTDAY AS USER_DATE_OF_BIRTDAY,
+				U.AUTHORITIES AS USER_AUTHORITIES,
+				U.USERNAME AS USER_USERNAME,
+				U.LAST_NAME AS USER_LAST_NAME,
+				U.CREATED_AT AS USER_CREATED_AT,
+				U.VERIFIED AS USER_VERIFIED,
+				U.FIRST_NAME AS USER_FIRST_NAME,
+				U.EMAIL AS USER_EMAIL,
+				U.PASSWORD AS USER_PASSWORD
+			FROM argon.SETTINGS S
+			LEFT JOIN argon.USERS U
+			ON S.USER_ID = U.ID
+		]]>
+	</sql>
+
+	<select id="getSettingById" resultMap = "SettingResultMap">
+		<include refid="getSetting" />
+		<![CDATA[
+			WHERE S.ID = #{id}
+		]]>
+	</select>
+
+	<update id="updateSetting">
+		<![CDATA[
+			UPDATE argon.SETTINGS S
+			SET
+				NEWS_ENABLED = #{newsEnabled},
+				SOUND_ENABLED = #{soundEnabled},
+				USER_ID = #{user.id}
+			WHERE S.ID = #{id}
+		]]>
+	</update>
+
+	<sql id="deleteSetting">
+		<![CDATA[
+			DELETE
+			FROM argon.SETTINGS 
+		]]>
+	</sql>
+
+	<delete id="deleteSettingById">
+		<include refid="deleteSetting" />
+		<![CDATA[
+			WHERE SETTINGS.ID = #{id}
+		]]>
+	</delete>
+
+	<resultMap type="com.qaprosoft.argon.models.db.Setting" id="SettingResultMap" autoMapping="true">
+		<id column="SETTING_ID" property="id" />
+		<result column="SETTING_CREATED_AT" property="createdAt" />
+		<result column="SETTING_MODIFIED_AT" property="modifiedAt" />
+		<result column="SETTING_NEWS_ENABLED" property="newsEnabled" />
+		<result column="SETTING_SOUND_ENABLED" property="soundEnabled" />
+		<association property="user" javaType="com.qaprosoft.argon.models.db.User" 
+			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.UserDAO.UserResultMap" />
+	</resultMap>
+</mapper>

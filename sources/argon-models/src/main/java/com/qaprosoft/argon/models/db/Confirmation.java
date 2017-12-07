@@ -3,10 +3,10 @@ package com.qaprosoft.argon.models.db;
 public class Confirmation extends AbstractEntity
 {
 	private static final long serialVersionUID = -1088752683405700742L;
-	
+
 	private String link;
-	private int attempts;
-	private User user = new User();
+	private Integer attempts;
+	private User user;
 
 	public String getLink()
 	{
@@ -18,12 +18,12 @@ public class Confirmation extends AbstractEntity
 		this.link = link;
 	}
 
-	public int getAttempts()
+	public Integer getAttempts()
 	{
 		return attempts;
 	}
 
-	public void setAttempts(int attempts)
+	public void setAttempts(Integer attempts)
 	{
 		this.attempts = attempts;
 	}
