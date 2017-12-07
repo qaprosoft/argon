@@ -1,7 +1,9 @@
 package com.qaprosoft.argon.dbaccess.dao.mysql.search;
 
-public class SearchCriteria {
-	public enum SortOrder {
+public class SearchCriteria
+{
+	public enum SortOrder
+	{
 		ASC, DESC
 	};
 
@@ -12,31 +14,38 @@ public class SearchCriteria {
 
 	private SortOrder sortOrder = SortOrder.ASC;
 
-	public Integer getPage() {
+	public Integer getPage()
+	{
 		return page;
 	}
 
-	public void setPage(Integer page) {
+	public void setPage(Integer page)
+	{
 		this.page = page;
 	}
 
-	public Integer getPageSize() {
+	public Integer getPageSize()
+	{
 		return pageSize;
 	}
 
-	public void setPageSize(Integer pageSize) {
+	public void setPageSize(Integer pageSize)
+	{
 		this.pageSize = pageSize;
 	}
 
-	public Integer getOffset() {
+	public Integer getOffset()
+	{
 		return (page - 1) * pageSize;
 	}
 
-	public SortOrder getSortOrder() {
+	public SortOrder getSortOrder()
+	{
 		return sortOrder;
 	}
 
-	public void setSortOrder(SortOrder sortOrder) {
+	public void setSortOrder(SortOrder sortOrder)
+	{
 		this.sortOrder = sortOrder;
 	}
 }

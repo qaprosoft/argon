@@ -2,7 +2,8 @@ package com.qaprosoft.argon.dbaccess.dao.mysql.search;
 
 import java.util.Date;
 
-public class UserSearchCriteria extends SearchCriteria {
+public class UserSearchCriteria extends SearchCriteria
+{
 	private Long id;
 	private String username;
 	private String firstLastName;
@@ -12,67 +13,83 @@ public class UserSearchCriteria extends SearchCriteria {
 	private Date fromDate;
 	private Date toDate;
 
-	public Long getId() {
+	public Long getId()
+	{
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Long id)
+	{
 		this.id = id;
 	}
 
-	public String getUsername() {
+	public String getUsername()
+	{
 		return username;
 	}
 
-	public void setUsername(String username) {
+	public void setUsername(String username)
+	{
 		this.username = username;
 	}
 
-	public String getEmail() {
+	public String getEmail()
+	{
 		return email;
 	}
 
-	public void setEmail(String email) {
+	public void setEmail(String email)
+	{
 		this.email = email;
 	}
 
-	public Date getDate() {
+	public Date getDate()
+	{
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Date date)
+	{
 		this.date = date;
 	}
 
-	public String getFirstLastName() {
+	public String getFirstLastName()
+	{
 		return firstLastName;
 	}
 
-	public void setFirstLastName(String firstLastName) {
+	public void setFirstLastName(String firstLastName)
+	{
 		this.firstLastName = firstLastName;
 	}
 
-	public String getGroupName() {
+	public String getGroupName()
+	{
 		return groupName;
 	}
 
-	public void setGroupName(String groupName) {
+	public void setGroupName(String groupName)
+	{
 		this.groupName = groupName;
 	}
 
-	public Date getFromDate() {
+	public Date getFromDate()
+	{
 		return fromDate;
 	}
 
-	public void setFromDate(Date fromDate) {
+	public void setFromDate(Date fromDate)
+	{
 		this.fromDate = fromDate;
 	}
 
-	public Date getToDate() {
+	public Date getToDate()
+	{
 		return toDate;
 	}
 
-	public void setToDate(Date toDate) {
+	public void setToDate(Date toDate)
+	{
 		this.toDate = toDate;
 	}
 }

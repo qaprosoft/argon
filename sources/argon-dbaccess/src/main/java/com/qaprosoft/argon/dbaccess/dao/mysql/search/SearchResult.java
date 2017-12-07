@@ -2,23 +2,28 @@ package com.qaprosoft.argon.dbaccess.dao.mysql.search;
 
 import java.util.List;
 
-public class SearchResult<T> extends SearchCriteria {
+public class SearchResult<T> extends SearchCriteria
+{
 	private List<T> results;
 	private Integer totalResults;
 
-	public List<T> getResults() {
+	public List<T> getResults()
+	{
 		return results;
 	}
 
-	public void setResults(List<T> results) {
+	public void setResults(List<T> results)
+	{
 		this.results = results;
 	}
 
-	public Integer getTotalResults() {
+	public Integer getTotalResults()
+	{
 		return totalResults;
 	}
 
-	public void setTotalResults(Integer totalResults) {
+	public void setTotalResults(Integer totalResults)
+	{
 		this.totalResults = totalResults;
 	}
 }
