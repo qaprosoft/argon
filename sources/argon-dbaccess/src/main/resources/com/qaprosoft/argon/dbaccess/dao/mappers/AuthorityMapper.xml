@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qaprosoft.argon.dbaccess.dao.mysql.AuthorityDAO">
+
+	<insert id="createAuthority" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO argon.AUTHORITIES (AUTHORITY)
+			VALUES (
+				#{authority}
+			)
+		]]>
+	</insert>
+
+	<sql id="getAuthority">
+		<![CDATA[
+			SELECT
+				A.ID AS AUTHORITY_ID,
+				A.AUTHORITY AS AUTHORITY_AUTHORITY,
+				A.MODIFIED_AT AS AUTHORITY_MODIFIED_AT,
+				A.CREATED_AT AS AUTHORITY_CREATED_AT
+			FROM argon.AUTHORITIES A
+		]]>
+	</sql>
+
+	<select id="getAuthorityByAuthority" resultMap = "AuthorityResultMap">
+		<include refid="getAuthority" />
+		<![CDATA[
+			WHERE A.AUTHORITY = #{authority}
+		]]>
+	</select>
+
+	<select id="getAuthorityById" resultMap = "AuthorityResultMap">
+		<include refid="getAuthority" />
+		<![CDATA[
+			WHERE A.ID = #{id}
+		]]>
+	</select>
+
+	<update id="updateAuthority">
+		<![CDATA[
+			UPDATE argon.AUTHORITIES A
+			SET
+				AUTHORITY = #{authority}
+			WHERE A.ID = #{id}
+		]]>
+	</update>
+
+	<sql id="deleteAuthority">
+		<![CDATA[
+			DELETE
+			FROM argon.AUTHORITIES
+		]]>
+	</sql>
+
+	<delete id="deleteAuthorityById">
+		<include refid="deleteAuthority" />
+		<![CDATA[
+			WHERE AUTHORITIES.ID = #{id}
+		]]>
+	</delete>
+
+	<delete id="deleteAuthorityByAuthority">
+		<include refid="deleteAuthority" />
+		<![CDATA[
+			WHERE AUTHORITIES.AUTHORITY = #{authority}
+		]]>
+	</delete>
+
+	<resultMap type="com.qaprosoft.argon.models.db.Authority" id="AuthorityResultMap" autoMapping="true">
+		<id column="AUTHORITY_ID" property="id" />
+		<result column="AUTHORITY_AUTHORITY" property="authority" />
+		<result column="AUTHORITY_MODIFIED_AT" property="modifiedAt" />
+		<result column="AUTHORITY_CREATED_AT" property="createdAt" />
+	</resultMap>
+</mapper>

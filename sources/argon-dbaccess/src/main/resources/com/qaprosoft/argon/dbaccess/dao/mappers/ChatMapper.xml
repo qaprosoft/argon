@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qaprosoft.argon.dbaccess.dao.mysql.ChatDAO">
+
+	<insert id="createChat" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO argon.CHATS (NAME)
+			VALUES (
+				#{name}
+			)
+		]]>
+	</insert>
+
+	<sql id="getChat">
+		<![CDATA[
+			SELECT
+				C.ID AS CHAT_ID,
+				C.NAME AS CHAT_NAME,
+				C.MODIFIED_AT AS CHAT_MODIFIED_AT,
+				C.CREATED_AT AS CHAT_CREATED_AT
+			FROM argon.CHATS C
+		]]>
+	</sql>
+
+	<select id="getChatById" resultMap = "ChatResultMap">
+		<include refid="getChat" />
+		<![CDATA[
+			WHERE C.ID = #{id}
+		]]>
+	</select>
+
+	<select id="getChatByName" resultMap = "ChatResultMap">
+		<include refid="getChat" />
+		<![CDATA[
+			WHERE C.NAME = #{name}
+		]]>
+	</select>
+
+	<update id="updateChat">
+		<![CDATA[
+			UPDATE argon.CHATS C
+			SET
+				NAME = #{name}
+			WHERE C.ID = #{id}
+		]]>
+	</update>
+
+	<sql id="deleteChat">
+		<![CDATA[
+			DELETE
+			FROM argon.CHATS 
+		]]>
+	</sql>
+
+	<delete id="deleteChatByName">
+		<include refid="deleteChat" />
+		<![CDATA[
+			WHERE CHATS.NAME = #{name}
+		]]>
+	</delete>
+
+	<delete id="deleteChatById">
+		<include refid="deleteChat" />
+		<![CDATA[
+			WHERE CHATS.ID = #{id}
+		]]>
+	</delete>
+
+	<resultMap type="com.qaprosoft.argon.models.db.Chat" id="ChatResultMap" autoMapping="true">
+		<id column="CHAT_ID" property="id" />
+		<result column="CHAT_NAME" property="name" />
+		<result column="CHAT_MODIFIED_AT" property="modifiedAt" />
+		<result column="CHAT_CREATED_AT" property="createdAt" />
+		<collection property="users" javaType="java.util.List" ofType="com.qaprosoft.argon.models.db.User" 
+			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.UserDAO.UserResultMap" />
+	</resultMap>
+</mapper>

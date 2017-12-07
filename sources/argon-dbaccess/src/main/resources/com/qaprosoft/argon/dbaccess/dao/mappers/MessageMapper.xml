@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qaprosoft.argon.dbaccess.dao.mysql.MessageDAO">
+
+	<insert id="createMessage" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO argon.MESSAGES (ATTACHMENT, TEXT, READ, USER_ID, CHAT_ID)
+			VALUES (
+				#{attachment},
+				#{text},
+				#{read},
+				#{user.id},
+				#{chat.id}
+			)
+		]]>
+	</insert>
+
+	<sql id="getMessage">
+		<![CDATA[
+			SELECT
+				M.ID AS MESSAGE_ID,
+				M.ATTACHMENT AS MESSAGE_ATTACHMENT,
+				M.CREATED_AT AS MESSAGE_CREATED_AT,
+				M.TEXT AS MESSAGE_TEXT,
+				M.MODIFIED_AT AS MESSAGE_MODIFIED_AT,
+				M.READ AS MESSAGE_READ,
+				U.DATE_OF_BIRTDAY AS USER_DATE_OF_BIRTDAY,
+				U.USERNAME AS USER_USERNAME,
+				U.FIRST_NAME AS USER_FIRST_NAME,
+				U.ID AS USER_ID,
+				U.MODIFIED_AT AS USER_MODIFIED_AT,
+				U.PASSWORD AS USER_PASSWORD,
+				U.ENABLED AS USER_ENABLED,
+				U.CREATED_AT AS USER_CREATED_AT,
+				U.VERIFIED AS USER_VERIFIED,
+				U.STATUS AS USER_STATUS,
+				U.SETTING AS USER_SETTING,
+				U.AUTHORITIES AS USER_AUTHORITIES,
+				U.EMAIL AS USER_EMAIL,
+				U.LAST_NAME AS USER_LAST_NAME,
+				C.CREATED_AT AS CHAT_CREATED_AT,
+				C.MODIFIED_AT AS CHAT_MODIFIED_AT,
+				C.USERS AS CHAT_USERS,
+				C.NAME AS CHAT_NAME,
+				C.ID AS CHAT_ID
+			FROM argon.MESSAGES M
+			LEFT JOIN argon.USERS U
+			ON M.USER_ID = U.ID
+			LEFT JOIN argon.CHATS C
+			ON M.CHAT_ID = C.ID
+		]]>
+	</sql>
+
+	<select id="getMessageById" resultMap = "MessageResultMap">
+		<include refid="getMessage" />
+		<![CDATA[
+			WHERE M.ID = #{id}
+		]]>
+	</select>
+
+	<update id="updateMessage">
+		<![CDATA[
+			UPDATE argon.MESSAGES M
+			SET
+				ATTACHMENT = #{attachment},
+				TEXT = #{text},
+				READ = #{read},
+				USER_ID = #{user.id},
+				CHAT_ID = #{chat.id}
+			WHERE M.ID = #{id}
+		]]>
+	</update>
+
+	<sql id="deleteMessage">
+		<![CDATA[
+			DELETE
+			FROM argon.MESSAGES 
+		]]>
+	</sql>
+
+	<delete id="deleteMessageById">
+		<include refid="deleteMessage" />
+		<![CDATA[
+			WHERE MESSAGES.ID = #{id}
+		]]>
+	</delete>
+
+	<resultMap type="com.qaprosoft.argon.models.db.Message" id="MessageResultMap" autoMapping="true">
+		<id column="MESSAGE_ID" property="id" />
+		<result column="MESSAGE_ATTACHMENT" property="attachment" />
+		<result column="MESSAGE_CREATED_AT" property="createdAt" />
+		<result column="MESSAGE_TEXT" property="text" />
+		<result column="MESSAGE_MODIFIED_AT" property="modifiedAt" />
+		<result column="MESSAGE_READ" property="read" />
+		<association property="user" javaType="com.qaprosoft.argon.models.db.User" 
+			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.UserDAO.UserResultMap" />
+		<association property="chat" javaType="com.qaprosoft.argon.models.db.Chat" 
+			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.ChatDAO.ChatResultMap" />
+	</resultMap>
+</mapper>
