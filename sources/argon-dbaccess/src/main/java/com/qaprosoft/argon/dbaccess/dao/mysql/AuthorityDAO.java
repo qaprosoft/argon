@@ -1,5 +1,7 @@
 package com.qaprosoft.argon.dbaccess.dao.mysql;
 
+import java.util.List;
+
 import com.qaprosoft.argon.models.db.Authority;
 import com.qaprosoft.argon.models.db.Authority.AuthorityType;
 
@@ -13,6 +15,8 @@ public interface AuthorityDAO
 	void createAuthority(Authority authority);
 
 	void updateAuthority(Authority authority);
+	
+	List<Authority> getAllAuthorities();
 
 	Authority getAuthorityById(Long id);
 
