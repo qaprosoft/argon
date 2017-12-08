@@ -23,6 +23,10 @@
 		]]>
 	</sql>
 
+	<select id="getAllStatuses" resultMap="StatusResultMap">
+		<include refid="getStatus" />
+	</select>
+
 	<select id="getStatusByStatus" resultMap="StatusResultMap">
 		<include refid="getStatus" />
 		<![CDATA[

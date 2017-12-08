@@ -22,6 +22,10 @@
 			FROM argon.AUTHORITIES A
 		]]>
 	</sql>
+	
+	<select id="getAllAuthorities" resultMap = "AuthorityResultMap">
+		<include refid="getAuthority" />
+	</select>
 
 	<select id="getAuthorityByAuthority" resultMap = "AuthorityResultMap">
 		<include refid="getAuthority" />

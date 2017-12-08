@@ -45,13 +45,19 @@ public class AuthorityDAOTest extends AbstractTestNGSpringContextTests
 	}
 
 	@Test(enabled = ENABLED, dependsOnMethods = "createAuthority")
+	public void getAllAuthorities()
+	{
+		assertFalse(authorityDAO.getAllAuthorities().isEmpty(), "List of all authorities is empty.");
+	}
+
+	@Test(enabled = ENABLED, dependsOnMethods = "createAuthority")
 	public void getAuthorityById()
 	{
 		checkAuthority(authorityDAO.getAuthorityById(AUTHORITY.getId()));
 	}
 
 	@Test(enabled = ENABLED, dependsOnMethods = "createAuthority")
-	public void getAuthorityListByAuthority()
+	public void getAuthorityByAuthority()
 	{
 		checkAuthority(authorityDAO.getAuthorityByAuthority(AUTHORITY.getAuthority()));
 	}
@@ -69,7 +75,7 @@ public class AuthorityDAOTest extends AbstractTestNGSpringContextTests
 
 	@Test(enabled = ENABLED && DELETE_USER_BY_ID, dependsOnMethods =
 	{ "createAuthority", "createAuthorityFail", "getAuthorityById",
-			"getAuthorityListByAuthority", "updateAuthority" })
+			"getAuthorityByAuthority", "getAllAuthorities", "updateAuthority" })
 	public void deleteAuthorityById()
 	{
 		authorityDAO.deleteAuthorityById(AUTHORITY.getId());
@@ -78,7 +84,7 @@ public class AuthorityDAOTest extends AbstractTestNGSpringContextTests
 
 	@Test(enabled = ENABLED && !DELETE_USER_BY_ID, dependsOnMethods =
 	{ "createAuthority", "createAuthorityFail", "getAuthorityById",
-			"getAuthorityListByAuthority", "updateAuthority" })
+			"getAuthorityByAuthority", "getAllAuthorities", "updateAuthority" })
 	public void deleteAuthorityByAuthority()
 	{
 		authorityDAO.deleteAuthorityByAuthority(AUTHORITY.getAuthority());

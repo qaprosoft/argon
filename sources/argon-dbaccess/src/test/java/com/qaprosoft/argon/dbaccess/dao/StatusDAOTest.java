@@ -45,6 +45,12 @@ public class StatusDAOTest extends AbstractTestNGSpringContextTests
 	}
 
 	@Test(enabled = ENABLED, dependsOnMethods = "createStatus")
+	public void getAllStatuses()
+	{
+		assertFalse(statusDAO.getAllStatuses().isEmpty(), "List of all statuses is empty.");
+	}
+
+	@Test(enabled = ENABLED, dependsOnMethods = "createStatus")
 	public void getStatusById()
 	{
 		checkStatus(statusDAO.getStatusById(STATUS.getId()));
@@ -69,7 +75,7 @@ public class StatusDAOTest extends AbstractTestNGSpringContextTests
 
 	@Test(enabled = ENABLED && DELETE_USER_BY_ID, dependsOnMethods =
 	{ "createStatus", "createStatusFail", "getStatusById",
-			"getStatusListByStatus", "updateStatus" })
+			"getStatusListByStatus", "getAllStatuses", "updateStatus" })
 	public void deleteStatusById()
 	{
 		statusDAO.deleteStatusById(STATUS.getId());
@@ -78,7 +84,7 @@ public class StatusDAOTest extends AbstractTestNGSpringContextTests
 
 	@Test(enabled = ENABLED && !DELETE_USER_BY_ID, dependsOnMethods =
 	{ "createStatus", "createStatusFail", "getStatusById",
-			"getStatusListByStatus", "updateStatus" })
+			"getStatusListByStatus", "getAllStatuses", "updateStatus" })
 	public void deleteStatusByStatus()
 	{
 		statusDAO.deleteStatusByStatus(STATUS.getStatus());
