@@ -7,7 +7,7 @@
 		<![CDATA[
 			INSERT INTO argon.AUTHORITIES (AUTHORITY)
 			VALUES (
-				#{authority}
+				#{authorityType}
 			)
 		]]>
 	</insert>
@@ -16,7 +16,7 @@
 		<![CDATA[
 			SELECT
 				A.ID AS AUTHORITY_ID,
-				A.AUTHORITY AS AUTHORITY_AUTHORITY,
+				A.AUTHORITY AS AUTHORITY_TYPE,
 				A.MODIFIED_AT AS AUTHORITY_MODIFIED_AT,
 				A.CREATED_AT AS AUTHORITY_CREATED_AT
 			FROM argon.AUTHORITIES A
@@ -27,10 +27,10 @@
 		<include refid="getAuthority" />
 	</select>
 
-	<select id="getAuthorityByAuthority" resultMap = "AuthorityResultMap">
+	<select id="getAuthorityByAuthorityType" resultMap = "AuthorityResultMap">
 		<include refid="getAuthority" />
 		<![CDATA[
-			WHERE A.AUTHORITY = #{authority}
+			WHERE A.AUTHORITY = #{authorityType}
 		]]>
 	</select>
 
@@ -45,7 +45,7 @@
 		<![CDATA[
 			UPDATE argon.AUTHORITIES A
 			SET
-				AUTHORITY = #{authority}
+				AUTHORITY = #{authorityType}
 			WHERE A.ID = #{id}
 		]]>
 	</update>
@@ -64,7 +64,7 @@
 		]]>
 	</delete>
 
-	<delete id="deleteAuthorityByAuthority">
+	<delete id="deleteAuthorityByAuthorityType">
 		<include refid="deleteAuthority" />
 		<![CDATA[
 			WHERE AUTHORITIES.AUTHORITY = #{authority}
@@ -73,7 +73,7 @@
 
 	<resultMap type="com.qaprosoft.argon.models.db.Authority" id="AuthorityResultMap" autoMapping="true">
 		<id column="AUTHORITY_ID" property="id" />
-		<result column="AUTHORITY_AUTHORITY" property="authority" />
+		<result column="AUTHORITY_TYPE" property="authorityType" />
 		<result column="AUTHORITY_MODIFIED_AT" property="modifiedAt" />
 		<result column="AUTHORITY_CREATED_AT" property="createdAt" />
 	</resultMap>

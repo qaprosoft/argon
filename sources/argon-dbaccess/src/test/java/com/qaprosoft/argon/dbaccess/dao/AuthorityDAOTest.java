@@ -25,7 +25,7 @@ public class AuthorityDAOTest extends AbstractTestNGSpringContextTests
 
 	private static final Authority AUTHORITY = new Authority();
 	{
-		AUTHORITY.setAuthority(AuthorityType.TEST_USER);
+		AUTHORITY.setAuthorityType(AuthorityType.TEST_USER);
 	}
 
 	@Autowired
@@ -57,15 +57,15 @@ public class AuthorityDAOTest extends AbstractTestNGSpringContextTests
 	}
 
 	@Test(enabled = ENABLED, dependsOnMethods = "createAuthority")
-	public void getAuthorityByAuthority()
+	public void getAuthorityByAuthorityType()
 	{
-		checkAuthority(authorityDAO.getAuthorityByAuthority(AUTHORITY.getAuthority()));
+		checkAuthority(authorityDAO.getAuthorityByAuthorityType(AUTHORITY.getAuthorityType()));
 	}
 
 	@Test(enabled = ENABLED, dependsOnMethods = "createAuthority")
 	public void updateAuthority()
 	{
-		AUTHORITY.setAuthority(AuthorityType.TEST_ADMIN);
+		AUTHORITY.setAuthorityType(AuthorityType.TEST_ADMIN);
 		authorityDAO.updateAuthority(AUTHORITY);
 		checkAuthority(authorityDAO.getAuthorityById(AUTHORITY.getId()));
 	}
@@ -73,9 +73,6 @@ public class AuthorityDAOTest extends AbstractTestNGSpringContextTests
 	// Toggle to delete by ID/AUTHORITY
 	private static final boolean DELETE_USER_BY_ID = false;
 
-	@Test(enabled = ENABLED && DELETE_USER_BY_ID, dependsOnMethods =
-	{ "createAuthority", "createAuthorityFail", "getAuthorityById",
-			"getAuthorityByAuthority", "getAllAuthorities", "updateAuthority" })
 	public void deleteAuthorityById()
 	{
 		authorityDAO.deleteAuthorityById(AUTHORITY.getId());
@@ -84,15 +81,15 @@ public class AuthorityDAOTest extends AbstractTestNGSpringContextTests
 
 	@Test(enabled = ENABLED && !DELETE_USER_BY_ID, dependsOnMethods =
 	{ "createAuthority", "createAuthorityFail", "getAuthorityById",
-			"getAuthorityByAuthority", "getAllAuthorities", "updateAuthority" })
-	public void deleteAuthorityByAuthority()
+			"getAuthorityByAuthorityType", "getAllAuthorities", "updateAuthority" })
+	public void deleteAuthorityByAuthorityType()
 	{
-		authorityDAO.deleteAuthorityByAuthority(AUTHORITY.getAuthority());
-		assertNull(authorityDAO.getAuthorityByAuthority(AUTHORITY.getAuthority()));
+		authorityDAO.deleteAuthorityByAuthorityType(AUTHORITY.getAuthorityType());
+		assertNull(authorityDAO.getAuthorityByAuthorityType(AUTHORITY.getAuthorityType()));
 	}
 
 	private void checkAuthority(Authority authority)
 	{
-		assertEquals(authority.getAuthority(), AUTHORITY.getAuthority(), "Authority is not as expected.");
+		assertEquals(authority.getAuthorityType(), AUTHORITY.getAuthorityType(), "Authority is not as expected.");
 	}
 }
