@@ -17,13 +17,13 @@ public interface UserDAO
 
 	User getUserByEmail(String email);
 
-	User getUserByUsername(String username);
+	User getUserByUserName(String username);
 
 	User getUserById(Long id);
 
 	void deleteUserByEmail(String email);
 
-	void deleteUserByUsername(String username);
+	void deleteUserByUserName(String username);
 
 	void deleteUserById(Long id);
 

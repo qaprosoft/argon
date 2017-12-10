@@ -7,7 +7,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
-
 import com.qaprosoft.argon.dbaccess.dao.mysql.AuthorityDAO;
 import com.qaprosoft.argon.models.db.Authority;
 import com.qaprosoft.argon.models.db.Authority.AuthorityType;
@@ -73,6 +72,9 @@ public class AuthorityDAOTest extends AbstractTestNGSpringContextTests
 	// Toggle to delete by ID/AUTHORITY
 	private static final boolean DELETE_USER_BY_ID = false;
 
+	@Test(enabled = ENABLED && DELETE_USER_BY_ID, dependsOnMethods =
+	{ "createAuthority", "createAuthorityFail", "getAuthorityById",
+			"getAuthorityByAuthorityType", "getAllAuthorities", "updateAuthority" })
 	public void deleteAuthorityById()
 	{
 		authorityDAO.deleteAuthorityById(AUTHORITY.getId());

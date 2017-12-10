@@ -1,13 +1,11 @@
 package com.qaprosoft.argon.dbaccess.dao;
 
 import static org.testng.Assert.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
-
 import com.qaprosoft.argon.dbaccess.dao.mysql.StatusDAO;
 import com.qaprosoft.argon.models.db.Status;
 import com.qaprosoft.argon.models.db.Status.StatusType;

@@ -4,28 +4,28 @@ public class Setting extends AbstractEntity
 {
 	private static final long serialVersionUID = -380292703062844394L;
 
-	private Boolean sound;
-	private Boolean news;
+	private Boolean soundEnabled;
+	private Boolean newsEnabled;
 	private User user;
 
-	public Boolean getSound()
+	public Boolean isHaveSound()
 	{
-		return sound;
+		return soundEnabled;
 	}
 
-	public void setSound(Boolean sound)
+	public void setSound(Boolean soundEnabled)
 	{
-		this.sound = sound;
+		this.soundEnabled = soundEnabled;
 	}
 
-	public Boolean getNews()
+	public Boolean isHaveNews()
 	{
-		return news;
+		return newsEnabled;
 	}
 
-	public void setNews(Boolean news)
+	public void setNews(Boolean newsEnabled)
 	{
-		this.news = news;
+		this.newsEnabled = newsEnabled;
 	}
 
 	public User getUser()
@@ -38,4 +38,19 @@ public class Setting extends AbstractEntity
 		this.user = user;
 	}
 
+	public Boolean getSoundEnabled() {
+		return soundEnabled;
+	}
+
+	public void setSoundEnabled(Boolean soundEnabled) {
+		this.soundEnabled = soundEnabled;
+	}
+
+	public Boolean getNewsEnabled() {
+		return newsEnabled;
+	}
+
+	public void setNewsEnabled(Boolean newsEnabled) {
+		this.newsEnabled = newsEnabled;
+	}
 }
