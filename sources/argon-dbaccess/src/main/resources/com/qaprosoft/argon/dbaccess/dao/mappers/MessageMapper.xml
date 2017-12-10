@@ -5,10 +5,10 @@
 
 	<insert id="createMessage" useGeneratedKeys="true" keyProperty="id">
 		<![CDATA[
-			INSERT INTO argon.MESSAGES (ATTACHMENT, TEXT, READ, USER_ID, CHAT_ID)
+			INSERT INTO argon.MESSAGES (ATTACHMENT, BODY, READ, USER_ID, CHAT_ID)
 			VALUES (
 				#{attachment},
-				#{text},
+				#{body},
 				#{read},
 				#{user.id},
 				#{chat.id}
@@ -90,7 +90,7 @@
 		<id column="MESSAGE_ID" property="id" />
 		<result column="MESSAGE_ATTACHMENT" property="attachment" />
 		<result column="MESSAGE_CREATED_AT" property="createdAt" />
-		<result column="MESSAGE_TEXT" property="text" />
+		<result column="MESSAGE_BODY" property="body" />
 		<result column="MESSAGE_MODIFIED_AT" property="modifiedAt" />
 		<result column="MESSAGE_READ" property="read" />
 		<association property="user" javaType="com.qaprosoft.argon.models.db.User" 
