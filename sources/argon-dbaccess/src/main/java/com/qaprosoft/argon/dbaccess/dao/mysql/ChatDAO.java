@@ -1,6 +1,7 @@
 package com.qaprosoft.argon.dbaccess.dao.mysql;
 
 import com.qaprosoft.argon.models.db.Chat;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author asemenkov
@@ -16,6 +17,10 @@ public interface ChatDAO
 	Chat getChatById(Long id);
 
 	Chat getChatByName(String name);
+
+	void addUserToChat(@Param("userId") Long userId, @Param("chatId") Long chatId);
+
+	void removeUserFromChat(@Param("userId") Long userId, @Param("chatId") Long chatId);
 
 	void deleteChatByName(String name);
 

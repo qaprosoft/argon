@@ -37,5 +37,4 @@ public class Confirmation extends AbstractEntity
 	{
 		this.user = user;
 	}
-
 }

@@ -53,7 +53,6 @@ public class UserDAOTest extends AbstractTestNGSpringContextTests
 	}
 
 	private final static User USER = new User();
-
 	{
 		USER.setEmail(KeyGenerator.getKey() + "@test-mail.com");
 		USER.setEnabled(true);

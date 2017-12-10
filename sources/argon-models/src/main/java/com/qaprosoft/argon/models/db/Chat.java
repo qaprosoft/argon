@@ -1,5 +1,6 @@
 package com.qaprosoft.argon.models.db;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Chat extends AbstractEntity
@@ -7,7 +8,7 @@ public class Chat extends AbstractEntity
 	private static final long serialVersionUID = -3241763413702060156L;
 
 	private String name;
-	private List<User> users;
+	private List<User> users = new ArrayList<>();
 
 	public List<User> getUsers()
 	{
