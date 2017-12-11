@@ -10,11 +10,6 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema argon
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `argon` ;
-
--- -----------------------------------------------------
--- Schema argon
--- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `argon` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 USE `argon` ;
 
