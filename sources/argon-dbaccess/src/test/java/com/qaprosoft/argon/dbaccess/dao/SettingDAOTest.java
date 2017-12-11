@@ -54,7 +54,7 @@ public class SettingDAOTest extends AbstractTestNGSpringContextTests {
 
     private static final Status STATUS = new Status();
     {
-        STATUS.setStatusType(Status.StatusType.TEST_ONLINE);
+        STATUS.setType(Status.Type.ONLINE);
     }
 
     private static final Setting SETTING = new Setting();
@@ -65,14 +65,12 @@ public class SettingDAOTest extends AbstractTestNGSpringContextTests {
 
     @BeforeClass
     public void init(){
-        statusDAO.createStatus(STATUS);
         userDAO.createUser(USER);
     }
 
     @AfterClass
     public void delete(){
         userDAO.deleteUserById(USER.getId());
-        statusDAO.deleteStatusById(STATUS.getId());
     }
 
     @Test(enabled = ENABLED)
@@ -108,7 +106,7 @@ public class SettingDAOTest extends AbstractTestNGSpringContextTests {
 
     private void checkSetting(Setting setting)
     {
-        assertEquals(setting.isHaveNews(), SETTING.isHaveNews(), "Setting news is not as expected.");
-        assertEquals(setting.isHaveSound(), SETTING.isHaveSound(), "Setting sound is not as expected.");
+        assertEquals(setting.getNews(), SETTING.getNews(), "Setting news is not as expected.");
+        assertEquals(setting.getSound(), SETTING.getSound(), "Setting sound is not as expected.");
     }
 }

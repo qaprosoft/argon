@@ -3,7 +3,7 @@ package com.qaprosoft.argon.dbaccess.dao.mysql;
 import java.util.List;
 
 import com.qaprosoft.argon.models.db.Status;
-import com.qaprosoft.argon.models.db.Status.StatusType;
+import com.qaprosoft.argon.models.db.Status.Type;
 
 /**
  * @author asemenkov
@@ -12,18 +12,8 @@ import com.qaprosoft.argon.models.db.Status.StatusType;
 public interface StatusDAO
 {
 
-	void createStatus(Status status);
-
-	void updateStatus(Status status);
-	
 	List<Status> getAllStatuses();
 
-	Status getStatusById(Long id);
-
-	Status getStatusByStatusType(StatusType statusType);
-
-	void deleteStatusById(Long id);
-
-	void deleteStatusByStatusType(StatusType statusType);
+	Status getStatusByType(Type type);
 
 }

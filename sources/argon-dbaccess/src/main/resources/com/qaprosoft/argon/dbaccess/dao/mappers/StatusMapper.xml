@@ -3,15 +3,6 @@
 
 <mapper namespace="com.qaprosoft.argon.dbaccess.dao.mysql.StatusDAO">
 
-	<insert id="createStatus" useGeneratedKeys="true" keyProperty="id">
-		<![CDATA[
-			INSERT INTO argon.STATUSES (STATUS)
-			VALUES (
-				#{statusType}
-			)
-		]]>
-	</insert>
-
 	<sql id="getStatus">
 		<![CDATA[
 			SELECT
@@ -27,54 +18,17 @@
 		<include refid="getStatus" />
 	</select>
 
-	<select id="getStatusByStatusType" resultMap="StatusResultMap">
+	<select id="getStatusByType" resultMap="StatusResultMap">
 		<include refid="getStatus" />
 		<![CDATA[
 			WHERE S.STATUS = #{statusType}
 		]]>
 	</select>
 
-	<select id="getStatusById" resultMap="StatusResultMap">
-		<include refid="getStatus" />
-		<![CDATA[
-			WHERE S.ID = #{id}
-		]]>
-	</select>
-
-	<update id="updateStatus">
-		<![CDATA[
-			UPDATE argon.STATUSES S
-			SET
-				STATUS = #{statusType}
-			WHERE S.ID = #{id}
-		]]>
-	</update>
-
-	<sql id="deleteStatus">
-		<![CDATA[
-			DELETE
-			FROM argon.STATUSES 
-		]]>
-	</sql>
-
-	<delete id="deleteStatusById">
-		<include refid="deleteStatus" />
-		<![CDATA[
-			WHERE STATUSES.ID = #{id}
-		]]>
-	</delete>
-
-	<delete id="deleteStatusByStatusType">
-		<include refid="deleteStatus" />
-		<![CDATA[
-			WHERE STATUSES.STATUS = #{statusType}
-		]]>
-	</delete>
-
 	<resultMap type="com.qaprosoft.argon.models.db.Status" id="StatusResultMap"
 		autoMapping="true">
 		<id column="STATUS_ID" property="id" />
-		<result column="STATUS_TYPE" property="statusType" />
+		<result column="STATUS_TYPE" property="type" />
 		<result column="STATUS_MODIFIED_AT" property="modifiedAt" />
 		<result column="STATUS_CREATED_AT" property="createdAt" />
 	</resultMap>

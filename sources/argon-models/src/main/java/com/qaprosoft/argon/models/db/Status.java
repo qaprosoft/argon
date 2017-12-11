@@ -4,20 +4,20 @@ public class Status extends AbstractEntity
 {
 	private static final long serialVersionUID = 848908001702031120L;
 
-	private StatusType statusType;
+	private Type type;
 
-	public enum StatusType
+	public enum Type
 	{
-		ONLINE, OFFLINE, TEST_ONLINE, TEST_OFLINE
+		ONLINE, OFFLINE
 	}
 
-	public StatusType getStatusType()
+	public Type getType()
 	{
-		return statusType;
+		return type;
 	}
 
-	public void setStatusType(StatusType statusType)
+	public void setType(Type type)
 	{
-		this.statusType = statusType;
+		this.type = type;
 	}
 }

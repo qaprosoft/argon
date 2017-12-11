@@ -52,7 +52,7 @@ public class ConfirmationDAOTest extends AbstractTestNGSpringContextTests {
 
     private static final Status STATUS = new Status();
     {
-        STATUS.setStatusType(Status.StatusType.TEST_ONLINE);
+        STATUS.setType(Status.Type.ONLINE);
     }
 
     private static final Confirmation CONFIRMATION = new Confirmation();
@@ -64,14 +64,12 @@ public class ConfirmationDAOTest extends AbstractTestNGSpringContextTests {
 
     @BeforeClass
     public void init(){
-        statusDAO.createStatus(STATUS);
         userDAO.createUser(USER);
     }
 
     @AfterClass
     public void delete(){
         userDAO.deleteUserById(USER.getId());
-        statusDAO.deleteStatusById(STATUS.getId());
     }
 
     @Test(enabled = ENABLED)
