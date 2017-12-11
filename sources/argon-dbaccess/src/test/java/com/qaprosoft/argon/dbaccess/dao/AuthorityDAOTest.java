@@ -20,7 +20,7 @@ import com.qaprosoft.argon.models.db.Authority.AuthorityType;
 public class AuthorityDAOTest extends AbstractTestNGSpringContextTests
 {
 
-	private static final boolean ENABLED = true;
+	private static final boolean ENABLED = false;
 
 	private static final Authority AUTHORITY = new Authority();
 	{

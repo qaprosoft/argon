@@ -21,7 +21,7 @@ import static org.testng.Assert.assertNull;
 @ContextConfiguration("classpath:com/qaprosoft/argon/dbaccess/dbaccess-test.xml")
 public class MessageDAOTest extends AbstractTestNGSpringContextTests {
 
-    private static final boolean ENABLED = true;
+    private static final boolean ENABLED = false;
 
     @Autowired
     private MessageDAO messageDAO;

@@ -17,45 +17,54 @@ import com.qaprosoft.argon.models.dto.errors.ErrorCode;
 import com.qaprosoft.argon.models.dto.errors.ErrorResponse;
 import com.qaprosoft.argon.services.exceptions.ForbiddenOperationException;
 
-public abstract class AbstractController {
+public abstract class AbstractController
+{
 	@Resource(name = "messageSource")
 	protected MessageSource messageSource;
 
-	protected JwtUserType getPrincipal() {
+	protected JwtUserType getPrincipal()
+	{
 		Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return user instanceof JwtUserType ? (JwtUserType) user : null;
 	}
 
-	protected Long getPrincipalId() {
+	protected Long getPrincipalId()
+	{
 		JwtUserType user = getPrincipal();
 		return user != null ? user.getId() : 0;
 	}
 
-	protected String getPrincipalName() {
+	protected String getPrincipalName()
+	{
 		UserDetails user = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		return user != null ? user.getUsername() : "";
 	}
 
-	protected boolean isAdmin() {
+	protected boolean isAdmin()
+	{
 		return SecurityContextHolder.getContext().getAuthentication().getAuthorities()
-				.contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+				.contains(new SimpleGrantedAuthority("ADMIN"));
 	}
 
-	protected boolean isAuthenticated() {
+	protected boolean isAuthenticated()
+	{
 		return SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
 	}
 
 	@ExceptionHandler(ForbiddenOperationException.class)
 	@ResponseStatus(HttpStatus.FORBIDDEN)
 	@ResponseBody
-	public ErrorResponse handleForbiddenOperationException(ForbiddenOperationException e) {
+	public ErrorResponse handleForbiddenOperationException(ForbiddenOperationException e)
+	{
 		ErrorResponse result = new ErrorResponse();
 		result.setError(new Error(ErrorCode.FORBIDDENT));
 		return result;
 	}
 
-	protected void checkCurrentUserAccess(long userId) throws ForbiddenOperationException {
-		if (!isAdmin() && userId != getPrincipalId()) {
+	protected void checkCurrentUserAccess(long userId) throws ForbiddenOperationException
+	{
+		if (!isAdmin() && userId != getPrincipalId())
+		{
 			throw new ForbiddenOperationException();
 		}
 	}

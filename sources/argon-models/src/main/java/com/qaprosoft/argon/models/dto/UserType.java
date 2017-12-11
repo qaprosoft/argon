@@ -1,44 +1,32 @@
 package com.qaprosoft.argon.models.dto;
 
+import java.util.Date;
+
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.qaprosoft.argon.models.db.Status.StatusType;
 
 @JsonInclude(Include.NON_NULL)
 public class UserType extends AbstractType
 {
 	private static final long serialVersionUID = -6663692781158665080L;
 
-	@NotEmpty(message = "Username required")
-	private String username;
+	@NotEmpty(message = "Email required")
 	private String email;
+	@NotEmpty(message = "Username required")
+	private String userName;
 	private String firstName;
 	private String lastName;
+	@NotEmpty(message = "Password required")
 	private String password;
-
-	public UserType()
-	{
-	}
-
-	public UserType(String username, String email, String firstName, String lastName)
-	{
-		this.username = username;
-		this.email = email;
-		this.firstName = firstName;
-		this.lastName = lastName;
-	}
-
-	public String getUsername()
-	{
-		return username;
-	}
-
-	public void setUsername(String username)
-	{
-		this.username = username;
-	}
-
+	@NotNull(message = "DOB required")
+	private Date dob;
+	private StatusType status;
+	
 	public String getEmail()
 	{
 		return email;
@@ -47,6 +35,16 @@ public class UserType extends AbstractType
 	public void setEmail(String email)
 	{
 		this.email = email;
+	}
+
+	public String getUserName()
+	{
+		return userName;
+	}
+
+	public void setUserName(String userName)
+	{
+		this.userName = userName;
 	}
 
 	public String getFirstName()
@@ -77,5 +75,25 @@ public class UserType extends AbstractType
 	public void setPassword(String password)
 	{
 		this.password = password;
+	}
+
+	public Date getDob()
+	{
+		return dob;
+	}
+
+	public void setDob(Date dob)
+	{
+		this.dob = dob;
+	}
+
+	public StatusType getStatus()
+	{
+		return status;
+	}
+
+	public void setStatus(StatusType status)
+	{
+		this.status = status;
 	}
 }

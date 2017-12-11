@@ -18,8 +18,7 @@ import com.qaprosoft.argon.models.db.Status.StatusType;
 @ContextConfiguration("classpath:com/qaprosoft/argon/dbaccess/dbaccess-test.xml")
 public class StatusDAOTest extends AbstractTestNGSpringContextTests
 {
-
-	private static final boolean ENABLED = true;
+	private static final boolean ENABLED = false;
 
 	private static final Status STATUS = new Status();
 	{

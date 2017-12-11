@@ -46,6 +46,15 @@
 	</bean>
 
 	<cache:annotation-driven />
+	
+	 <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+        <property name="caches">
+            <set>
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" name="statuses"/>
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" name="authorities"/>
+            </set>
+        </property>
+    </bean>
 
 	<bean id="jwtService" class="com.qaprosoft.argon.services.services.auth.JWTService">
 		<constructor-arg index="0" value="${argon.jwt.secret}" />

@@ -33,7 +33,7 @@
 		class="com.qaprosoft.argon.ws.security.filter.RestAccessDeniedHandler" />
 
 	<security:http pattern="/api/auth/login" security="none" />
-	<security:http pattern="/api/auth/refresh" security="none" />
+	<security:http pattern="/api/auth/register" security="none" />
 
 	<!-- Protected API end-points -->
 	<security:http realm="Protected API" use-expressions="true"

@@ -5,8 +5,11 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.qaprosoft.argon.models.db.Authority;
 
 //import com.qaprosoft.argon.models.db.Group.Role;
 
@@ -18,29 +21,30 @@ public class JwtUserType implements UserDetails
 	private static final long serialVersionUID = 2105145272583220476L;
 
 	private long id;
-
-	private String username;
-
+	private String userName;
 	private String password;
-
 	private List<GrantedAuthority> authorities = new ArrayList<>();
 
-	// public JwtUserType(long id, String username, List<Role> roles) {
-	// this.id = id;
-	// this.username = username;
-	// for (Role role : roles) {
-	// this.authorities.add(new SimpleGrantedAuthority(role.name()));
-	// }
-	// // TODO: removed when default role populated for all
-	// if (this.authorities.isEmpty()) {
-	// this.authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-	// }
-	// }
-	//
-	// public JwtUserType(long id, String username, String password, List<Role> roles) {
-	// this(id, username, roles);
-	// this.password = password;
-	// }
+	public JwtUserType(long id, String userName, List<Authority> authorities)
+	{
+		this.id = id;
+		this.userName = userName;
+		for (Authority authority : authorities)
+		{
+			this.authorities.add(new SimpleGrantedAuthority(authority.getAuthorityType().name()));
+		}
+		// TODO: removed when default role populated for all
+		if (this.authorities.isEmpty())
+		{
+			this.authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		}
+	}
+	
+	public JwtUserType(long id, String userName, String password, List<Authority> authorities)
+	{
+		this(id, userName, authorities);
+		this.password = password;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities()
@@ -62,7 +66,7 @@ public class JwtUserType implements UserDetails
 	@Override
 	public String getUsername()
 	{
-		return username;
+		return userName;
 	}
 
 	@Override

@@ -14,9 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 //import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 //import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -24,6 +27,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 import com.qaprosoft.argon.models.db.User;
+import com.qaprosoft.argon.models.dto.auth.JwtUserType;
 //import com.qaprosoft.argon.models.dto.auth.JwtUserType;
 import com.qaprosoft.argon.services.services.auth.JWTService;
 
@@ -75,16 +79,16 @@ public class JwtTokenAuthenticationFilter extends GenericFilterBean
 			 * filters that will throw Exceptions if necessary (like if authorizations are incorrect).
 			 */
 			User user = extractAndDecodeJwt(request);
-			// Authentication auth = buildAuthenticationFromJwt(user, request);
-			// SecurityContextHolder.getContext().setAuthentication(auth);
+			Authentication auth = buildAuthenticationFromJwt(user, request);
+			SecurityContextHolder.getContext().setAuthentication(auth);
 
 			chain.doFilter(request, response);
-		} catch (ExpiredJwtException | MalformedJwtException | SignatureException | ParseException ex)
+		}
+		catch (ExpiredJwtException | MalformedJwtException | SignatureException | ParseException ex)
 		{
 			throw new BadCredentialsException("JWT not valid");
 		}
 
-		/* SecurityContext is then cleared since we are stateless. */
 		SecurityContextHolder.clearContext();
 	}
 
@@ -100,11 +104,12 @@ public class JwtTokenAuthenticationFilter extends GenericFilterBean
 		return jwtService.parseAuthToken(token);
 	}
 
-	// private Authentication buildAuthenticationFromJwt(User user, HttpServletRequest request) throws ParseException {
-	// JwtUserType userDetails = new JwtUserType(user.getId(), user.getUsername(), user.getRoles());
-	// UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
-	// userDetails.getAuthorities());
-	// authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-	// return authentication;
-	// }
+	private Authentication buildAuthenticationFromJwt(User user, HttpServletRequest request) throws ParseException
+	{
+		JwtUserType userDetails = new JwtUserType(user.getId(), user.getUsername(), user.getAuthorities());
+		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
+				userDetails.getAuthorities());
+		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+		return authentication;
+	}
 }
