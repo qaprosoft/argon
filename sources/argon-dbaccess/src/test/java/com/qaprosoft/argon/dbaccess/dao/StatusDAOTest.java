@@ -1,13 +1,11 @@
 package com.qaprosoft.argon.dbaccess.dao;
 
 import static org.testng.Assert.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
-
 import com.qaprosoft.argon.dbaccess.dao.mysql.StatusDAO;
 import com.qaprosoft.argon.models.db.Status;
 import com.qaprosoft.argon.models.db.Status.StatusType;
@@ -25,7 +23,7 @@ public class StatusDAOTest extends AbstractTestNGSpringContextTests
 
 	private static final Status STATUS = new Status();
 	{
-		STATUS.setStatus(StatusType.TEST_ONLINE);
+		STATUS.setStatusType(StatusType.TEST_ONLINE);
 	}
 
 	@Autowired
@@ -57,15 +55,15 @@ public class StatusDAOTest extends AbstractTestNGSpringContextTests
 	}
 
 	@Test(enabled = ENABLED, dependsOnMethods = "createStatus")
-	public void getStatusListByStatus()
+	public void getStatusListByStatusType()
 	{
-		checkStatus(statusDAO.getStatusByStatus(STATUS.getStatus()));
+		checkStatus(statusDAO.getStatusByStatusType(STATUS.getStatusType()));
 	}
 
 	@Test(enabled = ENABLED, dependsOnMethods = "createStatus")
 	public void updateStatus()
 	{
-		STATUS.setStatus(StatusType.TEST_OFLINE);
+		STATUS.setStatusType(StatusType.TEST_OFLINE);
 		statusDAO.updateStatus(STATUS);
 		checkStatus(statusDAO.getStatusById(STATUS.getId()));
 	}
@@ -75,7 +73,7 @@ public class StatusDAOTest extends AbstractTestNGSpringContextTests
 
 	@Test(enabled = ENABLED && DELETE_USER_BY_ID, dependsOnMethods =
 	{ "createStatus", "createStatusFail", "getStatusById",
-			"getStatusListByStatus", "getAllStatuses", "updateStatus" })
+			"getStatusListByStatusType", "getAllStatuses", "updateStatus" })
 	public void deleteStatusById()
 	{
 		statusDAO.deleteStatusById(STATUS.getId());
@@ -84,15 +82,15 @@ public class StatusDAOTest extends AbstractTestNGSpringContextTests
 
 	@Test(enabled = ENABLED && !DELETE_USER_BY_ID, dependsOnMethods =
 	{ "createStatus", "createStatusFail", "getStatusById",
-			"getStatusListByStatus", "getAllStatuses", "updateStatus" })
-	public void deleteStatusByStatus()
+			"getStatusListByStatusType", "getAllStatuses", "updateStatus" })
+	public void deleteStatusByStatusType()
 	{
-		statusDAO.deleteStatusByStatus(STATUS.getStatus());
-		assertNull(statusDAO.getStatusByStatus(STATUS.getStatus()));
+		statusDAO.deleteStatusByStatusType(STATUS.getStatusType());
+		assertNull(statusDAO.getStatusByStatusType(STATUS.getStatusType()));
 	}
 
 	private void checkStatus(Status status)
 	{
-		assertEquals(status.getStatus(), STATUS.getStatus(), "Status is not as expected.");
+		assertEquals(status.getStatusType(), STATUS.getStatusType(), "Status is not as expected.");
 	}
 }

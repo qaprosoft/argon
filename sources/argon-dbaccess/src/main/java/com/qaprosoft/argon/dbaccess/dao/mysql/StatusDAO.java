@@ -20,10 +20,10 @@ public interface StatusDAO
 
 	Status getStatusById(Long id);
 
-	Status getStatusByStatus(StatusType status);
+	Status getStatusByStatusType(StatusType statusType);
 
 	void deleteStatusById(Long id);
 
-	void deleteStatusByStatus(StatusType status);
+	void deleteStatusByStatusType(StatusType statusType);
 
 }

@@ -5,7 +5,7 @@ public class Message extends AbstractEntity
 
 	private static final long serialVersionUID = 8018686058027185177L;
 
-	private String text;
+	private String body;
 	private Attachment attachment;
 	private User user;
 	private Chat chat;
@@ -16,14 +16,14 @@ public class Message extends AbstractEntity
 		SOUND, VIDEO, PICTURE
 	}
 
-	public String getText()
+	public String getBody()
 	{
-		return text;
+		return body;
 	}
 
-	public void setText(String text)
+	public void setBody(String body)
 	{
-		this.text = text;
+		this.body = body;
 	}
 
 	public Attachment getAttachment()
@@ -56,7 +56,7 @@ public class Message extends AbstractEntity
 		this.chat = chat;
 	}
 
-	public Boolean getRead()
+	public Boolean isRead()
 	{
 		return read;
 	}

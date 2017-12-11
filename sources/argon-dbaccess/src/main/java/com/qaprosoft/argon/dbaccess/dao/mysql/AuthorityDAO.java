@@ -20,9 +20,9 @@ public interface AuthorityDAO
 
 	Authority getAuthorityById(Long id);
 
-	Authority getAuthorityByAuthority(AuthorityType authority);
+	Authority getAuthorityByAuthorityType(AuthorityType authority);
 
-	void deleteAuthorityByAuthority(AuthorityType authority);
+	void deleteAuthorityByAuthorityType(AuthorityType authority);
 
 	void deleteAuthorityById(Long id);
 

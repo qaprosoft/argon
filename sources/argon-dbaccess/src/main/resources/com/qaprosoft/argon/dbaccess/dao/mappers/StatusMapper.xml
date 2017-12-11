@@ -7,7 +7,7 @@
 		<![CDATA[
 			INSERT INTO argon.STATUSES (STATUS)
 			VALUES (
-				#{status}
+				#{statusType}
 			)
 		]]>
 	</insert>
@@ -16,7 +16,7 @@
 		<![CDATA[
 			SELECT
 				S.ID AS STATUS_ID,
-				S.STATUS AS STATUS_STATUS,
+				S.STATUS AS STATUS_TYPE,
 				S.MODIFIED_AT AS STATUS_MODIFIED_AT,
 				S.CREATED_AT AS STATUS_CREATED_AT
 			FROM argon.STATUSES S
@@ -27,10 +27,10 @@
 		<include refid="getStatus" />
 	</select>
 
-	<select id="getStatusByStatus" resultMap="StatusResultMap">
+	<select id="getStatusByStatusType" resultMap="StatusResultMap">
 		<include refid="getStatus" />
 		<![CDATA[
-			WHERE S.STATUS = #{status}
+			WHERE S.STATUS = #{statusType}
 		]]>
 	</select>
 
@@ -45,7 +45,7 @@
 		<![CDATA[
 			UPDATE argon.STATUSES S
 			SET
-				STATUS = #{status}
+				STATUS = #{statusType}
 			WHERE S.ID = #{id}
 		]]>
 	</update>
@@ -64,17 +64,17 @@
 		]]>
 	</delete>
 
-	<delete id="deleteStatusByStatus">
+	<delete id="deleteStatusByStatusType">
 		<include refid="deleteStatus" />
 		<![CDATA[
-			WHERE STATUSES.STATUS = #{status}
+			WHERE STATUSES.STATUS = #{statusType}
 		]]>
 	</delete>
 
 	<resultMap type="com.qaprosoft.argon.models.db.Status" id="StatusResultMap"
 		autoMapping="true">
 		<id column="STATUS_ID" property="id" />
-		<result column="STATUS_STATUS" property="status" />
+		<result column="STATUS_TYPE" property="statusType" />
 		<result column="STATUS_MODIFIED_AT" property="modifiedAt" />
 		<result column="STATUS_CREATED_AT" property="createdAt" />
 	</resultMap>

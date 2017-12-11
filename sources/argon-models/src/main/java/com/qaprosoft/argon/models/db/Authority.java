@@ -4,20 +4,20 @@ public class Authority extends AbstractEntity
 {
 	private static final long serialVersionUID = 3820487023056423848L;
 
-	private AuthorityType authority;
+	private AuthorityType authorityType;
 
 	public enum AuthorityType
 	{
 		USER, ADMIN, TEST_USER, TEST_ADMIN
 	}
 
-	public AuthorityType getAuthority()
+	public AuthorityType getAuthorityType()
 	{
-		return authority;
+		return authorityType;
 	}
 
-	public void setAuthority(AuthorityType authority)
+	public void setAuthorityType(AuthorityType authorityType)
 	{
-		this.authority = authority;
+		this.authorityType = authorityType;
 	}
 }
