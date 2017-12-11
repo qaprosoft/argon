@@ -5,13 +5,13 @@
 
 	<insert id="createMessage" useGeneratedKeys="true" keyProperty="id">
 		<![CDATA[
-			INSERT INTO argon.MESSAGES (ATTACHMENT, BODY, READ, USER_ID, CHAT_ID)
-			VALUES (
-				#{attachment},
+			INSERT INTO argon.MESSAGES (BODY, USER_ID, CHAT_ID, ATTACHMENT, IS_READ)
+			VALUES(
 				#{body},
-				#{read},
 				#{user.id},
-				#{chat.id}
+				#{chat.id},
+				#{attachment},
+				#{isRead}
 			)
 		]]>
 	</insert>
@@ -22,33 +22,35 @@
 				M.ID AS MESSAGE_ID,
 				M.ATTACHMENT AS MESSAGE_ATTACHMENT,
 				M.CREATED_AT AS MESSAGE_CREATED_AT,
-				M.TEXT AS MESSAGE_TEXT,
+				M.BODY AS MESSAGE_BODY,
 				M.MODIFIED_AT AS MESSAGE_MODIFIED_AT,
-				M.READ AS MESSAGE_READ,
-				U.DATE_OF_BIRTDAY AS USER_DATE_OF_BIRTDAY,
-				U.USERNAME AS USER_USERNAME,
-				U.FIRST_NAME AS USER_FIRST_NAME,
+				M.IS_READ AS MESSAGE_IS_READ,
 				U.ID AS USER_ID,
-				U.MODIFIED_AT AS USER_MODIFIED_AT,
+				U.LAST_NAME AS USER_LAST_NAME,
+				U.DOB AS USER_DOB,
+				U.USERNAME AS USER_USERNAME,
 				U.PASSWORD AS USER_PASSWORD,
 				U.ENABLED AS USER_ENABLED,
-				U.CREATED_AT AS USER_CREATED_AT,
 				U.VERIFIED AS USER_VERIFIED,
-				U.STATUS AS USER_STATUS,
-				U.SETTING AS USER_SETTING,
-				U.AUTHORITIES AS USER_AUTHORITIES,
+				U.CREATED_AT AS USER_CREATED_AT,
 				U.EMAIL AS USER_EMAIL,
-				U.LAST_NAME AS USER_LAST_NAME,
+				U.FIRST_NAME AS USER_FIRST_NAME,
+				U.MODIFIED_AT AS USER_MODIFIED_AT,
 				C.CREATED_AT AS CHAT_CREATED_AT,
 				C.MODIFIED_AT AS CHAT_MODIFIED_AT,
-				C.USERS AS CHAT_USERS,
 				C.NAME AS CHAT_NAME,
-				C.ID AS CHAT_ID
+				C.ID AS CHAT_ID,
+				ST.ID AS STATUS_ID,
+				ST.STATUS AS STATUS_TYPE,
+				ST.MODIFIED_AT AS STATUS_MODIFIED_AT,
+				ST.CREATED_AT AS STATUS_CREATED_AT
 			FROM argon.MESSAGES M
 			LEFT JOIN argon.USERS U
 			ON M.USER_ID = U.ID
 			LEFT JOIN argon.CHATS C
 			ON M.CHAT_ID = C.ID
+			LEFT JOIN argon.STATUSES ST
+			ON U.STATUS_ID = ST.ID
 		]]>
 	</sql>
 
@@ -64,8 +66,8 @@
 			UPDATE argon.MESSAGES M
 			SET
 				ATTACHMENT = #{attachment},
-				TEXT = #{text},
-				READ = #{read},
+				BODY = #{body},
+				IS_READ = #{read},
 				USER_ID = #{user.id},
 				CHAT_ID = #{chat.id}
 			WHERE M.ID = #{id}
@@ -92,7 +94,7 @@
 		<result column="MESSAGE_CREATED_AT" property="createdAt" />
 		<result column="MESSAGE_BODY" property="body" />
 		<result column="MESSAGE_MODIFIED_AT" property="modifiedAt" />
-		<result column="MESSAGE_READ" property="read" />
+		<result column="MESSAGE_IS_READ" property="isRead" />
 		<association property="user" javaType="com.qaprosoft.argon.models.db.User" 
 			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.UserDAO.UserResultMap" />
 		<association property="chat" javaType="com.qaprosoft.argon.models.db.Chat" 
