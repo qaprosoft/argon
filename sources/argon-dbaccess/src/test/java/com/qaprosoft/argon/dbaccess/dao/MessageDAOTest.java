@@ -52,7 +52,7 @@ public class MessageDAOTest extends AbstractTestNGSpringContextTests {
 
     private static final Status STATUS = new Status();
     {
-        STATUS.setStatusType(Status.StatusType.TEST_OFLINE);
+        STATUS.setType(Status.Type.OFFLINE);
     }
 
     private final static User USER = new User();
@@ -70,7 +70,6 @@ public class MessageDAOTest extends AbstractTestNGSpringContextTests {
 
     @BeforeClass
     public void init(){
-        statusDAO.createStatus(STATUS);
         chatDAO.createChat(CHAT);
         userDAO.createUser(USER);
     }
@@ -79,7 +78,6 @@ public class MessageDAOTest extends AbstractTestNGSpringContextTests {
     public void delete(){
         userDAO.deleteUserById(USER.getId());
         chatDAO.deleteChatById(CHAT.getId());
-        statusDAO.deleteStatusById(CHAT.getId());
     }
 
     @Test(enabled = ENABLED)

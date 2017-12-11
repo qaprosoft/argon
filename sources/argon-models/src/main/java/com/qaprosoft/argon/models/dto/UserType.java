@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.qaprosoft.argon.models.db.Status.StatusType;
+import com.qaprosoft.argon.models.db.Status.Type;
 
 @JsonInclude(Include.NON_NULL)
 public class UserType extends AbstractType
@@ -25,8 +25,8 @@ public class UserType extends AbstractType
 	private String password;
 	@NotNull(message = "DOB required")
 	private Date dob;
-	private StatusType status;
-	
+	private Type status;
+
 	public String getEmail()
 	{
 		return email;
@@ -87,12 +87,12 @@ public class UserType extends AbstractType
 		this.dob = dob;
 	}
 
-	public StatusType getStatus()
+	public Type getStatus()
 	{
 		return status;
 	}
 
-	public void setStatus(StatusType status)
+	public void setStatus(Type status)
 	{
 		this.status = status;
 	}

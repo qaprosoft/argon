@@ -44,7 +44,7 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
 
     private static final Status STATUS = new Status();
     {
-        STATUS.setStatusType(Status.StatusType.TEST_OFLINE);
+        STATUS.setType(Status.Type.OFFLINE);
     }
 
     private final static User USER = new User();
@@ -98,7 +98,6 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
     @Test(enabled = ENABLED, dependsOnMethods = {"createChat", "getChatByName", "getChatById", "updateChat"})
     public void addUser()
     {
-        statusDAO.createStatus(STATUS);
         userDAO.createUser(USER);
         chatDAO.addUserToChat(USER.getId(), CHAT.getId());
         CHAT.getUsers().add(USER);
@@ -111,7 +110,6 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
         chatDAO.removeUserFromChat(USER.getId(), CHAT.getId());
         CHAT.getUsers().remove(USER);
         userDAO.deleteUserById(USER.getId());
-        statusDAO.deleteStatusById(STATUS.getId());
         checkChat(chatDAO.getChatById(CHAT.getId()));
     }
 

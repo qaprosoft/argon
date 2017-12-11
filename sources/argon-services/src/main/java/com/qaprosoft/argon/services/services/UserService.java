@@ -12,9 +12,7 @@ import com.qaprosoft.argon.dbaccess.dao.mysql.AuthorityDAO;
 import com.qaprosoft.argon.dbaccess.dao.mysql.StatusDAO;
 import com.qaprosoft.argon.dbaccess.dao.mysql.UserDAO;
 import com.qaprosoft.argon.models.db.Authority;
-import com.qaprosoft.argon.models.db.Authority.AuthorityType;
 import com.qaprosoft.argon.models.db.Status;
-import com.qaprosoft.argon.models.db.Status.StatusType;
 import com.qaprosoft.argon.models.db.User;
 
 @Service
@@ -52,10 +50,10 @@ public class UserService
 	}
 	
 	@Transactional(rollbackFor=Exception.class)
-	public User registerUser(User user, AuthorityType authority)
+	public User registerUser(User user, Authority.Type authority)
 	{
 		user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
-		user.setStatus(getStatusByType(StatusType.OFFLINE));
+		user.setStatus(getStatusByType(Status.Type.OFFLINE));
 		user.setAuthorities(Arrays.asList(getAuthorityByType(authority)));
 		user.setEnabled(true);
 		user.setVerified(false);
@@ -64,14 +62,14 @@ public class UserService
 	}
 	
 	@Cacheable("statuses")
-	public Status getStatusByType(StatusType type)
+	public Status getStatusByType(Status.Type type)
 	{
-		return statusDAO.getStatusByStatusType(type);
+		return statusDAO.getStatusByType(type);
 	}
 	
 	@Cacheable("authorities")
-	public Authority getAuthorityByType(AuthorityType type)
+	public Authority getAuthorityByType(Authority.Type type)
 	{
-		return authorityDAO.getAuthorityByAuthorityType(type);
+		return authorityDAO.getAuthorityByType(type);
 	}
 }

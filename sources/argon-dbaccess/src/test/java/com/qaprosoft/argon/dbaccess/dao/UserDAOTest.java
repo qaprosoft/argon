@@ -2,15 +2,15 @@ package com.qaprosoft.argon.dbaccess.dao;
 
 import static org.testng.Assert.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import com.qaprosoft.argon.models.db.Status;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import com.qaprosoft.argon.dbaccess.dao.mysql.AuthorityDAO;
@@ -19,8 +19,6 @@ import com.qaprosoft.argon.dbaccess.dao.mysql.UserDAO;
 import com.qaprosoft.argon.dbaccess.utils.KeyGenerator;
 import com.qaprosoft.argon.models.db.User;
 import com.qaprosoft.argon.models.db.Authority;
-import com.qaprosoft.argon.models.db.Authority.AuthorityType;
-import com.qaprosoft.argon.models.db.Status.StatusType;
 
 /**
  * @author asemenkov
@@ -41,17 +39,10 @@ public class UserDAOTest extends AbstractTestNGSpringContextTests
 	@Autowired
 	private UserDAO userDAO;
 
-	private static final Status STATUS = new Status();
-	{
-		STATUS.setStatusType(StatusType.TEST_OFLINE);
-	}
+	private static final User USER = new User();
 
-	private static final Authority AUTHORITY = new Authority();
-	{
-		AUTHORITY.setAuthorityType(AuthorityType.TEST_ADMIN);
-	}
-
-	private final static User USER = new User();
+	@BeforeClass
+	public void initUser()
 	{
 		USER.setEmail(KeyGenerator.getKey() + "@test-mail.com");
 		USER.setEnabled(true);
@@ -61,18 +52,7 @@ public class UserDAOTest extends AbstractTestNGSpringContextTests
 		USER.setDob(DateTime.now().withTime(0, 0, 0, 0).minusYears(18).toDate());
 		USER.setUsername("user" + KeyGenerator.getKey());
 		USER.setVerified(true);
-		USER.setStatus(STATUS);
-	}
-
-	@BeforeClass
-	public void init(){
-		statusDAO.createStatus(STATUS);
-	}
-
-	@AfterClass
-	public void delete(){
-		statusDAO.deleteStatusById(STATUS.getId());
-		authorityDAO.deleteAuthorityById(AUTHORITY.getId());
+		USER.setStatus(statusDAO.getStatusByType(Status.Type.OFFLINE));
 	}
 
 	@Test(enabled = ENABLED)
@@ -116,20 +96,22 @@ public class UserDAOTest extends AbstractTestNGSpringContextTests
 	}
 
 	@Test(enabled = ENABLED, dependsOnMethods = "createUser")
-	public void addAuthority()
+	public void addAuthorityToUser()
 	{
-		authorityDAO.createAuthority(AUTHORITY);
-		USER.setAuthorities(new ArrayList<>(Arrays.asList()));
-		userDAO.addAuthority(USER.getId(), AUTHORITY.getId());
-		USER.getAuthorities().add(AUTHORITY);
+		USER.setAuthorities(Stream.of(Authority.Type.values())
+				.map(authorityDAO::getAuthorityByType)
+				.collect(Collectors.toList()));
+		USER.getAuthorities().stream()
+				.forEach(a -> userDAO.addAuthority(USER.getId(), a.getId()));
 		checkUser(userDAO.getUserById(USER.getId()));
 	}
 
-	@Test(enabled = ENABLED, dependsOnMethods = "addAuthority")
-	public void deleteAuthority()
+	@Test(enabled = ENABLED, dependsOnMethods = "addAuthorityToUser")
+	public void deleteAuthorityFromUser()
 	{
-		userDAO.deleteAuthority(USER.getId(), AUTHORITY.getId());
-		USER.getAuthorities().remove(AUTHORITY);
+		USER.getAuthorities().stream()
+				.forEach(a -> userDAO.deleteAuthority(USER.getId(), a.getId()));
+		USER.getAuthorities().clear();
 		checkUser(userDAO.getUserById(USER.getId()));
 	}
 
@@ -140,7 +122,7 @@ public class UserDAOTest extends AbstractTestNGSpringContextTests
 
 	@Test(enabled = ENABLED && DELETE_USER_BY_ID, dependsOnMethods =
 	{ "createUser", "createUserFail", "getUserById",
-			"getUserByUserName", "getUserByEmail", "updateUser", "deleteAuthority" })
+			"getUserByUserName", "getUserByEmail", "updateUser", "deleteAuthorityFromUser" })
 	public void deleteUserById()
 	{
 		userDAO.deleteUserById(USER.getId());
@@ -149,7 +131,7 @@ public class UserDAOTest extends AbstractTestNGSpringContextTests
 
 	@Test(enabled = ENABLED && DELETE_USER_BY_USERNAME, dependsOnMethods =
 	{ "createUser", "createUserFail", "getUserById",
-			"getUserByUserName", "getUserByEmail", "updateUser", "deleteAuthority" })
+			"getUserByUserName", "getUserByEmail", "updateUser", "deleteAuthorityFromUser" })
 	public void deleteUserByUserName()
 	{
 		userDAO.deleteUserByUserName(USER.getUsername());
@@ -158,7 +140,7 @@ public class UserDAOTest extends AbstractTestNGSpringContextTests
 
 	@Test(enabled = ENABLED && DELETE_USER_BY_EMAIL, dependsOnMethods =
 	{ "createUser", "createUserFail", "getUserById",
-			"getUserByUserName", "getUserByEmail", "updateUser", "deleteAuthority" })
+			"getUserByUserName", "getUserByEmail", "updateUser", "deleteAuthorityFromUser" })
 	public void deleteUserByEmail()
 	{
 		userDAO.deleteUserByEmail(USER.getEmail());
@@ -176,7 +158,7 @@ public class UserDAOTest extends AbstractTestNGSpringContextTests
 		assertEquals(user.getLastName(), USER.getLastName(), "User's last name is not as expected.");
 		assertEquals(user.getPassword(), USER.getPassword(), "User's password is not as expected.");
 		assertEquals(user.getStatus().getId(), USER.getStatus().getId(), "User's status is not as expected.");
-		assertEquals(user.getStatus().getStatusType(), USER.getStatus().getStatusType(), "User's status is not as expected.");
+		assertEquals(user.getStatus().getType(), USER.getStatus().getType(), "User's status is not as expected.");
 		assertEquals(user.getVerified(), USER.getVerified(), "User's verified flag is not as expected.");
 		assertEquals(user.getAuthorities().size(), USER.getAuthorities().size(),
 				"User's size of athorites is not as expected.");

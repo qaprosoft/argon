@@ -47,7 +47,12 @@
 			LEFT JOIN argon.USER_AUTHORITIES UA
 			ON U.ID = UA.USER_ID
 			LEFT JOIN argon.AUTHORITIES A
-			ON UA.AUTHORITY_ID = A.ID
+			ON A.ID IN (
+				SELECT AUTHORITY_ID
+				FROM USER_AUTHORITIES UA
+				WHERE UA.USER_ID = U.ID)    
+			LEFT JOIN argon.SETTINGS SE
+			ON U.ID = SE.USER_ID
 			LEFT JOIN argon.STATUSES ST
 			ON U.STATUS_ID = ST.ID
 		]]>
@@ -140,7 +145,7 @@
 
 
 	<resultMap type="com.qaprosoft.argon.models.db.User" id="UserResultMap"
-			   autoMapping="true">
+		autoMapping="true">
 		<id column="USER_ID" property="id" />
 		<result column="USER_LAST_NAME" property="lastName" />
 		<result column="USER_DOB" property="dob" />
@@ -153,10 +158,10 @@
 		<result column="USER_FIRST_NAME" property="firstName" />
 		<result column="USER_MODIFIED_AT" property="modifiedAt" />
 		<association property="status"
-					 javaType="com.qaprosoft.argon.models.db.Status"
-					 resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.StatusDAO.StatusResultMap" />
+			javaType="com.qaprosoft.argon.models.db.Status"
+			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.StatusDAO.StatusResultMap" />
 		<collection property="authorities" javaType="java.util.List"
-					ofType="com.qaprosoft.argon.models.db.Authority"
-					resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.AuthorityDAO.AuthorityResultMap" />
+			ofType="com.qaprosoft.argon.models.db.Authority"
+			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.AuthorityDAO.AuthorityResultMap" />
 	</resultMap>
 </mapper>

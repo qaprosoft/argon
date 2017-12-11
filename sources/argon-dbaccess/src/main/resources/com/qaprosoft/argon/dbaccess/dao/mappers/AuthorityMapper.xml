@@ -3,15 +3,6 @@
 
 <mapper namespace="com.qaprosoft.argon.dbaccess.dao.mysql.AuthorityDAO">
 
-	<insert id="createAuthority" useGeneratedKeys="true" keyProperty="id">
-		<![CDATA[
-			INSERT INTO argon.AUTHORITIES (AUTHORITY)
-			VALUES (
-				#{authorityType}
-			)
-		]]>
-	</insert>
-
 	<sql id="getAuthority">
 		<![CDATA[
 			SELECT
@@ -27,53 +18,16 @@
 		<include refid="getAuthority" />
 	</select>
 
-	<select id="getAuthorityByAuthorityType" resultMap = "AuthorityResultMap">
+	<select id="getAuthorityByType" resultMap = "AuthorityResultMap">
 		<include refid="getAuthority" />
 		<![CDATA[
 			WHERE A.AUTHORITY = #{authorityType}
 		]]>
 	</select>
 
-	<select id="getAuthorityById" resultMap = "AuthorityResultMap">
-		<include refid="getAuthority" />
-		<![CDATA[
-			WHERE A.ID = #{id}
-		]]>
-	</select>
-
-	<update id="updateAuthority">
-		<![CDATA[
-			UPDATE argon.AUTHORITIES A
-			SET
-				AUTHORITY = #{authorityType}
-			WHERE A.ID = #{id}
-		]]>
-	</update>
-
-	<sql id="deleteAuthority">
-		<![CDATA[
-			DELETE
-			FROM argon.AUTHORITIES
-		]]>
-	</sql>
-
-	<delete id="deleteAuthorityById">
-		<include refid="deleteAuthority" />
-		<![CDATA[
-			WHERE AUTHORITIES.ID = #{id}
-		]]>
-	</delete>
-
-	<delete id="deleteAuthorityByAuthorityType">
-		<include refid="deleteAuthority" />
-		<![CDATA[
-			WHERE AUTHORITIES.AUTHORITY = #{authority}
-		]]>
-	</delete>
-
 	<resultMap type="com.qaprosoft.argon.models.db.Authority" id="AuthorityResultMap" autoMapping="true">
 		<id column="AUTHORITY_ID" property="id" />
-		<result column="AUTHORITY_TYPE" property="authorityType" />
+		<result column="AUTHORITY_TYPE" property="type" />
 		<result column="AUTHORITY_MODIFIED_AT" property="modifiedAt" />
 		<result column="AUTHORITY_CREATED_AT" property="createdAt" />
 	</resultMap>

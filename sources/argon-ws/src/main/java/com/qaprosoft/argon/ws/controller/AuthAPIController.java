@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.qaprosoft.argon.models.db.Authority.AuthorityType;
+import com.qaprosoft.argon.models.db.Authority;
 //import com.qaprosoft.argon.models.db.Group;
 import com.qaprosoft.argon.models.db.User;
 import com.qaprosoft.argon.models.dto.UserType;
@@ -57,7 +57,7 @@ public class AuthAPIController extends AbstractController
 	@RequestMapping(value = "register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void register(@Valid @RequestBody UserType userType) throws BadCredentialsException, ServiceException
 	{
-		userService.registerUser(mapper.map(userType, User.class), AuthorityType.USER);
+		userService.registerUser(mapper.map(userType, User.class), Authority.Type.USER);
 	}
 
 	@ResponseStatusDetails

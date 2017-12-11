@@ -31,7 +31,7 @@ public class JwtUserType implements UserDetails
 		this.userName = userName;
 		for (Authority authority : authorities)
 		{
-			this.authorities.add(new SimpleGrantedAuthority(authority.getAuthorityType().name()));
+			this.authorities.add(new SimpleGrantedAuthority(authority.getType().name()));
 		}
 		// TODO: removed when default role populated for all
 		if (this.authorities.isEmpty())
