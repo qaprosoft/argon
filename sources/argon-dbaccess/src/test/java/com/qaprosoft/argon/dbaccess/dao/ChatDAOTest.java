@@ -40,6 +40,7 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
     private static final Chat CHAT = new Chat();
     {
         CHAT.setName("chat" + KeyGenerator.getKey());
+        CHAT.setPrivateEnabled(false);
     }
 
     private final static User USER = new User();
@@ -85,6 +86,7 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
     public void updateChat()
     {
         CHAT.setName("chat" + KeyGenerator.getKey());
+        CHAT.setPrivateEnabled(true);
         chatDAO.updateChat(CHAT);
         checkChat(chatDAO.getChatById(CHAT.getId()));
     }
@@ -132,6 +134,7 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
     private void checkChat(Chat chat)
     {
         assertEquals(chat.getName(), CHAT.getName(), "Chat name is not as expected.");
+        assertEquals(chat.getPrivateEnabled(), CHAT.getPrivateEnabled(), "Chat private is not as expected.");
         assertEquals(chat.getUsers().size(), CHAT.getUsers().size(), "Chat size of user is not as expected.");
     }
 }
