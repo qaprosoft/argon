@@ -8,7 +8,7 @@ public class Authority extends AbstractEntity
 
 	public enum Type
 	{
-		USER, ADMIN, TEST
+		USER, ADMIN
 	}
 
 	public Type getType()

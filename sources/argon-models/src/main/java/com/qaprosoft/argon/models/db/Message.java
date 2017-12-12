@@ -9,7 +9,7 @@ public class Message extends AbstractEntity
 	private Attachment attachment;
 	private User user;
 	private Chat chat;
-	private Boolean read;
+	private Boolean isRead;
 
 	public enum Attachment
 	{
@@ -58,11 +58,11 @@ public class Message extends AbstractEntity
 
 	public Boolean isRead()
 	{
-		return read;
+		return isRead;
 	}
 
-	public void setRead(Boolean read)
+	public void setRead(Boolean isRead)
 	{
-		this.read = read;
+		this.isRead = isRead;
 	}
 }

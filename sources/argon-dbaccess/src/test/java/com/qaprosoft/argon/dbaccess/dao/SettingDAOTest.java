@@ -41,7 +41,6 @@ public class SettingDAOTest extends AbstractTestNGSpringContextTests {
     private static final User USER = new User();
     {
         USER.setEnabled(true);
-        USER.setStatus(STATUS);
         USER.setEmail(KeyGenerator.getKey() + "@test-mail.com");
         USER.setDob(new Date());
         USER.setFirstName("Boris");
@@ -52,11 +51,6 @@ public class SettingDAOTest extends AbstractTestNGSpringContextTests {
         USER.setVerified(true);
     }
 
-    private static final Status STATUS = new Status();
-    {
-        STATUS.setType(Status.Type.ONLINE);
-    }
-
     private static final Setting SETTING = new Setting();
     {
         SETTING.setNews(true);
@@ -65,6 +59,7 @@ public class SettingDAOTest extends AbstractTestNGSpringContextTests {
 
     @BeforeClass
     public void init(){
+        USER.setStatus(statusDAO.getStatusByType(Status.Type.OFFLINE));
         userDAO.createUser(USER);
     }
 
