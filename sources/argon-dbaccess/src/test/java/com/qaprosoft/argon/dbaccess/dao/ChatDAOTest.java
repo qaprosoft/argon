@@ -40,11 +40,7 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
     private static final Chat CHAT = new Chat();
     {
         CHAT.setName("chat" + KeyGenerator.getKey());
-    }
-
-    private static final Status STATUS = new Status();
-    {
-        STATUS.setType(Status.Type.OFFLINE);
+        CHAT.setPrivateEnabled(false);
     }
 
     private final static User USER = new User();
@@ -58,7 +54,6 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
         USER.setDob(DateTime.now().withTime(0, 0, 0, 0).minusYears(18).toDate());
         USER.setUsername("user" + KeyGenerator.getKey());
         USER.setVerified(true);
-        USER.setStatus(STATUS);
     }
 
 
@@ -91,21 +86,23 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
     public void updateChat()
     {
         CHAT.setName("chat" + KeyGenerator.getKey());
+        CHAT.setPrivateEnabled(true);
         chatDAO.updateChat(CHAT);
         checkChat(chatDAO.getChatById(CHAT.getId()));
     }
 
     @Test(enabled = ENABLED, dependsOnMethods = {"createChat", "getChatByName", "getChatById", "updateChat"})
-    public void addUser()
+    public void addUserToChat()
     {
+        USER.setStatus(statusDAO.getStatusByType(Status.Type.OFFLINE));
         userDAO.createUser(USER);
         chatDAO.addUserToChat(USER.getId(), CHAT.getId());
         CHAT.getUsers().add(USER);
         checkChat(chatDAO.getChatById(CHAT.getId()));
     }
 
-    @Test(enabled = ENABLED, dependsOnMethods = {"createChat", "getChatByName", "getChatById", "updateChat", "addUser"})
-    public void deleteUser()
+    @Test(enabled = ENABLED, dependsOnMethods = {"createChat", "getChatByName", "getChatById", "updateChat", "addUserToChat"})
+    public void deleteUserFromChat()
     {
         chatDAO.removeUserFromChat(USER.getId(), CHAT.getId());
         CHAT.getUsers().remove(USER);
@@ -118,7 +115,7 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
 
     @Test(enabled = ENABLED && DELETE_CHAT_BY_ID, dependsOnMethods =
             { "createChat", "createChatFail", "getChatById",
-                    "getChatByName", "updateChat","addUser", "deleteUser"})
+                    "getChatByName", "updateChat","addUserToChat", "deleteUserFromChat"})
     public void deleteChatById()
     {
         chatDAO.deleteChatById(CHAT.getId());
@@ -127,8 +124,8 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
 
     @Test(enabled = ENABLED && !DELETE_CHAT_BY_ID, dependsOnMethods =
             { "createChat", "createChatFail", "getChatById",
-                    "getChatByName", "updateChat" })
-    public void deleteStatusByName()
+                    "getChatByName", "updateChat","addUserToChat", "deleteUserFromChat" })
+    public void deleteChatByName()
     {
         chatDAO.deleteChatByName(CHAT.getName());
         assertNull(chatDAO.getChatByName(CHAT.getName()));
@@ -137,6 +134,7 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
     private void checkChat(Chat chat)
     {
         assertEquals(chat.getName(), CHAT.getName(), "Chat name is not as expected.");
+        assertEquals(chat.getPrivateEnabled(), CHAT.getPrivateEnabled(), "Chat private is not as expected.");
         assertEquals(chat.getUsers().size(), CHAT.getUsers().size(), "Chat size of user is not as expected.");
     }
 }

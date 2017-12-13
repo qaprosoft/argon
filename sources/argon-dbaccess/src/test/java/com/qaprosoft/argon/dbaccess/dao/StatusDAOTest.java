@@ -31,7 +31,7 @@ public class StatusDAOTest extends AbstractTestNGSpringContextTests
 				"Number of Statuses fetched from DB is not as expected.");
 	}
 
-	@Test(enabled = ENABLED, dependsOnMethods = "createStatus")
+	@Test(enabled = ENABLED)
 	public void getStatusListByType()
 	{
 		Stream.of(Status.Type.values())
