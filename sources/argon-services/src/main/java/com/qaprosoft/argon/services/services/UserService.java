@@ -14,6 +14,7 @@ import com.qaprosoft.argon.dbaccess.dao.mysql.UserDAO;
 import com.qaprosoft.argon.models.db.Authority;
 import com.qaprosoft.argon.models.db.Status;
 import com.qaprosoft.argon.models.db.User;
+import com.qaprosoft.argon.services.exceptions.UserNotFoundException;
 
 @Service
 public class UserService
@@ -41,6 +42,17 @@ public class UserService
 	public User getUserById(long id)
 	{
 		return userDAO.getUserById(id);
+	}
+	
+	@Transactional(readOnly=true)
+	public User getNotNullUserById(long id) throws UserNotFoundException
+	{
+		User user = getUserById(id);
+		if(user == null)
+		{
+			throw new UserNotFoundException("Invalid user id");
+		}
+		return user;
 	}
 	
 	@Transactional(readOnly=true)

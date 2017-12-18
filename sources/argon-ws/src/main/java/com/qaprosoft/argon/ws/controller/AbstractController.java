@@ -16,6 +16,7 @@ import com.qaprosoft.argon.models.dto.errors.Error;
 import com.qaprosoft.argon.models.dto.errors.ErrorCode;
 import com.qaprosoft.argon.models.dto.errors.ErrorResponse;
 import com.qaprosoft.argon.services.exceptions.ForbiddenOperationException;
+import com.qaprosoft.argon.services.exceptions.UserNotFoundException;
 
 public abstract class AbstractController
 {
@@ -58,6 +59,16 @@ public abstract class AbstractController
 	{
 		ErrorResponse result = new ErrorResponse();
 		result.setError(new Error(ErrorCode.FORBIDDENT));
+		return result;
+	}
+	
+	@ExceptionHandler(UserNotFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ResponseBody
+	public ErrorResponse handleUserNotFoundException(UserNotFoundException e)
+	{
+		ErrorResponse result = new ErrorResponse();
+		result.setError(new Error(ErrorCode.USER_NOT_FOUND));
 		return result;
 	}
 

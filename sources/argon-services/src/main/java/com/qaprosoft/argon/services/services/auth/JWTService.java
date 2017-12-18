@@ -2,7 +2,9 @@ package com.qaprosoft.argon.services.services.auth;
 
 import java.util.Calendar;
 //import java.util.List;
+import java.util.List;
 
+import com.qaprosoft.argon.models.db.Authority;
 //import com.qaprosoft.argon.models.db.Group;
 //import com.qaprosoft.argon.models.db.Group.Role;
 import com.qaprosoft.argon.models.db.User;
@@ -35,6 +37,7 @@ public class JWTService
 	{
 		Claims claims = Jwts.claims().setSubject(user.getId().toString());
 		claims.put("username", user.getUsername());
+		claims.put("authorities", user.getAuthorities());
 		return buildToken(claims, authTokenExp);
 	}
 
@@ -45,6 +48,7 @@ public class JWTService
 	 *            token to parse
 	 * @return retrieved user details
 	 */
+	@SuppressWarnings("unchecked")
 	public User parseAuthToken(String token)
 	{
 		Claims body = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
@@ -52,6 +56,7 @@ public class JWTService
 		User user = new User();
 		user.setId(Long.valueOf(body.getSubject()));
 		user.setUsername((String) body.get("username"));
+		user.setAuthorities((List<Authority>) body.get("authorities"));
 		return user;
 	}
 
