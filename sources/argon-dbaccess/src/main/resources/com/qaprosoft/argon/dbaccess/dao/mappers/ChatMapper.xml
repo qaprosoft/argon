@@ -5,9 +5,10 @@
 
 	<insert id="createChat" useGeneratedKeys="true" keyProperty="id">
 		<![CDATA[
-			INSERT INTO argon.CHATS (NAME)
+			INSERT INTO argon.CHATS (NAME, PRIVATE)
 			VALUES (
-				#{name}
+				#{name},
+				#{privateEnabled}
 			)
 		]]>
 	</insert>
@@ -17,6 +18,7 @@
 			SELECT
 				C.ID AS CHAT_ID,
 				C.NAME AS CHAT_NAME,
+				C.PRIVATE AS CHAT_PRIVATE_ENABLED,
 				C.MODIFIED_AT AS CHAT_MODIFIED_AT,
 				C.CREATED_AT AS CHAT_CREATED_AT,
 				U.ID AS USER_ID,
@@ -70,7 +72,8 @@
 		<![CDATA[
 			UPDATE argon.CHATS C
 			SET
-				NAME = #{name}
+				NAME = #{name},
+				PRIVATE = #{privateEnabled}
 			WHERE C.ID = #{id}
 		]]>
 	</update>
@@ -118,6 +121,7 @@
 	<resultMap type="com.qaprosoft.argon.models.db.Chat" id="ChatResultMap" autoMapping="true">
 		<id column="CHAT_ID" property="id" />
 		<result column="CHAT_NAME" property="name" />
+		<result column="CHAT_PRIVATE_ENABLED" property="privateEnabled" />
 		<result column="CHAT_MODIFIED_AT" property="modifiedAt" />
 		<result column="CHAT_CREATED_AT" property="createdAt" />
 		<collection property="users" javaType="java.util.List" ofType="com.qaprosoft.argon.models.db.User" 

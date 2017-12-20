@@ -16,8 +16,7 @@
 
 	<security:authentication-manager alias="authenticationManager">
 
-		<security:authentication-provider
-			user-service-ref="userAuthService">
+		<security:authentication-provider user-service-ref="userAuthService">
 			<security:password-encoder ref="passwordEncoder" />
 		</security:authentication-provider>
 
@@ -36,18 +35,15 @@
 	<security:http pattern="/api/auth/register" security="none" />
 
 	<!-- Protected API end-points -->
-	<security:http realm="Protected API" use-expressions="true"
-		auto-config="false" create-session="stateless" entry-point-ref="unauthorizedEntryPoint">
-
+	<security:http realm="Protected API" use-expressions="true" auto-config="false" create-session="stateless" entry-point-ref="unauthorizedEntryPoint">
+	
 		<security:csrf disabled="true" />
 
 		<security:access-denied-handler ref="accessDeniedHandler" />
 
-		<security:custom-filter ref="authenticationTokenProcessingFilter"
-			after="EXCEPTION_TRANSLATION_FILTER" />
+		<security:custom-filter ref="authenticationTokenProcessingFilter" after="EXCEPTION_TRANSLATION_FILTER" />
 
-		<security:intercept-url pattern="/api/users/**"
-			access="isAuthenticated()" />
+		<security:intercept-url pattern="/api/users/**" access="isAuthenticated()" />
 
 	</security:http>
 
