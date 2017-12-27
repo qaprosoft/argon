@@ -19,7 +19,7 @@ public class TasksHolder
 	private ConfirmationService confirmationService;
 
 	@Bean
-	public Runnable sendConfirmationEmailTask()
+	public Runnable sendConfirmationEmailsTask()
 	{
 		return () -> userService.getUsersForConfirmationMailing().stream()
 				.forEach(confirmationService::generateUserConfirmation);
