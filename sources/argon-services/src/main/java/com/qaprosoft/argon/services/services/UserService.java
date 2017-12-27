@@ -1,6 +1,7 @@
 package com.qaprosoft.argon.services.services;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.jasypt.util.password.PasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,12 @@ public class UserService
 	public User getUserByUserName(String userName)
 	{
 		return userDAO.getUserByUserName(userName);
+	}
+	
+	@Transactional(readOnly=true)
+	public List<User> getUsersForConfirmationMailing()
+	{
+		return userDAO.getUsersForConfirmationMailing();
 	}
 	
 	@Transactional(rollbackFor=Exception.class)
