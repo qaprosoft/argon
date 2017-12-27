@@ -77,7 +77,7 @@
 	<select id="getUsersForConfirmationMailing" resultMap="UserResultMap">
 		<include refid="getUser" />
 		<![CDATA[
-			LEFT JOIN CONFIRMATIONS C
+			INNER JOIN CONFIRMATIONS C
 			ON U.ID = C.USER_ID
 			WHERE VERIFIED = 0
 			AND C.ID IS NULL
