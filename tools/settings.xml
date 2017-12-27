@@ -13,10 +13,10 @@
             <argon.ws.path>/argon-ws</argon.ws.path>
             <argon.web.path>/argon</argon.web.path>
 
-            <argon.db.jdbc.driverClass>org.postgresql.Driver</argon.db.jdbc.driverClass>
-            <argon.db.jdbc.url>jdbc:mysql://localhost:3306/argon</argon.db.jdbc.url>
-            <argon.db.jdbc.user>root</argon.db.jdbc.user>
-            <argon.db.jdbc.password>change_me</argon.db.jdbc.password>
+            <argon.db.jdbc.driverClass>com.mysql.jdbc.Driver</argon.db.jdbc.driverClass>
+            <argon.db.jdbc.url>jdbc:mysql://54.153.126.239:3306/argon</argon.db.jdbc.url>
+            <argon.db.jdbc.user>argon</argon.db.jdbc.user>
+            <argon.db.jdbc.password>argon</argon.db.jdbc.password>
             <argon.db.c3p0.maxPoolSize>100</argon.db.c3p0.maxPoolSize>
 
             <argon.smtp.user>cloud@qaprosoft.com</argon.smtp.user>
