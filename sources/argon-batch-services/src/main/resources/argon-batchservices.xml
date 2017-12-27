@@ -6,12 +6,7 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 
-	<context:annotation-config />
-
-	<import resource="classpath:argon-dbaccess.xml" />
-	<import resource="classpath:argon-services.xml" />
-
-	<util:properties id="environmentProperties" location="classpath:environment.properties" />
+	<context:component-scan base-package="com.qaprosoft.argon.batchservices" />
 
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -25,37 +20,31 @@
 		</property>
 	</bean>
 
-	<bean id="abortFrozenTestRunsTask"
-		class="com.qaprosoft.argon.batchservices.tasks.AbortFrozenTestRunsTask" />
-
-	<bean id="schedulerService"
-		class="com.qaprosoft.argon.batchservices.service.impl.SchedulerService" />
-
 	<!-- Job Details -->
-	<bean id="abortFrozenTestRunsTaskJobDetail"
+	<bean id="sendConfirmationEmailsTaskJobDetail"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="schedulerService" />
-		<property name="targetMethod" value="executeAbortFrozenTestRunsTask" />
+		<property name="targetObject" ref="sendConfirmationEmailTask" />
+		<property name="targetMethod" value="run" />
 	</bean>
 
 	<!-- Triggers -->
-	<bean id="abortFrozenTestRunsTaskTrigger"
+	<bean id="sendConfirmationEmailsTaskTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-		<property name="jobDetail" ref="abortFrozenTestRunsTaskJobDetail" />
+		<property name="jobDetail" ref="sendConfirmationEmailsTaskJobDetail" />
 		<property name="cronExpression"
-			value="${argon.batch.jobs.abortFrozenTestRuns.trigger.cronExpression}" />
+			value="${argon.batch.jobs.sendConfirmationEmails.trigger.cronExpression}" />
 	</bean>
 
 	<bean id="springScheduler"
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="jobDetails">
 			<list>
-				<ref bean="abortFrozenTestRunsTaskJobDetail" />
+				<ref bean="sendConfirmationEmailsTaskJobDetail" />
 			</list>
 		</property>
 		<property name="triggers">
 			<list>
-				<ref bean="abortFrozenTestRunsTaskTrigger" />
+				<ref bean="sendConfirmationEmailsTaskTrigger" />
 			</list>
 		</property>
 	</bean>
