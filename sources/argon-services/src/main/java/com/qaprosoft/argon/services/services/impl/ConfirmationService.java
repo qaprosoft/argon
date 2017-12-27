@@ -34,10 +34,11 @@ public class ConfirmationService
 		Confirmation confirmation = new Confirmation();
 		confirmation.setAttempts(MAX_ATTEMPTS);
 		confirmation.setUser(user);
-		confirmation.setLink(String.format(CONFIRMATION_PATH, wsURL, user.getId(), UUID.randomUUID().toString()));
+		confirmation.setLink(UUID.randomUUID().toString());
 		confirmationDAO.createConfirmation(confirmation);
 		
-		emailService.sendEmail(user.getEmail(), "Confirm registration", confirmation.getLink());
+		String url = String.format(CONFIRMATION_PATH, wsURL, user.getId(), confirmation.getLink());
+		emailService.sendEmail(user.getEmail(), "Confirm registration", url);
 		
 		return confirmation;
 	}

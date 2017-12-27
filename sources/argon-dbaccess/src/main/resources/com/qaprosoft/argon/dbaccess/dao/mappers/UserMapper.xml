@@ -74,6 +74,16 @@
 		]]>
 	</select>
 
+	<select id="getUsersForConfirmationMailing" resultMap="UserResultMap">
+		<include refid="getUser" />
+		<![CDATA[
+			INNER JOIN CONFIRMATIONS C
+			ON U.ID = C.USER_ID
+			WHERE VERIFIED = 0
+			AND C.ID IS NULL
+		]]>
+	</select>
+
 	<update id="updateUser">
 		<![CDATA[
 			UPDATE argon.USERS U
