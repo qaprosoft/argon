@@ -125,7 +125,7 @@
 							<daemons>
 								<daemon>
 									<id>JobService</id>
-									<mainClass>com.qaprosoft.zafira.batchservices.JobService</mainClass>
+									<mainClass>com.qaprosoft.argon.batchservices.JobService</mainClass>
 									<commandLineArguments>
 										<commandLineArgument>start</commandLineArgument>
 									</commandLineArguments>
