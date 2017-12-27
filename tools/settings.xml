@@ -18,6 +18,9 @@
             <argon.db.jdbc.user>root</argon.db.jdbc.user>
             <argon.db.jdbc.password>change_me</argon.db.jdbc.password>
             <argon.db.c3p0.maxPoolSize>100</argon.db.c3p0.maxPoolSize>
+
+            <argon.smtp.user></argon.smtp.user>
+            <argon.smtp.pass></argon.smtp.pass>
         </properties>
     </profile>
 </profiles>
