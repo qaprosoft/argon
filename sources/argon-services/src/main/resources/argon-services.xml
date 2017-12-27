@@ -62,10 +62,17 @@
 		</property>
 	</bean>
 
-	<bean id="jwtService" class="com.qaprosoft.argon.services.services.auth.JWTService">
+	<bean id="jwtService" class="com.qaprosoft.argon.services.services.impl.JWTService">
 		<constructor-arg index="0" value="${argon.jwt.secret}" />
 		<constructor-arg index="1" value="${argon.jwt.authTokenExp}" />
 		<constructor-arg index="2" value="${argon.jwt.refreshTokenExp}" />
+	</bean>
+	
+	<bean id="emailService" class="com.qaprosoft.argon.services.services.impl.GmailService">
+		<constructor-arg index="0" value="${argon.smtp.host}" />
+		<constructor-arg index="1" value="${argon.smtp.port}" />
+		<constructor-arg index="2" value="${argon.smtp.user}" />
+		<constructor-arg index="3" value="${argon.smtp.pass}" />
 	</bean>
 
 </beans>

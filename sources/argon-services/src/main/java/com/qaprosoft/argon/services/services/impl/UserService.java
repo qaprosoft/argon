@@ -1,4 +1,4 @@
-package com.qaprosoft.argon.services.services;
+package com.qaprosoft.argon.services.services.impl;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +31,9 @@ public class UserService
 	
 	@Autowired
 	private PasswordEncryptor passwordEncryptor;
+	
+	@Autowired
+	private ConfirmationService confirmationService;
 	
 	@Transactional
 	public User createUser(User user)
@@ -77,6 +80,7 @@ public class UserService
 		user.setEnabled(true);
 		user.setVerified(false);
 		userDAO.createUser(user);
+		confirmationService.generateUserConfirmation(user);
 		return user;
 	}
 	

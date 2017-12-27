@@ -28,8 +28,7 @@ import org.springframework.web.filter.GenericFilterBean;
 
 import com.qaprosoft.argon.models.db.User;
 import com.qaprosoft.argon.models.dto.auth.JwtUserType;
-//import com.qaprosoft.argon.models.dto.auth.JwtUserType;
-import com.qaprosoft.argon.services.services.auth.JWTService;
+import com.qaprosoft.argon.services.services.impl.JWTService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;

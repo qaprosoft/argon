@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.qaprosoft.argon.models.db.User;
 import com.qaprosoft.argon.models.dto.auth.JwtUserType;
-import com.qaprosoft.argon.services.services.UserService;
+import com.qaprosoft.argon.services.services.impl.UserService;
 
 @Component
 public class UserPassAuthService implements UserDetailsService
