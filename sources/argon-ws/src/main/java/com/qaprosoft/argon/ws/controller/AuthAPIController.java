@@ -26,8 +26,8 @@ import com.qaprosoft.argon.models.dto.UserType;
 import com.qaprosoft.argon.models.dto.auth.AuthTokenType;
 import com.qaprosoft.argon.models.dto.auth.CredentialsType;
 import com.qaprosoft.argon.services.exceptions.ServiceException;
-import com.qaprosoft.argon.services.services.UserService;
-import com.qaprosoft.argon.services.services.auth.JWTService;
+import com.qaprosoft.argon.services.services.impl.JWTService;
+import com.qaprosoft.argon.services.services.impl.UserService;
 import com.qaprosoft.argon.ws.swagger.annotations.ResponseStatusDetails;
 
 import io.swagger.annotations.Api;

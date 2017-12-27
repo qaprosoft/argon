@@ -4,7 +4,7 @@ import org.dozer.DozerConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.qaprosoft.argon.models.db.User;
-import com.qaprosoft.argon.services.services.UserService;
+import com.qaprosoft.argon.services.services.impl.UserService;
 
 public class LongToUserConverter extends DozerConverter<Long, User>
 {

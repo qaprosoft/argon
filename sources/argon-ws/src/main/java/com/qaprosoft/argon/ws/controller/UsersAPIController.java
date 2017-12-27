@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.qaprosoft.argon.models.db.User;
 import com.qaprosoft.argon.models.dto.UserType;
 import com.qaprosoft.argon.services.exceptions.UserNotFoundException;
-import com.qaprosoft.argon.services.services.UserService;
+import com.qaprosoft.argon.services.services.impl.UserService;
 import com.qaprosoft.argon.ws.swagger.annotations.ResponseStatusDetails;
 
 import io.swagger.annotations.Api;
