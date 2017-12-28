@@ -83,6 +83,12 @@ public class UserService
 		confirmationService.generateUserConfirmation(user);
 		return user;
 	}
+
+	@Transactional(rollbackFor=Exception.class)
+	public void updateUser(User user)
+	{
+		userDAO.updateUser(user);
+	}
 	
 	@Cacheable("statuses")
 	public Status getStatusByType(Status.Type type)

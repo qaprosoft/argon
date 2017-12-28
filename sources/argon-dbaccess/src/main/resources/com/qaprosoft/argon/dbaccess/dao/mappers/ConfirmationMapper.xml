@@ -75,6 +75,13 @@
 		]]>
 	</select>
 
+	<select id="getConfirmationByUserId" resultMap = "ConfirmationResultMap">
+		<include refid="getConfirmation" />
+		<![CDATA[
+			WHERE U.ID = #{userId}
+		]]>
+	</select>
+
 	<update id="updateConfirmation">
 		<![CDATA[
 			UPDATE argon.CONFIRMATIONS C

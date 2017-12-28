@@ -1,0 +1,1 @@
+alter table argon.CONFIRMATIONS modify CONFIRMATIONS.LINK VARCHAR(250);
