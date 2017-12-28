@@ -44,7 +44,7 @@ public class ConfirmationService
 	{
 		Confirmation confirmation = new Confirmation();
 		confirmation.setAttempts(0);
-		confirmation.setUser(user);
+		confirmation.setUserId(user.getId());
 		confirmation.setLink(jwtService.generateConfirmToken(user));
 		confirmationDAO.createConfirmation(confirmation);
 		

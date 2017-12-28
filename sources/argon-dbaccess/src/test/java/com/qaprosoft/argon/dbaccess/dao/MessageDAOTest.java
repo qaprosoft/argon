@@ -41,13 +41,10 @@ public class MessageDAOTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private StatusDAO statusDAO;
 
-
     private static final Message MESSAGE = new Message();
     {
         MESSAGE.setAttachment(Message.Attachment.SOUND);
         MESSAGE.setRead(false);
-        MESSAGE.setChat(CHAT);
-        MESSAGE.setUser(USER1);
         MESSAGE.setBody("body" + KeyGenerator.getKey());
     }
 
@@ -55,7 +52,7 @@ public class MessageDAOTest extends AbstractTestNGSpringContextTests {
     {
         CHAT.setName("chat" + KeyGenerator.getKey());
         CHAT.setPrivateEnabled(true);
-        CHAT.setUsers(Arrays.asList(USER2));
+        CHAT.setUsers(Arrays.asList(USER2.getId()));
     }
 
 
@@ -90,6 +87,8 @@ public class MessageDAOTest extends AbstractTestNGSpringContextTests {
         chatDAO.createChat(CHAT);
         userDAO.createUser(USER1);
         userDAO.createUser(USER2);
+        MESSAGE.setChatId(CHAT.getId());
+        MESSAGE.setUserId(USER1.getId());
         chatDAO.addUserToChat(USER1.getId(),CHAT.getId());
         chatDAO.addUserToChat(USER2.getId(),CHAT.getId());
     }

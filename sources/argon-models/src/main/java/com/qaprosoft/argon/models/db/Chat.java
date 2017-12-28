@@ -9,16 +9,16 @@ public class Chat extends AbstractEntity
 
 	private String name;
 	private boolean privateEnabled;
-	private List<User> users = new ArrayList<>();
+	private List<Long> usersId = new ArrayList<>();
 
-	public List<User> getUsers()
+	public List<Long> getUsersId()
 	{
-		return users;
+		return usersId;
 	}
 
-	public void setUsers(List<User> users)
+	public void setUsers(List<Long> usersId)
 	{
-		this.users = users;
+		this.usersId = usersId;
 	}
 
 	public boolean getPrivateEnabled() {
@@ -38,4 +38,5 @@ public class Chat extends AbstractEntity
 	{
 		this.name = name;
 	}
+
 }

@@ -6,16 +6,16 @@ public class Setting extends AbstractEntity
 
 	private Boolean soundEnabled;
 	private Boolean newsEnabled;
-	private User user;
+	private Long userId;
 
-	public User getUser()
+	public Long getUserId()
 	{
-		return user;
+		return userId;
 	}
 
-	public void setUser(User user)
+	public void setUserId(Long userId)
 	{
-		this.user = user;
+		this.userId = userId;
 	}
 
 	public Boolean getSound()
@@ -37,4 +37,5 @@ public class Setting extends AbstractEntity
 	{
 		this.newsEnabled = newsEnabled;
 	}
+
 }

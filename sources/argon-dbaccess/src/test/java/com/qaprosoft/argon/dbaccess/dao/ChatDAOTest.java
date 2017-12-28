@@ -97,7 +97,7 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
         USER.setStatus(statusDAO.getStatusByType(Status.Type.OFFLINE));
         userDAO.createUser(USER);
         chatDAO.addUserToChat(USER.getId(), CHAT.getId());
-        CHAT.getUsers().add(USER);
+        CHAT.getUsersId().add(USER.getId());
         checkChat(chatDAO.getChatById(CHAT.getId()));
     }
 
@@ -105,7 +105,7 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
     public void deleteUserFromChat()
     {
         chatDAO.removeUserFromChat(USER.getId(), CHAT.getId());
-        CHAT.getUsers().remove(USER);
+        CHAT.getUsersId().remove(USER.getId());
         userDAO.deleteUserById(USER.getId());
         checkChat(chatDAO.getChatById(CHAT.getId()));
     }
@@ -135,6 +135,6 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
     {
         assertEquals(chat.getName(), CHAT.getName(), "Chat name is not as expected.");
         assertEquals(chat.getPrivateEnabled(), CHAT.getPrivateEnabled(), "Chat private is not as expected.");
-        assertEquals(chat.getUsers().size(), CHAT.getUsers().size(), "Chat size of user is not as expected.");
+        assertEquals(chat.getUsersId().size(), CHAT.getUsersId().size(), "Chat size of user is not as expected.");
     }
 }

@@ -21,36 +21,10 @@
 				C.PRIVATE AS CHAT_PRIVATE_ENABLED,
 				C.MODIFIED_AT AS CHAT_MODIFIED_AT,
 				C.CREATED_AT AS CHAT_CREATED_AT,
-				U.ID AS USER_ID,
-				U.LAST_NAME AS USER_LAST_NAME,
-				U.DOB AS USER_DOB,
-				U.USERNAME AS USER_USERNAME,
-				U.PASSWORD AS USER_PASSWORD,
-				U.ENABLED AS USER_ENABLED,
-				U.VERIFIED AS USER_VERIFIED,
-				U.CREATED_AT AS USER_CREATED_AT,
-				U.EMAIL AS USER_EMAIL,
-				U.FIRST_NAME AS USER_FIRST_NAME,
-				U.MODIFIED_AT AS USER_MODIFIED_AT,
-				A.ID AS AUTHORITY_ID,
-				A.AUTHORITY AS AUTHORITY_TYPE,
-				A.MODIFIED_AT AS AUTHORITY_MODIFIED_AT,
-				A.CREATED_AT AS AUTHORITY_CREATED_AT,
-				ST.MODIFIED_AT AS STATUS_MODIFIED_AT,
-				ST.CREATED_AT AS STATUS_CREATED_AT,
-				ST.ID AS STATUS_ID,
-				ST.STATUS AS STATUS_TYPE
+				CU.USERS_ID AS CHAT_USER_ID
 			FROM argon.CHATS C
 			LEFT JOIN argon.CHAT_USERS CU
 			ON C.ID=CU.CHATS_ID
-			LEFT JOIN argon.USERS U
-			ON CU.USERS_ID=U.ID
-			LEFT JOIN argon.USER_AUTHORITIES UA
-			ON U.ID = UA.USER_ID
-			LEFT JOIN argon.AUTHORITIES A
-			ON UA.AUTHORITY_ID = A.ID
-			LEFT JOIN argon.STATUSES ST
-			ON U.STATUS_ID = ST.ID
 		]]>
 	</sql>
 
@@ -124,7 +98,8 @@
 		<result column="CHAT_PRIVATE_ENABLED" property="privateEnabled" />
 		<result column="CHAT_MODIFIED_AT" property="modifiedAt" />
 		<result column="CHAT_CREATED_AT" property="createdAt" />
-		<collection property="users" javaType="java.util.List" ofType="com.qaprosoft.argon.models.db.User" 
-			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.UserDAO.UserResultMap" />
+		<collection property="usersId" javaType="java.util.List"  ofType="java.lang.Long">
+			<result column="CHAT_USER_ID"/>
+		</collection>
 	</resultMap>
 </mapper>

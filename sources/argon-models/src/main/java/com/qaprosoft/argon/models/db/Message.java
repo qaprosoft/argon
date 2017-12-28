@@ -7,8 +7,8 @@ public class Message extends AbstractEntity
 
 	private String body;
 	private Attachment attachment;
-	private User user;
-	private Chat chat;
+	private Long userId;
+	private Long chatId;
 	private Boolean isRead;
 
 	public enum Attachment
@@ -36,24 +36,24 @@ public class Message extends AbstractEntity
 		this.attachment = attachment;
 	}
 
-	public User getUser()
+	public Long getUserId()
 	{
-		return user;
+		return userId;
 	}
 
-	public void setUser(User user)
+	public void setUserId(Long userId)
 	{
-		this.user = user;
+		this.userId = userId;
 	}
 
-	public Chat getChat()
+	public Long getChatId()
 	{
-		return chat;
+		return chatId;
 	}
 
-	public void setChat(Chat chat)
+	public void setChatId(Long chatId)
 	{
-		this.chat = chat;
+		this.chatId = chatId;
 	}
 
 	public Boolean isRead()
@@ -65,4 +65,5 @@ public class Message extends AbstractEntity
 	{
 		this.isRead = isRead;
 	}
+
 }
