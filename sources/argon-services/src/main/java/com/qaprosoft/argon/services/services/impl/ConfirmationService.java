@@ -1,14 +1,11 @@
 package com.qaprosoft.argon.services.services.impl;
 
-import java.util.UUID;
-
 import com.qaprosoft.argon.services.exceptions.ForbiddenOperationException;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import com.qaprosoft.argon.dbaccess.dao.mysql.ConfirmationDAO;
 import com.qaprosoft.argon.models.db.Confirmation;
 import com.qaprosoft.argon.models.db.User;
@@ -92,15 +89,13 @@ public class ConfirmationService
 			if (attempts >= MAX_ATTEMPTS) {
 				throw new ForbiddenOperationException("Count off attempts more than maximum");
 			}
-			confirmation.setAttempts(attempts++);
+			confirmation.setAttempts(++attempts);
 			confirmation.setLink(jwtService.generateConfirmToken(user));
 			updateConfirmation(confirmation);
-			String url = String.format(CONFIRMATION_PATH, wsURL, user.getId(), confirmation.getLink());
+ 			String url = String.format(CONFIRMATION_PATH, wsURL, user.getId(), confirmation.getLink());
 			emailService.sendEmail(user.getEmail(), "Confirm registration",MESSAGE_TEXT_AGAIN + url);
 			throw new ForbiddenOperationException("Token expired");
 		}
 	}
-
-
 
 }

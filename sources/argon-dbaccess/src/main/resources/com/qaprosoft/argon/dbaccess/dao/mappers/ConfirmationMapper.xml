@@ -44,7 +44,7 @@
 	<select id="getConfirmationByUserId" resultMap = "ConfirmationResultMap">
 		<include refid="getConfirmation" />
 		<![CDATA[
-			WHERE U.ID = #{userId}
+			WHERE C.USER_ID = #{userId}
 		]]>
 	</select>
 
