@@ -3,12 +3,12 @@ package com.qaprosoft.argon.services.services.impl;
 import java.util.Arrays;
 import java.util.List;
 
+import com.qaprosoft.argon.services.exceptions.ServiceException;
 import org.jasypt.util.password.PasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.qaprosoft.argon.dbaccess.dao.mysql.AuthorityDAO;
 import com.qaprosoft.argon.dbaccess.dao.mysql.StatusDAO;
 import com.qaprosoft.argon.dbaccess.dao.mysql.UserDAO;
@@ -72,8 +72,7 @@ public class UserService
 	}
 	
 	@Transactional(rollbackFor=Exception.class)
-	public User registerUser(User user, Authority.Type authority)
-	{
+	public User registerUser(User user, Authority.Type authority) throws ServiceException {
 		user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
 		user.setStatus(getStatusByType(Status.Type.OFFLINE));
 		user.setAuthorities(Arrays.asList(getAuthorityByType(authority)));

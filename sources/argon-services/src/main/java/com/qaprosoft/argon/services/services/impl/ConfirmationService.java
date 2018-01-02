@@ -1,6 +1,7 @@
 package com.qaprosoft.argon.services.services.impl;
 
 import com.qaprosoft.argon.services.exceptions.ForbiddenOperationException;
+import com.qaprosoft.argon.services.exceptions.ServiceException;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +19,7 @@ public class ConfirmationService
 	private static final Integer MAX_ATTEMPTS = 3;
 	
 	private static final String CONFIRMATION_PATH = "%s/api/auth/confirm?userId=%d&token=%s";
+	private static final String SUBJECT = "Confirm registration";
 	private static final String MESSAGE_TEXT = "Please, click the link to confirm your account ";
 	private static final String MESSAGE_TEXT_AGAIN = "Please, click the link to confirm your account again.Your last link expired! ";
 
@@ -37,17 +39,14 @@ public class ConfirmationService
 	@Autowired
 	private UserService userService;
 
-	public Confirmation generateUserConfirmation(User user)
-	{
+	public Confirmation generateUserConfirmation(User user) throws ServiceException {
 		Confirmation confirmation = new Confirmation();
 		confirmation.setAttempts(0);
 		confirmation.setUserId(user.getId());
 		confirmation.setLink(jwtService.generateConfirmToken(user));
 		confirmationDAO.createConfirmation(confirmation);
-		
 		String url = String.format(CONFIRMATION_PATH, wsURL, user.getId(), confirmation.getLink());
-		emailService.sendEmail(user.getEmail(), "Confirm registration",MESSAGE_TEXT + url);
-		
+		emailService.sendEmail(user, SUBJECT, MESSAGE_TEXT, url);
 		return confirmation;
 	}
 
@@ -70,7 +69,7 @@ public class ConfirmationService
 	}
 
 
-	public void confirmUser(Long userId, String token) throws ForbiddenOperationException {
+	public void confirmUser(Long userId, String token) throws ServiceException {
 		User user = userService.getUserById(userId);
 		Confirmation confirmation  = getConfirmationByUserId(userId);
 
@@ -93,7 +92,7 @@ public class ConfirmationService
 			confirmation.setLink(jwtService.generateConfirmToken(user));
 			updateConfirmation(confirmation);
  			String url = String.format(CONFIRMATION_PATH, wsURL, user.getId(), confirmation.getLink());
-			emailService.sendEmail(user.getEmail(), "Confirm registration",MESSAGE_TEXT_AGAIN + url);
+ 			emailService.sendEmail(user, SUBJECT, MESSAGE_TEXT_AGAIN, url);
 			throw new ForbiddenOperationException("Token expired");
 		}
 	}

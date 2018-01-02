@@ -1,14 +1,9 @@
 package com.qaprosoft.argon.ws.controller;
 
 import javax.validation.Valid;
-
-import com.qaprosoft.argon.models.db.Confirmation;
 import com.qaprosoft.argon.models.dto.auth.RefreshTokenType;
 import com.qaprosoft.argon.services.exceptions.ForbiddenOperationException;
-import com.qaprosoft.argon.services.exceptions.UserNotFoundException;
 import com.qaprosoft.argon.services.services.impl.ConfirmationService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,9 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import com.qaprosoft.argon.models.db.Authority;
-//import com.qaprosoft.argon.models.db.Group;
 import com.qaprosoft.argon.models.db.User;
 import com.qaprosoft.argon.models.dto.UserType;
 import com.qaprosoft.argon.models.dto.auth.AuthTokenType;
@@ -31,13 +24,9 @@ import com.qaprosoft.argon.services.exceptions.ServiceException;
 import com.qaprosoft.argon.services.services.impl.JWTService;
 import com.qaprosoft.argon.services.services.impl.UserService;
 import com.qaprosoft.argon.ws.swagger.annotations.ResponseStatusDetails;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 @Api(value = "Auth API")
@@ -126,7 +115,7 @@ public class AuthAPIController extends AbstractController
 	@ApiOperation(value = "Confirm registration", nickname = "confirmRegistration", code = 200, httpMethod = "GET")
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "confirm", method = RequestMethod.GET)
-	public void confirmAccount(@RequestParam("userId") Long userId, @RequestParam("token") String token) throws ForbiddenOperationException {
+	public void confirmAccount(@RequestParam("userId") Long userId, @RequestParam("token") String token) throws ServiceException {
 		confirmationService.confirmUser(userId, token);
 	}
 }
