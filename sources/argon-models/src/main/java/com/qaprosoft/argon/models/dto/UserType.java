@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.qaprosoft.argon.models.db.Status;
@@ -17,14 +18,21 @@ public class UserType extends AbstractType
 
 	@NotEmpty(message = "Email required")
 	private String email;
+
 	@NotEmpty(message = "Username required")
 	private String userName;
+
 	private String firstName;
+
 	private String lastName;
+
 	@NotEmpty(message = "Password required")
 	private String password;
+
+	@JsonFormat(pattern="yyyy-MM-dd")
 	@NotNull(message = "DOB required")
 	private Date dob;
+
 	private Status status;
 
 	public String getEmail()

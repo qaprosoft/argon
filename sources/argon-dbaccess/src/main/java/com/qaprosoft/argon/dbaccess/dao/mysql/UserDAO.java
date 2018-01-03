@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.qaprosoft.argon.dbaccess.dao.mysql.search.UserSearchCriteria;
 import com.qaprosoft.argon.models.db.User;
 
 /**
@@ -34,5 +35,9 @@ public interface UserDAO
 	void addAuthority(@Param("userId") Long userId, @Param("authorityId") Long authorityId);
 
 	void deleteAuthority(@Param("userId") Long userId, @Param("authorityId") Long authorityId);
+	
+	List<User> searchUsers(UserSearchCriteria sc);
+
+	Integer getUserSearchCount(UserSearchCriteria sc);
 
 }
