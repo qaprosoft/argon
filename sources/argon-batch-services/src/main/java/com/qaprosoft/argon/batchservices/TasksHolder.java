@@ -23,8 +23,12 @@ public class TasksHolder
 	{
 		return () -> userService.getUsersForConfirmationMailing().stream()
 				.forEach(user -> {
-					try {confirmationService.generateUserConfirmation(user);}
-					catch (Exception e) {}
+					try
+					{
+						confirmationService.generateUserConfirmation(user);
+					} catch (Exception e)
+					{
+					}
 				});
 	}
 }

@@ -29,7 +29,7 @@ public class UserType extends AbstractType
 	@NotEmpty(message = "Password required")
 	private String password;
 
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@NotNull(message = "DOB required")
 	private Date dob;
 

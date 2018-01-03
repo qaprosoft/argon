@@ -23,7 +23,7 @@ public interface UserDAO
 	User getUserByUserName(String username);
 
 	User getUserById(Long id);
-	
+
 	List<User> getUsersForConfirmationMailing();
 
 	void deleteUserByEmail(String email);
@@ -35,7 +35,7 @@ public interface UserDAO
 	void addAuthority(@Param("userId") Long userId, @Param("authorityId") Long authorityId);
 
 	void deleteAuthority(@Param("userId") Long userId, @Param("authorityId") Long authorityId);
-	
+
 	List<User> searchUsers(UserSearchCriteria sc);
 
 	Integer getUserSearchCount(UserSearchCriteria sc);

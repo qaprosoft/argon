@@ -21,7 +21,8 @@ import com.qaprosoft.argon.models.db.User;
 import com.qaprosoft.argon.services.exceptions.UserNotFoundException;
 
 @Service
-public class UserService {
+public class UserService
+{
 	@Autowired
 	private UserDAO userDAO;
 
@@ -35,37 +36,44 @@ public class UserService {
 	private PasswordEncryptor passwordEncryptor;
 
 	@Transactional
-	public User createUser(User user) {
+	public User createUser(User user)
+	{
 		userDAO.createUser(user);
 		return user;
 	}
 
 	@Transactional(readOnly = true)
-	public User getUserById(long id) {
+	public User getUserById(long id)
+	{
 		return userDAO.getUserById(id);
 	}
 
 	@Transactional(readOnly = true)
-	public User getNotNullUserById(long id) throws UserNotFoundException {
+	public User getNotNullUserById(long id) throws UserNotFoundException
+	{
 		User user = getUserById(id);
-		if (user == null) {
+		if (user == null)
+		{
 			throw new UserNotFoundException("Invalid user id");
 		}
 		return user;
 	}
 
 	@Transactional(readOnly = true)
-	public User getUserByUserName(String userName) {
+	public User getUserByUserName(String userName)
+	{
 		return userDAO.getUserByUserName(userName);
 	}
 
 	@Transactional(readOnly = true)
-	public List<User> getUsersForConfirmationMailing() {
+	public List<User> getUsersForConfirmationMailing()
+	{
 		return userDAO.getUsersForConfirmationMailing();
 	}
 
 	@Transactional(readOnly = true)
-	public SearchResult<User> searchUsers(UserSearchCriteria sc) {
+	public SearchResult<User> searchUsers(UserSearchCriteria sc)
+	{
 		SearchResult<User> results = new SearchResult<User>(sc);
 		results.setResults(userDAO.searchUsers(sc));
 		results.setTotalResults(userDAO.getUserSearchCount(sc));
@@ -73,7 +81,8 @@ public class UserService {
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public User registerUser(User user, Authority.Type authority) throws ServiceException {
+	public User registerUser(User user, Authority.Type authority) throws ServiceException
+	{
 		user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
 		user.setStatus(getStatusByType(Status.Type.OFFLINE));
 		user.setAuthorities(Arrays.asList(getAuthorityByType(authority)));
@@ -84,17 +93,20 @@ public class UserService {
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public void updateUser(User user) {
+	public void updateUser(User user)
+	{
 		userDAO.updateUser(user);
 	}
 
 	@Cacheable("statuses")
-	public Status getStatusByType(Status.Type type) {
+	public Status getStatusByType(Status.Type type)
+	{
 		return statusDAO.getStatusByType(type);
 	}
 
 	@Cacheable("authorities")
-	public Authority getAuthorityByType(Authority.Type type) {
+	public Authority getAuthorityByType(Authority.Type type)
+	{
 		return authorityDAO.getAuthorityByType(type);
 	}
 }

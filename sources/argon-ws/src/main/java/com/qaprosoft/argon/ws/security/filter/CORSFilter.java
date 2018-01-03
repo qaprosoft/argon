@@ -14,10 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CORSFilter implements Filter {
+public class CORSFilter implements Filter
+{
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
-			throws IOException, ServletException {
+			throws IOException, ServletException
+	{
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
 
@@ -29,16 +31,19 @@ public class CORSFilter implements Filter {
 		response.setHeader("Access-Control-Allow-Headers",
 				"Origin, X-Requested-With, Content-Type, Accept, Accept-Language, Authorization, Access-Token");
 
-		if (!"OPTIONS".equals(request.getMethod())) {
+		if (!"OPTIONS".equals(request.getMethod()))
+		{
 			chain.doFilter(req, resp);
 		}
 	}
 
 	@Override
-	public void init(FilterConfig arg0) throws ServletException {
+	public void init(FilterConfig arg0) throws ServletException
+	{
 	}
 
 	@Override
-	public void destroy() {
+	public void destroy()
+	{
 	}
 }

@@ -19,15 +19,16 @@ import com.qaprosoft.argon.models.dto.errors.ErrorCode;
 import com.qaprosoft.argon.models.dto.errors.ErrorResponse;
 
 /**
- * The RestAccessDeniedHandler is called by the ExceptionTranslationFilter to
- * handle all AccessDeniedExceptions. These exceptions are thrown when the
- * authentication is valid but access is not authorized.
+ * The RestAccessDeniedHandler is called by the ExceptionTranslationFilter to handle all AccessDeniedExceptions. These
+ * exceptions are thrown when the authentication is valid but access is not authorized.
  */
-public class RestAccessDeniedHandler implements AccessDeniedHandler {
+public class RestAccessDeniedHandler implements AccessDeniedHandler
+{
 
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response,
-			AccessDeniedException accessDeniedException) throws IOException, ServletException {
+			AccessDeniedException accessDeniedException) throws IOException, ServletException
+	{
 		ErrorResponse result = new ErrorResponse();
 		result.setError(new Error(ErrorCode.FORBIDDENT));
 		ObjectMapper objMapper = new ObjectMapper();

@@ -33,7 +33,8 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Users API")
 @CrossOrigin
 @RequestMapping("api/users")
-public class UsersAPIController extends AbstractController {
+public class UsersAPIController extends AbstractController
+{
 	@Autowired
 	private UserService userService;
 
@@ -43,9 +44,11 @@ public class UsersAPIController extends AbstractController {
 	@ResponseStatusDetails
 	@ApiOperation(value = "Get user profile", nickname = "getUserProfile", code = 200, httpMethod = "GET")
 	@ResponseStatus(HttpStatus.OK)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ApiImplicitParams(
+	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@RequestMapping(value = "profile", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody UserType getUserProfile() throws UserNotFoundException {
+	public @ResponseBody UserType getUserProfile() throws UserNotFoundException
+	{
 		User user = userService.getNotNullUserById(getPrincipalId());
 		return mapper.map(user, UserType.class);
 	}
@@ -53,9 +56,11 @@ public class UsersAPIController extends AbstractController {
 	@ResponseStatusDetails
 	@ApiOperation(value = "Search users", nickname = "searchUsers", code = 200, httpMethod = "POST", response = SearchResult.class)
 	@ResponseStatus(HttpStatus.OK)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ApiImplicitParams(
+	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@RequestMapping(value = "search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody SearchResult<UserType> searchUsers(@Valid @RequestBody UserSearchCriteria sc) {
+	public @ResponseBody SearchResult<UserType> searchUsers(@Valid @RequestBody UserSearchCriteria sc)
+	{
 		SearchResult<User> userResults = userService.searchUsers(sc);
 		SearchResult<UserType> usersTypeResults = new SearchResult<>(sc);
 		usersTypeResults.setTotalResults(userResults.getTotalResults());
