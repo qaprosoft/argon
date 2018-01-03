@@ -6,7 +6,7 @@ public class Confirmation extends AbstractEntity
 
 	private String link;
 	private Integer attempts;
-	private User user;
+	private Long userId;
 
 	public String getLink()
 	{
@@ -28,13 +28,14 @@ public class Confirmation extends AbstractEntity
 		this.attempts = attempts;
 	}
 
-	public User getUser()
+	public Long getUserId()
 	{
-		return user;
+		return userId;
 	}
 
-	public void setUser(User user)
+	public void setUserId(Long userId)
 	{
-		this.user = user;
+		this.userId = userId;
 	}
+
 }

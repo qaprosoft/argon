@@ -1,14 +1,9 @@
 package com.qaprosoft.argon.services.services.impl;
 
 import java.util.Calendar;
-//import java.util.List;
 import java.util.List;
-
 import com.qaprosoft.argon.models.db.Authority;
-//import com.qaprosoft.argon.models.db.Group;
-//import com.qaprosoft.argon.models.db.Group.Role;
 import com.qaprosoft.argon.models.db.User;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -38,6 +33,20 @@ public class JWTService
 		Claims claims = Jwts.claims().setSubject(user.getId().toString());
 		claims.put("username", user.getUsername());
 		claims.put("authorities", user.getAuthorities());
+		return buildToken(claims, authTokenExp);
+	}
+
+	/**
+	 * Generates JWT confirm token storing id, username, email, roles of the user and specifies expiration date.
+	 *
+	 * @param user
+	 *            that is used for token generation
+	 * @return generated JWT token
+	 */
+	public String generateConfirmToken(User user)
+	{
+		Claims claims = Jwts.claims().setSubject(user.getId().toString());
+		claims.put("username", user.getUsername());
 		return buildToken(claims, authTokenExp);
 	}
 
@@ -76,6 +85,26 @@ public class JWTService
 		User user = new User();
 		user.setId(Long.valueOf(body.getSubject()));
 		user.setPassword((String) body.get("password"));
+
+		return user;
+	}
+
+	/**
+	 * Verifies JWT confirm token.
+	 *
+	 * @param refresh
+	 *            token
+	 * @param user
+	 *            to verify
+	 * @return verification status
+	 */
+	public User parseConfirmToken(String token)
+	{
+		Claims body = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+
+		User user = new User();
+		user.setId(Long.valueOf(body.getSubject()));
+		user.setUsername((String) body.get("username"));
 
 		return user;
 	}
@@ -120,4 +149,5 @@ public class JWTService
 	{
 		return authTokenExp;
 	}
+
 }

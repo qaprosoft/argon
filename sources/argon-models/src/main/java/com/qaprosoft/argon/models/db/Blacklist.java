@@ -4,26 +4,27 @@ public class Blacklist extends AbstractEntity
 {
 	private static final long serialVersionUID = 2205225667932231007L;
 
-	private User user;
-	private Chat chat;
+	private Long userId;
+	private Long chatId;
 
-	public User getUser()
+	public Long getUserId()
 	{
-		return user;
+		return userId;
 	}
 
-	public void setUser(User user)
+	public void setUserId(Long userId)
 	{
-		this.user = user;
+		this.userId = userId;
 	}
 
-	public Chat getChat()
+	public Long getChatId()
 	{
-		return chat;
+		return chatId;
 	}
 
-	public void setChat(Chat chat)
+	public void setChatId(Long chatId)
 	{
-		this.chat = chat;
+		this.chatId = chatId;
 	}
+
 }

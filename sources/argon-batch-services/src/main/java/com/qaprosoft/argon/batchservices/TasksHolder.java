@@ -22,6 +22,9 @@ public class TasksHolder
 	public Runnable sendConfirmationEmailsTask()
 	{
 		return () -> userService.getUsersForConfirmationMailing().stream()
-				.forEach(confirmationService::generateUserConfirmation);
+				.forEach(user -> {
+					try {confirmationService.generateUserConfirmation(user);}
+					catch (Exception e) {}
+				});
 	}
 }

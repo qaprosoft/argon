@@ -8,8 +8,8 @@
 			INSERT INTO argon.MESSAGES (BODY, USER_ID, CHAT_ID, ATTACHMENT, IS_READ)
 			VALUES(
 				#{body},
-				#{user.id},
-				#{chat.id},
+				#{userId},
+				#{chatId},
 				#{attachment},
 				#{isRead}
 			)
@@ -25,69 +25,9 @@
 				M.BODY AS MESSAGE_BODY,
 				M.MODIFIED_AT AS MESSAGE_MODIFIED_AT,
 				M.IS_READ AS MESSAGE_IS_READ,
-				U.ID AS USER_ID,
-				U.LAST_NAME AS USER_LAST_NAME,
-				U.DOB AS USER_DOB,
-				U.USERNAME AS USER_USERNAME,
-				U.PASSWORD AS USER_PASSWORD,
-				U.ENABLED AS USER_ENABLED,
-				U.VERIFIED AS USER_VERIFIED,
-				U.CREATED_AT AS USER_CREATED_AT,
-				U.EMAIL AS USER_EMAIL,
-				U.FIRST_NAME AS USER_FIRST_NAME,
-				U.MODIFIED_AT AS USER_MODIFIED_AT,
-				C.CREATED_AT AS CHAT_CHAT_CREATED_AT,
-				C.MODIFIED_AT AS CHAT_CHAT_MODIFIED_AT,
-				C.NAME AS CHAT_CHAT_NAME,
-				C.PRIVATE AS CHAT_CHAT_PRIVATE_ENABLED,
-				C.ID AS CHAT_CHAT_ID,
-				ST.ID AS STATUS_ID,
-				ST.STATUS AS STATUS_TYPE,
-				ST.MODIFIED_AT AS STATUS_MODIFIED_AT,
-				ST.CREATED_AT AS STATUS_CREATED_AT,
-				A.ID AS AUTHORITY_ID,
-				A.AUTHORITY AS AUTHORITY_TYPE,
-				A.MODIFIED_AT AS AUTHORITY_MODIFIED_AT,
-				A.CREATED_AT AS AUTHORITY_CREATED_AT,
-				CHU.ID AS CHAT_USER_ID,
-				CHU.LAST_NAME AS CHAT_USER_LAST_NAME,
-				CHU.DOB AS CHAT_USER_DOB,
-				CHU.USERNAME AS CHAT_USER_USERNAME,
-				CHU.PASSWORD AS CHAT_USER_PASSWORD,
-				CHU.ENABLED AS CHAT_USER_ENABLED,
-				CHU.VERIFIED AS CHAT_USER_VERIFIED,
-				CHU.CREATED_AT AS CHAT_USER_CREATED_AT,
-				CHU.EMAIL AS CHAT_USER_EMAIL,
-				CHU.FIRST_NAME AS CHAT_USER_FIRST_NAME,
-				CHU.MODIFIED_AT AS CHAT_USER_MODIFIED_AT,ST.ID AS STATUS_ID,
-				CST.STATUS AS CHAT_STATUS_TYPE,
-				CST.MODIFIED_AT AS CHAT_STATUS_MODIFIED_AT,
-				CST.CREATED_AT AS CHAT_STATUS_CREATED_AT,
-				CA.ID AS CHAT_AUTHORITY_ID,
-				CA.AUTHORITY AS CHAT_AUTHORITY_TYPE,
-				CA.MODIFIED_AT AS CHAT_AUTHORITY_MODIFIED_AT,
-				CA.CREATED_AT AS CHAT_AUTHORITY_CREATED_AT
+				M.USER_ID AS MESSAGE_USER_ID,
+				M.CHAT_ID AS MESSAGE_CHAT_ID
 			FROM argon.MESSAGES M
-			LEFT JOIN argon.USERS U
-			ON M.USER_ID = U.ID
-			LEFT JOIN argon.CHATS C
-			ON M.CHAT_ID = C.ID
-			LEFT JOIN argon.CHAT_USERS CU
-			ON CU.CHATS_ID = C.ID
-			LEFT JOIN argon.USERS CHU
-			ON CU.USERS_ID = CHU.ID
-			LEFT JOIN argon.STATUSES ST
-			ON U.STATUS_ID = ST.ID
-			LEFT JOIN argon.USER_AUTHORITIES UA
-			ON U.ID = UA.USER_ID
-			LEFT JOIN argon.AUTHORITIES A
-			ON UA.AUTHORITY_ID = A.ID
-			LEFT JOIN argon.STATUSES CST
-			ON CHU.STATUS_ID = CST.ID
-			LEFT JOIN argon.USER_AUTHORITIES CUA
-			ON CHU.ID = CUA.USER_ID
-			LEFT JOIN argon.AUTHORITIES CA
-			ON CUA.AUTHORITY_ID = CA.ID
 		]]>
 	</sql>
 
@@ -105,8 +45,8 @@
 				ATTACHMENT = #{attachment},
 				BODY = #{body},
 				IS_READ = #{isRead},
-				USER_ID = #{user.id},
-				CHAT_ID = #{chat.id}
+				USER_ID = #{userId},
+				CHAT_ID = #{chatId}
 			WHERE M.ID = #{id}
 		]]>
 	</update>
@@ -132,9 +72,7 @@
 		<result column="MESSAGE_BODY" property="body" />
 		<result column="MESSAGE_MODIFIED_AT" property="modifiedAt" />
 		<result column="MESSAGE_IS_READ" property="isRead" />
-		<association property="user" javaType="com.qaprosoft.argon.models.db.User" 
-			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.UserDAO.UserResultMap" />
-		<association property="chat" javaType="com.qaprosoft.argon.models.db.Chat"
-			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.ChatDAO.ChatResultMap" columnPrefix="CHAT_"/>
+		<result column="MESSAGE_USER_ID" property="userId" />
+		<result column="MESSAGE_CHAT_ID" property="chatId" />
 	</resultMap>
 </mapper>

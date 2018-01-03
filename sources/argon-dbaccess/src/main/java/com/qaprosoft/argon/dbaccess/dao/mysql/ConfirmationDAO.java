@@ -17,6 +17,8 @@ public interface ConfirmationDAO
 
 	Confirmation getConfirmationByLink(String link);
 
+	Confirmation getConfirmationByUserId(Long userId);
+
 	void deleteConfirmationByLink(String link);
 
 	void deleteConfirmationById(Long id);

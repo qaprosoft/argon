@@ -43,10 +43,6 @@ public class BlacklistDAOTest extends AbstractTestNGSpringContextTests {
     private StatusDAO statusDAO;
 
     private static final Blacklist BLACKLIST = new Blacklist();
-    {
-        BLACKLIST.setChat(CHAT);
-        BLACKLIST.setUser(USER1);
-    }
 
     private final static User USER1 = new User();
     {
@@ -76,7 +72,7 @@ public class BlacklistDAOTest extends AbstractTestNGSpringContextTests {
     {
         CHAT.setName("chat" + KeyGenerator.getKey());
         CHAT.setPrivateEnabled(true);
-        CHAT.setUsers(Arrays.asList(USER2));
+        CHAT.setUsers(Arrays.asList(USER2.getId()));
     }
 
     @BeforeClass
@@ -86,6 +82,8 @@ public class BlacklistDAOTest extends AbstractTestNGSpringContextTests {
         userDAO.createUser(USER1);
         userDAO.createUser(USER2);
         chatDAO.createChat(CHAT);
+        BLACKLIST.setChatId(CHAT.getId());
+        BLACKLIST.setUserId(USER1.getId());
         chatDAO.addUserToChat(USER1.getId(), CHAT.getId());
         chatDAO.addUserToChat(USER2.getId(), CHAT.getId());
     }
@@ -135,8 +133,7 @@ public class BlacklistDAOTest extends AbstractTestNGSpringContextTests {
 
     private void checkBlacklist(Blacklist blacklist)
     {
-        assertEquals(blacklist.getUser().getFirstName(), BLACKLIST.getUser().getFirstName(), "Blacklist user is not as expected.");
-        assertEquals(blacklist.getUser().getLastName(), BLACKLIST.getUser().getLastName(), "Blacklist user is not as expected.");
-        assertEquals(blacklist.getChat().getName(), BLACKLIST.getChat().getName(), "Blacklist chat is not as expected.");
+        assertEquals(blacklist.getUserId(), BLACKLIST.getUserId(), "Blacklist user is not as expected.");
+        assertEquals(blacklist.getChatId(), BLACKLIST.getChatId(), "Blacklist chat is not as expected.");
     }
 }

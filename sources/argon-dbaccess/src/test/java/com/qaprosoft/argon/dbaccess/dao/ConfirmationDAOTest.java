@@ -55,13 +55,13 @@ public class ConfirmationDAOTest extends AbstractTestNGSpringContextTests {
     {
         CONFIRMATION.setLink("http://www." + KeyGenerator.getKey() + ".com");
         CONFIRMATION.setAttempts(2);
-        CONFIRMATION.setUser(USER);
     }
 
     @BeforeClass
     public void init(){
         USER.setStatus(statusDAO.getStatusByType(Status.Type.OFFLINE));
         userDAO.createUser(USER);
+        CONFIRMATION.setUserId(USER.getId());
     }
 
     @AfterClass

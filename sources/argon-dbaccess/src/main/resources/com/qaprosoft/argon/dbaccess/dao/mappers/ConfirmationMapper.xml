@@ -9,7 +9,7 @@
 			VALUES (
 				#{attempts},
 				#{link},
-				#{user.id}
+				#{userId}
 			)
 		]]>
 	</insert>
@@ -22,42 +22,8 @@
 				C.ATTEMPTS AS CONFIRMATION_ATTEMPTS,
 				C.MODIFIED_AT AS CONFIRMATION_MODIFIED_AT,
 				C.LINK AS CONFIRMATION_LINK,
-				U.ID AS USER_ID,
-				U.ID AS USER_ID,
-				U.LAST_NAME AS USER_LAST_NAME,
-				U.DOB AS USER_DOB,
-				U.USERNAME AS USER_USERNAME,
-				U.PASSWORD AS USER_PASSWORD,
-				U.ENABLED AS USER_ENABLED,
-				U.VERIFIED AS USER_VERIFIED,
-				U.CREATED_AT AS USER_CREATED_AT,
-				U.EMAIL AS USER_EMAIL,
-				U.FIRST_NAME AS USER_FIRST_NAME,
-				U.MODIFIED_AT AS USER_MODIFIED_AT,
-				S.ID AS STATUS_ID,
-				S.STATUS AS STATUS_TYPE,
-				S.MODIFIED_AT AS STATUS_MODIFIED_AT,
-				S.CREATED_AT AS STATUS_CREATED_AT,
-				SE.ID AS SETTING_ID,
-				SE.CREATED_AT AS SETTING_CREATED_AT,
-				SE.MODIFIED_AT AS SETTING_MODIFIED_AT,
-				SE.NEWS_ENABLED AS SETTING_NEWS_ENABLED,
-				SE.SOUND_ENABLED AS SETTING_SOUND_ENABLED,
-				A.ID AS AUTHORITY_ID,
-				A.AUTHORITY AS AUTHORITY_TYPE,
-				A.MODIFIED_AT AS AUTHORITY_MODIFIED_AT,
-				A.CREATED_AT AS AUTHORITY_CREATED_AT
+				C.USER_ID AS CONFIRMATION_USER_ID
 			FROM argon.CONFIRMATIONS C
-			LEFT JOIN argon.USERS U
-			ON C.USER_ID = U.ID
-			LEFT JOIN argon.STATUSES S
-			ON S.ID = U.STATUS_ID
-			LEFT JOIN argon.SETTINGS SE
-			ON U.ID = SE.USER_ID
-			LEFT JOIN argon.USER_AUTHORITIES UA
-			ON U.ID = UA.USER_ID
-			LEFT JOIN argon.AUTHORITIES A
-			ON UA.AUTHORITY_ID = A.ID
 		]]>
 	</sql>
 
@@ -75,13 +41,20 @@
 		]]>
 	</select>
 
+	<select id="getConfirmationByUserId" resultMap = "ConfirmationResultMap">
+		<include refid="getConfirmation" />
+		<![CDATA[
+			WHERE C.USER_ID = #{userId}
+		]]>
+	</select>
+
 	<update id="updateConfirmation">
 		<![CDATA[
 			UPDATE argon.CONFIRMATIONS C
 			SET
 				ATTEMPTS = #{attempts},
 				LINK = #{link},
-				USER_ID = #{user.id}
+				USER_ID = #{userId}
 			WHERE C.ID = #{id}
 		]]>
 	</update>
@@ -113,7 +86,6 @@
 		<result column="CONFIRMATION_ATTEMPTS" property="attempts" />
 		<result column="CONFIRMATION_MODIFIED_AT" property="modifiedAt" />
 		<result column="CONFIRMATION_LINK" property="link" />
-		<association property="user" javaType="com.qaprosoft.argon.models.db.User" 
-			resultMap="com.qaprosoft.argon.dbaccess.dao.mysql.UserDAO.UserResultMap" />
+		<result column="CONFIRMATION_USER_ID" property="userId" />
 	</resultMap>
 </mapper>
