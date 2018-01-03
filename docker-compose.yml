@@ -14,3 +14,17 @@ services:
      - MYSQL_USER=argon
      - MYSQL_PASSWORD=argon
     restart: always
+  argon:
+    image: qaprosoft/argon:latest
+    ports:
+     - "8080:8080"
+    environment:
+     - ARGON_URL=http://localhost:8080
+     - ARGON_JDBC_URL=jdbc:mysql://db:3306/argon
+     - ARGON_JDBC_USER=argon
+     - ARGON_JDBC_PASS=argon
+     - ARGON_SMTP_USER=test@qaprosoft.com
+     - ARGON_SMTP_PASS=qwerty
+    depends_on:
+     - db
+    restart: always
