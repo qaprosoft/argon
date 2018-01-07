@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
@@ -38,14 +40,10 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
     private StatusDAO statusDAO;
 
     private static final Chat CHAT = new Chat();
-    {
-        CHAT.setName("chat" + KeyGenerator.getKey());
-        CHAT.setPrivateEnabled(false);
-    }
-
     private final static User USER = new User();
 
-    {
+    @BeforeClass
+    public void init(){
         USER.setEmail(KeyGenerator.getKey() + "@test-mail.com");
         USER.setEnabled(true);
         USER.setFirstName("Boris");
@@ -54,8 +52,18 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
         USER.setDob(DateTime.now().withTime(0, 0, 0, 0).minusYears(18).toDate());
         USER.setUsername("user" + KeyGenerator.getKey());
         USER.setVerified(true);
+        USER.setStatus(statusDAO.getStatusByType(Status.Type.ONLINE));
+        userDAO.createUser(USER);
+
+        CHAT.setName("chat" + KeyGenerator.getKey());
+        CHAT.setPrivateEnabled(false);
+        CHAT.setOwnerId(USER.getId());
     }
 
+    @AfterClass
+    public void delete(){
+        userDAO.deleteUserById(USER.getId());
+    }
 
     @Test(enabled = ENABLED)
     public void createChat()
@@ -94,8 +102,6 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
     @Test(enabled = ENABLED, dependsOnMethods = {"createChat", "getChatByName", "getChatById", "updateChat"})
     public void addUserToChat()
     {
-        USER.setStatus(statusDAO.getStatusByType(Status.Type.OFFLINE));
-        userDAO.createUser(USER);
         chatDAO.addUserToChat(USER.getId(), CHAT.getId());
         CHAT.getUsersId().add(USER.getId());
         checkChat(chatDAO.getChatById(CHAT.getId()));
@@ -106,7 +112,6 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
     {
         chatDAO.removeUserFromChat(USER.getId(), CHAT.getId());
         CHAT.getUsersId().remove(USER.getId());
-        userDAO.deleteUserById(USER.getId());
         checkChat(chatDAO.getChatById(CHAT.getId()));
     }
 
@@ -134,7 +139,7 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
     private void checkChat(Chat chat)
     {
         assertEquals(chat.getName(), CHAT.getName(), "Chat name is not as expected.");
-        assertEquals(chat.getPrivateEnabled(), CHAT.getPrivateEnabled(), "Chat private is not as expected.");
+        assertEquals(chat.isPrivateEnabled(), CHAT.isPrivateEnabled(), "Chat private is not as expected.");
         assertEquals(chat.getUsersId().size(), CHAT.getUsersId().size(), "Chat size of user is not as expected.");
     }
 }

@@ -9,19 +9,18 @@ public class Chat extends AbstractEntity
 
 	private String name;
 	private boolean privateEnabled;
+	private Long ownerId;
 	private List<Long> usersId = new ArrayList<>();
 
-	public List<Long> getUsersId()
-	{
-		return usersId;
+	public String getName() {
+		return name;
 	}
 
-	public void setUsers(List<Long> usersId)
-	{
-		this.usersId = usersId;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public boolean getPrivateEnabled() {
+	public boolean isPrivateEnabled() {
 		return privateEnabled;
 	}
 
@@ -29,14 +28,19 @@ public class Chat extends AbstractEntity
 		this.privateEnabled = privateEnabled;
 	}
 
-	public String getName()
-	{
-		return name;
+	public Long getOwnerId() {
+		return ownerId;
 	}
 
-	public void setName(String name)
-	{
-		this.name = name;
+	public void setOwnerId(Long ownerId) {
+		this.ownerId = ownerId;
 	}
 
+	public List<Long> getUsersId() {
+		return usersId;
+	}
+
+	public void setUsersId(List<Long> usersId) {
+		this.usersId = usersId;
+	}
 }

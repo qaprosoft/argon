@@ -72,7 +72,7 @@ public class BlacklistDAOTest extends AbstractTestNGSpringContextTests {
     {
         CHAT.setName("chat" + KeyGenerator.getKey());
         CHAT.setPrivateEnabled(true);
-        CHAT.setUsers(Arrays.asList(USER2.getId()));
+        CHAT.setUsersId(Arrays.asList(USER2.getId()));
     }
 
     @BeforeClass

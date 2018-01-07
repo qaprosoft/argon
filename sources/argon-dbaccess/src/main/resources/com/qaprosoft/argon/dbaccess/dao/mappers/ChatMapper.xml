@@ -5,10 +5,11 @@
 
 	<insert id="createChat" useGeneratedKeys="true" keyProperty="id">
 		<![CDATA[
-			INSERT INTO argon.CHATS (NAME, PRIVATE)
+			INSERT INTO argon.CHATS (NAME, PRIVATE, OWNER_ID)
 			VALUES (
 				#{name},
-				#{privateEnabled}
+				#{privateEnabled},
+				#{ownerId}
 			)
 		]]>
 	</insert>
@@ -19,6 +20,7 @@
 				C.ID AS CHAT_ID,
 				C.NAME AS CHAT_NAME,
 				C.PRIVATE AS CHAT_PRIVATE_ENABLED,
+				C.OWNER_ID AS CHAT_OWNER_ID,
 				C.MODIFIED_AT AS CHAT_MODIFIED_AT,
 				C.CREATED_AT AS CHAT_CREATED_AT,
 				CU.USERS_ID AS CHAT_USER_ID
@@ -47,7 +49,8 @@
 			UPDATE argon.CHATS C
 			SET
 				NAME = #{name},
-				PRIVATE = #{privateEnabled}
+				PRIVATE = #{privateEnabled},
+				OWNER_ID = #{ownerId}
 			WHERE C.ID = #{id}
 		]]>
 	</update>
@@ -96,6 +99,7 @@
 		<id column="CHAT_ID" property="id" />
 		<result column="CHAT_NAME" property="name" />
 		<result column="CHAT_PRIVATE_ENABLED" property="privateEnabled" />
+		<result column="CHAT_OWNER_ID" property="ownerId" />
 		<result column="CHAT_MODIFIED_AT" property="modifiedAt" />
 		<result column="CHAT_CREATED_AT" property="createdAt" />
 		<collection property="usersId" javaType="java.util.List"  ofType="java.lang.Long">
