@@ -100,4 +100,11 @@ public class UserService
 	{
 		return authorityDAO.getAuthorityByType(type);
 	}
+	@Transactional(rollbackFor = Exception.class)
+	public void updateUserPassword(long id, String password) throws ServiceException
+	{
+		User user = getNotNullUserById(id);
+		user.setPassword(passwordEncryptor.encryptPassword(password));
+		updateUser(user);
+	}
 }
