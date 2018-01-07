@@ -6,6 +6,7 @@ import com.qaprosoft.argon.models.db.User;
 import com.qaprosoft.argon.models.dto.ChatType;
 import com.qaprosoft.argon.models.dto.auth.AuthTokenType;
 import com.qaprosoft.argon.models.dto.auth.CredentialsType;
+import com.qaprosoft.argon.services.exceptions.ForbiddenOperationException;
 import com.qaprosoft.argon.services.services.impl.ChatService;
 import com.qaprosoft.argon.ws.swagger.annotations.ResponseStatusDetails;
 import io.swagger.annotations.Api;
@@ -57,6 +58,18 @@ public class ChatAPIController extends AbstractController
     public @ResponseBody ChatType invite(@PathVariable(value = "userId") Long userId, @RequestBody @Valid ChatType chatType)
     {
         Chat chat = chatService.addUserToChat(userId, chatType.getId());
+        return mapper.map(chat, ChatType.class);
+    }
+
+
+    @ResponseStatusDetails
+    @ApiOperation(value = "Join public chat", nickname = "joinPublicChat", code = 200, httpMethod = "GET", response = ChatType.class)
+    @ResponseStatus(HttpStatus.OK)
+    @ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+    @RequestMapping(value = "{chatId}/join", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ChatType joinChat(@PathVariable("chatId") Long chatId) throws ForbiddenOperationException
+    {
+        Chat chat = chatService.joinPublicChat(getPrincipalId(), chatId);
         return mapper.map(chat, ChatType.class);
     }
 }
