@@ -18,4 +18,12 @@ public class ChatService {
         chatDAO.removeUserFromChat(userId, chatId);
         return chatDAO.getChatById(chatId);
     }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    public Chat addUserToChat(Long userId, Long chatId)
+    {
+        chatDAO.addUserToChat(userId, chatId);
+        return chatDAO.getChatById(chatId);
+    }
 }

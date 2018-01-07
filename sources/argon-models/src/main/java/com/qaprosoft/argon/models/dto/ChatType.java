@@ -14,10 +14,11 @@ public class ChatType extends AbstractType {
 
     @NotNull(message = "Name required")
     private String name;
-    @NotEmpty(message = "Private required")
+    @NotNull(message = "Private required")
     private boolean privateEnabled;
-    @NotEmpty(message = "Owner id required")
+    @NotNull(message = "Owner id required")
     private Long ownerId;
+    @NotNull(message = "Users id cant be null")
     private List<Long> usersId = new ArrayList<>();
 
     public String getName() {
