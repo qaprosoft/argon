@@ -49,7 +49,7 @@ public class MessageDAOTest extends AbstractTestNGSpringContextTests {
     private static final Chat CHAT = new Chat();
     {
         CHAT.setName("chat" + KeyGenerator.getKey());
-        CHAT.setPrivateEnabled(true);
+        CHAT.setPrivate(true);
         CHAT.setUsersId(Arrays.asList(USER2.getId()));
     }
 

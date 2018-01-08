@@ -8,7 +8,7 @@
 			INSERT INTO argon.CHATS (NAME, PRIVATE, OWNER_ID)
 			VALUES (
 				#{name},
-				#{privateEnabled},
+				#{isPrivate},
 				#{ownerId}
 			)
 		]]>
@@ -19,7 +19,7 @@
 			SELECT
 				C.ID AS CHAT_ID,
 				C.NAME AS CHAT_NAME,
-				C.PRIVATE AS CHAT_PRIVATE_ENABLED,
+				C.PRIVATE AS CHAT_PRIVATE,
 				C.OWNER_ID AS CHAT_OWNER_ID,
 				C.MODIFIED_AT AS CHAT_MODIFIED_AT,
 				C.CREATED_AT AS CHAT_CREATED_AT,
@@ -49,7 +49,7 @@
 			UPDATE argon.CHATS C
 			SET
 				NAME = #{name},
-				PRIVATE = #{privateEnabled},
+				PRIVATE = #{isPrivate},
 				OWNER_ID = #{ownerId}
 			WHERE C.ID = #{id}
 		]]>
@@ -98,7 +98,7 @@
 	<resultMap type="com.qaprosoft.argon.models.db.Chat" id="ChatResultMap" autoMapping="true">
 		<id column="CHAT_ID" property="id" />
 		<result column="CHAT_NAME" property="name" />
-		<result column="CHAT_PRIVATE_ENABLED" property="privateEnabled" />
+		<result column="CHAT_PRIVATE" property="isPrivate" />
 		<result column="CHAT_OWNER_ID" property="ownerId" />
 		<result column="CHAT_MODIFIED_AT" property="modifiedAt" />
 		<result column="CHAT_CREATED_AT" property="createdAt" />

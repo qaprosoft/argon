@@ -15,7 +15,7 @@ public class ChatType extends AbstractType {
     @NotNull(message = "Name required")
     private String name;
     @NotNull(message = "Private required")
-    private boolean privateEnabled;
+    private boolean isPrivate;
     @NotNull(message = "Owner id required")
     private Long ownerId;
     @NotNull(message = "Users id cant be null")
@@ -29,12 +29,14 @@ public class ChatType extends AbstractType {
         this.name = name;
     }
 
-    public boolean isPrivateEnabled() {
-        return privateEnabled;
+    public boolean isPrivate()
+    {
+        return isPrivate;
     }
 
-    public void setPrivateEnabled(boolean privateEnabled) {
-        this.privateEnabled = privateEnabled;
+    public void setPrivate(boolean isPrivate)
+    {
+        this.isPrivate = isPrivate;
     }
 
     public Long getOwnerId() {

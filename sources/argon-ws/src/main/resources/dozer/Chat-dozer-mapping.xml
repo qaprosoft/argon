@@ -11,8 +11,8 @@
 			<b>name</b>
 		</field>
 		<field>
-			<a>privateEnabled</a>
-			<b>privateEnabled</b>
+			<a>isPrivate</a>
+			<b>isPrivate</b>
 		</field>
 		<field>
 			<a>ownerId</a>

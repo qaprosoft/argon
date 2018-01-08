@@ -8,7 +8,7 @@ public class Chat extends AbstractEntity
 	private static final long serialVersionUID = -3241763413702060156L;
 
 	private String name;
-	private boolean privateEnabled;
+	private boolean isPrivate;
 	private Long ownerId;
 	private List<Long> usersId = new ArrayList<>();
 
@@ -18,16 +18,6 @@ public class Chat extends AbstractEntity
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public boolean getPrivateEnabled()
-	{
-		return privateEnabled;
-	}
-
-	public void setPrivateEnabled(boolean privateEnabled)
-	{
-		this.privateEnabled = privateEnabled;
 	}
 
 	public Long getOwnerId() {
@@ -44,5 +34,15 @@ public class Chat extends AbstractEntity
 
 	public void setUsersId(List<Long> usersId) {
 		this.usersId = usersId;
+	}
+
+	public boolean isPrivate()
+	{
+		return isPrivate;
+	}
+
+	public void setPrivate(boolean isPrivate)
+	{
+		this.isPrivate = isPrivate;
 	}
 }

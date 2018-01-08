@@ -71,7 +71,7 @@ public class BlacklistDAOTest extends AbstractTestNGSpringContextTests {
     private static final Chat CHAT = new Chat();
     {
         CHAT.setName("chat" + KeyGenerator.getKey());
-        CHAT.setPrivateEnabled(true);
+        CHAT.setPrivate(true);
         CHAT.setUsersId(Arrays.asList(USER2.getId()));
     }
 
@@ -116,7 +116,7 @@ public class BlacklistDAOTest extends AbstractTestNGSpringContextTests {
         USER1.setFirstName("Ivan");
         USER1.setLastName("Ivanov");
         CHAT.setName("New name");
-        CHAT.setPrivateEnabled(false);
+        CHAT.setPrivate(false);
         userDAO.updateUser(USER1);
         chatDAO.updateChat(CHAT);
         blacklistDAO.updateBlacklist(BLACKLIST);
