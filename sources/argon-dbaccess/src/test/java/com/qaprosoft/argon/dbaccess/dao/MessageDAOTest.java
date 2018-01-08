@@ -25,116 +25,121 @@ import static org.testng.Assert.assertNull;
  */
 @Test
 @ContextConfiguration("classpath:com/qaprosoft/argon/dbaccess/dbaccess-test.xml")
-public class MessageDAOTest extends AbstractTestNGSpringContextTests {
+public class MessageDAOTest extends AbstractTestNGSpringContextTests
+{
 
-    private static final boolean ENABLED = false;
+	private static final boolean ENABLED = false;
 
-    @Autowired
-    private MessageDAO messageDAO;
+	@Autowired
+	private MessageDAO messageDAO;
 
-    @Autowired
-    private UserDAO userDAO;
+	@Autowired
+	private UserDAO userDAO;
 
-    @Autowired
-    private ChatDAO chatDAO;
+	@Autowired
+	private ChatDAO chatDAO;
 
-    @Autowired
-    private StatusDAO statusDAO;
+	@Autowired
+	private StatusDAO statusDAO;
 
-    private static final Message MESSAGE = new Message();
-    {
-        MESSAGE.setAttachment(Message.Attachment.SOUND);
-        MESSAGE.setRead(false);
-        MESSAGE.setBody("body" + KeyGenerator.getKey());
-    }
+	private static final Message MESSAGE = new Message();
+	{
+		MESSAGE.setAttachment(Message.Attachment.SOUND);
+		MESSAGE.setRead(false);
+		MESSAGE.setBody("body" + KeyGenerator.getKey());
+	}
 
-    private static final Chat CHAT = new Chat();
-    {
-        CHAT.setName("chat" + KeyGenerator.getKey());
-        CHAT.setPrivateEnabled(true);
-        CHAT.setUsers(Arrays.asList(USER2.getId()));
-    }
+	private static final Chat CHAT = new Chat();
+	{
+		CHAT.setName("chat" + KeyGenerator.getKey());
+		CHAT.setPrivateEnabled(true);
+		CHAT.setUsers(Arrays.asList(USER2.getId()));
+	}
 
+	private final static User USER1 = new User();
+	{
+		USER1.setEmail(KeyGenerator.getKey() + "@test-mail.com");
+		USER1.setEnabled(true);
+		USER1.setFirstName("Boris");
+		USER1.setLastName("The Blade");
+		USER1.setPassword("pass" + KeyGenerator.getKey().toString());
+		USER1.setDob(DateTime.now().withTime(0, 0, 0, 0).minusYears(18).toDate());
+		USER1.setUsername("user1" + KeyGenerator.getKey());
+		USER1.setVerified(true);
+	}
 
-    private final static User USER1 = new User();
-    {
-        USER1.setEmail(KeyGenerator.getKey() + "@test-mail.com");
-        USER1.setEnabled(true);
-        USER1.setFirstName("Boris");
-        USER1.setLastName("The Blade");
-        USER1.setPassword("pass" + KeyGenerator.getKey().toString());
-        USER1.setDob(DateTime.now().withTime(0, 0, 0, 0).minusYears(18).toDate());
-        USER1.setUsername("user1" + KeyGenerator.getKey());
-        USER1.setVerified(true);
-    }
+	private final static User USER2 = new User();
+	{
+		USER2.setEmail(KeyGenerator.getKey() + "@test-mail.com");
+		USER2.setEnabled(true);
+		USER2.setFirstName("Ivan");
+		USER2.setLastName("Ivanov");
+		USER2.setPassword("pass" + KeyGenerator.getKey().toString());
+		USER2.setDob(DateTime.now().withTime(0, 0, 0, 0).minusYears(18).toDate());
+		USER2.setUsername("user2" + KeyGenerator.getKey());
+		USER2.setVerified(true);
+	}
 
-    private final static User USER2 = new User();
-    {
-        USER2.setEmail(KeyGenerator.getKey() + "@test-mail.com");
-        USER2.setEnabled(true);
-        USER2.setFirstName("Ivan");
-        USER2.setLastName("Ivanov");
-        USER2.setPassword("pass" + KeyGenerator.getKey().toString());
-        USER2.setDob(DateTime.now().withTime(0, 0, 0, 0).minusYears(18).toDate());
-        USER2.setUsername("user2" + KeyGenerator.getKey());
-        USER2.setVerified(true);
-    }
+	@BeforeClass
+	public void init()
+	{
+		USER1.setStatus(statusDAO.getStatusByType(Status.Type.OFFLINE));
+		USER2.setStatus(statusDAO.getStatusByType(Status.Type.OFFLINE));
+		chatDAO.createChat(CHAT);
+		userDAO.createUser(USER1);
+		userDAO.createUser(USER2);
+		MESSAGE.setChatId(CHAT.getId());
+		MESSAGE.setUserId(USER1.getId());
+		chatDAO.addUserToChat(USER1.getId(), CHAT.getId());
+		chatDAO.addUserToChat(USER2.getId(), CHAT.getId());
+	}
 
-    @BeforeClass
-    public void init(){
-        USER1.setStatus(statusDAO.getStatusByType(Status.Type.OFFLINE));
-        USER2.setStatus(statusDAO.getStatusByType(Status.Type.OFFLINE));
-        chatDAO.createChat(CHAT);
-        userDAO.createUser(USER1);
-        userDAO.createUser(USER2);
-        MESSAGE.setChatId(CHAT.getId());
-        MESSAGE.setUserId(USER1.getId());
-        chatDAO.addUserToChat(USER1.getId(),CHAT.getId());
-        chatDAO.addUserToChat(USER2.getId(),CHAT.getId());
-    }
+	@AfterClass
+	public void delete()
+	{
+		chatDAO.removeUserFromChat(USER1.getId(), CHAT.getId());
+		chatDAO.removeUserFromChat(USER2.getId(), CHAT.getId());
+		chatDAO.deleteChatById(CHAT.getId());
+		userDAO.deleteUserById(USER1.getId());
+		userDAO.deleteUserById(USER2.getId());
+	}
 
-    @AfterClass
-    public void delete(){
-        chatDAO.removeUserFromChat(USER1.getId(),CHAT.getId());
-        chatDAO.removeUserFromChat(USER2.getId(),CHAT.getId());
-        chatDAO.deleteChatById(CHAT.getId());
-        userDAO.deleteUserById(USER1.getId());
-        userDAO.deleteUserById(USER2.getId());
-    }
+	@Test(enabled = ENABLED)
+	public void createMessage()
+	{
+		messageDAO.createMessage(MESSAGE);
+		assertNotEquals(MESSAGE.getId(), 0, "Message ID must be set up by autogenerated keys.");
+	}
 
-    @Test(enabled = ENABLED)
-    public void createMessage()
-    {
-        messageDAO.createMessage(MESSAGE);
-        assertNotEquals(MESSAGE.getId(), 0, "Message ID must be set up by autogenerated keys.");
-    }
+	@Test(enabled = ENABLED, dependsOnMethods =
+	{ "createMessage" })
+	public void getMessageById()
+	{
+		checkMessage(messageDAO.getMessageById(MESSAGE.getId()));
+	}
 
-    @Test(enabled = ENABLED, dependsOnMethods = {"createMessage"})
-    public void getMessageById()
-    {
-        checkMessage(messageDAO.getMessageById(MESSAGE.getId()));
-    }
+	@Test(enabled = ENABLED, dependsOnMethods =
+	{ "createMessage", "getMessageById" })
+	public void updateMessage()
+	{
+		MESSAGE.setRead(true);
+		MESSAGE.setBody("new body" + KeyGenerator.getKey());
+		messageDAO.updateMessage(MESSAGE);
+		checkMessage(messageDAO.getMessageById(MESSAGE.getId()));
+	}
 
-    @Test(enabled = ENABLED, dependsOnMethods = {"createMessage","getMessageById"})
-    public void updateMessage()
-    {
-        MESSAGE.setRead(true);
-        MESSAGE.setBody("new body" + KeyGenerator.getKey());
-        messageDAO.updateMessage(MESSAGE);
-        checkMessage(messageDAO.getMessageById(MESSAGE.getId()));
-    }
+	@Test(enabled = ENABLED, dependsOnMethods =
+	{ "createMessage", "getMessageById", "updateMessage" })
+	public void deleteMessageById()
+	{
+		messageDAO.deleteMessageById(MESSAGE.getId());
+		assertNull(messageDAO.getMessageById(MESSAGE.getId()));
+	}
 
-    @Test(enabled = ENABLED, dependsOnMethods = { "createMessage", "getMessageById","updateMessage"})
-    public void deleteMessageById()
-    {
-        messageDAO.deleteMessageById(MESSAGE.getId());
-        assertNull(messageDAO.getMessageById(MESSAGE.getId()));
-    }
-
-    private void checkMessage(Message message)
-    {
-        assertEquals(message.getBody(), MESSAGE.getBody(), "Message body is not as expected.");
-        assertEquals(message.isRead(), MESSAGE.isRead(), "Message isRead are not equals.");
-        assertEquals(message.getAttachment(), MESSAGE.getAttachment(), "Message attachment is not equals.");
-    }
+	private void checkMessage(Message message)
+	{
+		assertEquals(message.getBody(), MESSAGE.getBody(), "Message body is not as expected.");
+		assertEquals(message.isRead(), MESSAGE.isRead(), "Message isRead are not equals.");
+		assertEquals(message.getAttachment(), MESSAGE.getAttachment(), "Message attachment is not equals.");
+	}
 }

@@ -21,11 +21,13 @@ public class Chat extends AbstractEntity
 		this.usersId = usersId;
 	}
 
-	public boolean getPrivateEnabled() {
+	public boolean getPrivateEnabled()
+	{
 		return privateEnabled;
 	}
 
-	public void setPrivateEnabled(boolean privateEnabled) {
+	public void setPrivateEnabled(boolean privateEnabled)
+	{
 		this.privateEnabled = privateEnabled;
 	}
 

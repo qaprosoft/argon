@@ -53,6 +53,41 @@
 		]]>
 	</sql>
 
+	<sql id="searchUsersSql">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="null != id">
+	            <![CDATA[
+	               AND U.ID = #{id}
+	            ]]>
+			</if>
+			<if test="null != username">
+	            <![CDATA[
+	               AND LOWER(U.USERNAME) LIKE LOWER(CONCAT(#{username}, '%')) 
+	            ]]>
+			</if>
+			<if test="null != email">
+	            <![CDATA[
+	               AND LOWER(U.EMAIL) LIKE LOWER(CONCAT(#{email}, '%')) 
+	            ]]>
+			</if>
+			<if test="null != firstLastName">
+	            <![CDATA[
+	               AND LOWER(CONCAT(U.FIRST_NAME, ' ', U.LAST_NAME)) LIKE LOWER(CONCAT('%', #{firstLastName}, '%')) 
+	            ]]>
+			</if>
+			<if test="null != ageMin">
+	            <![CDATA[
+	               AND timestampdiff(YEAR, U.DOB, CURDATE()) >= #{ageMin}
+	            ]]>
+			</if>
+			<if test="null != ageMax">
+	            <![CDATA[
+	               AND timestampdiff(YEAR, U.DOB, CURDATE()) <= #{ageMax}
+	            ]]>
+			</if>
+		</trim>
+	</sql>
+
 	<select id="getUserById" resultMap="UserResultMap">
 		<include refid="getUser" />
 		<![CDATA[
@@ -72,6 +107,23 @@
 		<![CDATA[
 			WHERE U.USERNAME = #{username}
 		]]>
+	</select>
+
+	<select id="searchUsers" resultMap="UserResultMap">
+		<include refid="getUser" />
+		<include refid="searchUsersSql" />
+		<![CDATA[
+			ORDER BY U.USERNAME ${sortOrder}
+			LIMIT #{pageSize} OFFSET #{offset}
+		]]>
+	</select>
+
+	<select id="getUserSearchCount" resultType="java.lang.Integer">
+		<![CDATA[
+			SELECT COUNT(*) 
+			FROM argon.USERS U
+		]]>
+		<include refid="searchUsersSql" />
 	</select>
 
 	<select id="getUsersForConfirmationMailing" resultMap="UserResultMap">

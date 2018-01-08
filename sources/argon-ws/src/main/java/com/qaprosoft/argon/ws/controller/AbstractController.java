@@ -61,7 +61,7 @@ public abstract class AbstractController
 		result.setError(new Error(ErrorCode.FORBIDDENT));
 		return result;
 	}
-	
+
 	@ExceptionHandler(UserNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ResponseBody
