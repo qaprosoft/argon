@@ -82,9 +82,10 @@ public class MessageDAOTest extends AbstractTestNGSpringContextTests {
     public void init(){
         USER1.setStatus(statusDAO.getStatusByType(Status.Type.OFFLINE));
         USER2.setStatus(statusDAO.getStatusByType(Status.Type.OFFLINE));
-        chatDAO.createChat(CHAT);
         userDAO.createUser(USER1);
         userDAO.createUser(USER2);
+        CHAT.setOwnerId(USER1.getId());
+        chatDAO.createChat(CHAT);
         MESSAGE.setChatId(CHAT.getId());
         MESSAGE.setUserId(USER1.getId());
         chatDAO.addUserToChat(USER1.getId(),CHAT.getId());

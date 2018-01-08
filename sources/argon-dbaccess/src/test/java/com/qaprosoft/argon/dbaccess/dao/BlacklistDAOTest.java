@@ -81,6 +81,7 @@ public class BlacklistDAOTest extends AbstractTestNGSpringContextTests {
         USER2.setStatus(statusDAO.getStatusByType(Status.Type.OFFLINE));
         userDAO.createUser(USER1);
         userDAO.createUser(USER2);
+        CHAT.setOwnerId(USER1.getId());
         chatDAO.createChat(CHAT);
         BLACKLIST.setChatId(CHAT.getId());
         BLACKLIST.setUserId(USER1.getId());
