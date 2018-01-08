@@ -12,16 +12,19 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Component
 @EnableSwagger2
-public class SwaggerConfiguration {
+public class SwaggerConfiguration
+{
 
 	@Bean
-	public Docket api() {
+	public Docket api()
+	{
 		return new Docket(DocumentationType.SWAGGER_2).groupName("argon-api").select()
 				.apis(RequestHandlerSelectors.basePackage("com.qaprosoft.argon.ws")).paths(PathSelectors.ant("/**"))
 				.build().apiInfo(apiInfo());
 	}
 
-	public ApiInfo apiInfo() {
+	public ApiInfo apiInfo()
+	{
 		return new ApiInfoBuilder().title("Spring MVC swagger document").description("End Points")
 				.termsOfServiceUrl("http://springfox.io").license("Apache License Version 1.0")
 				.licenseUrl("https://github.com/springfox/springfox/blob/master/LICENSE").version("1.0").build();

@@ -5,8 +5,6 @@ import com.qaprosoft.argon.dbaccess.utils.KeyGenerator;
 import com.qaprosoft.argon.models.db.*;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterClass;
@@ -137,4 +135,5 @@ public class MessageDAOTest extends AbstractTestNGSpringContextTests {
         assertEquals(message.isRead(), MESSAGE.isRead(), "Message isRead are not equals.");
         assertEquals(message.getAttachment(), MESSAGE.getAttachment(), "Message attachment is not equals.");
     }
+
 }

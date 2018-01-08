@@ -19,18 +19,19 @@ import com.qaprosoft.argon.models.dto.errors.ErrorCode;
 import com.qaprosoft.argon.models.dto.errors.ErrorResponse;
 
 /**
- * SecurityAuthenticationEntryPoint is called by ExceptionTranslationFilter to
- * handle all AuthenticationException. These exceptions are thrown when
- * authentication failed : wrong login/password, authentication unavailable,
- * invalid token authentication expired, etc.
+ * SecurityAuthenticationEntryPoint is called by ExceptionTranslationFilter to handle all AuthenticationException. These
+ * exceptions are thrown when authentication failed : wrong login/password, authentication unavailable, invalid token
+ * authentication expired, etc.
  *
  * For problems related to access (roles), see RestAccessDeniedHandler.
  */
-public class SecurityAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class SecurityAuthenticationEntryPoint implements AuthenticationEntryPoint
+{
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException authException) throws IOException, ServletException {
+			AuthenticationException authException) throws IOException, ServletException
+	{
 		ErrorResponse result = new ErrorResponse();
 		result.setError(new Error(ErrorCode.UNAUTHORIZED));
 		ObjectMapper objMapper = new ObjectMapper();

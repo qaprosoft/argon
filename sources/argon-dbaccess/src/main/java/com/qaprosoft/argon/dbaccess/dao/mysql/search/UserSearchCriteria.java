@@ -1,17 +1,13 @@
 package com.qaprosoft.argon.dbaccess.dao.mysql.search;
 
-import java.util.Date;
-
 public class UserSearchCriteria extends SearchCriteria
 {
 	private Long id;
 	private String username;
 	private String firstLastName;
 	private String email;
-	private Date date;
-	private String groupName;
-	private Date fromDate;
-	private Date toDate;
+	private Integer ageMin;
+	private Integer ageMax;
 
 	public Long getId()
 	{
@@ -43,16 +39,6 @@ public class UserSearchCriteria extends SearchCriteria
 		this.email = email;
 	}
 
-	public Date getDate()
-	{
-		return date;
-	}
-
-	public void setDate(Date date)
-	{
-		this.date = date;
-	}
-
 	public String getFirstLastName()
 	{
 		return firstLastName;
@@ -63,33 +49,24 @@ public class UserSearchCriteria extends SearchCriteria
 		this.firstLastName = firstLastName;
 	}
 
-	public String getGroupName()
+	public Integer getAgeMin()
 	{
-		return groupName;
+		return ageMin;
 	}
 
-	public void setGroupName(String groupName)
+	public void setAgeMin(Integer ageMin)
 	{
-		this.groupName = groupName;
+		this.ageMin = ageMin;
 	}
 
-	public Date getFromDate()
+	public Integer getAgeMax()
 	{
-		return fromDate;
+		return ageMax;
 	}
 
-	public void setFromDate(Date fromDate)
+	public void setAgeMax(Integer ageMax)
 	{
-		this.fromDate = fromDate;
+		this.ageMax = ageMax;
 	}
 
-	public Date getToDate()
-	{
-		return toDate;
-	}
-
-	public void setToDate(Date toDate)
-	{
-		this.toDate = toDate;
-	}
 }

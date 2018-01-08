@@ -136,4 +136,5 @@ public class BlacklistDAOTest extends AbstractTestNGSpringContextTests {
         assertEquals(blacklist.getUserId(), BLACKLIST.getUserId(), "Blacklist user is not as expected.");
         assertEquals(blacklist.getChatId(), BLACKLIST.getChatId(), "Blacklist chat is not as expected.");
     }
+
 }

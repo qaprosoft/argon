@@ -17,19 +17,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class ConfirmationService
 {
 	private static final Integer MAX_ATTEMPTS = 3;
-	
+
 	private static final String CONFIRMATION_PATH = "%s/api/auth/confirm?userId=%d&token=%s";
 	private static final String SUBJECT = "Confirm registration";
 	private static final String MESSAGE_TEXT = "Please, click the link to confirm your account ";
 	private static final String MESSAGE_TEXT_AGAIN = "Please, click the link to confirm your account again.Your last link expired! ";
 
 	@Autowired
-	@Qualifier("emailService") 
+	@Qualifier("emailService")
 	private IEmailService emailService;
-	
+
 	@Value("${argon.webservice.url}")
 	private String wsURL;
-	
+
 	@Autowired
 	private ConfirmationDAO confirmationDAO;
 
@@ -39,7 +39,8 @@ public class ConfirmationService
 	@Autowired
 	private UserService userService;
 
-	public Confirmation generateUserConfirmation(User user) throws ServiceException {
+	public Confirmation generateUserConfirmation(User user) throws ServiceException
+	{
 		Confirmation confirmation = new Confirmation();
 		confirmation.setAttempts(0);
 		confirmation.setUserId(user.getId());
@@ -50,7 +51,7 @@ public class ConfirmationService
 		return confirmation;
 	}
 
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public Confirmation getConfirmationByUserId(Long userId)
 	{
 		return confirmationDAO.getConfirmationByUserId(userId);
@@ -68,31 +69,36 @@ public class ConfirmationService
 		confirmationDAO.updateConfirmation(confirmation);
 	}
 
-
-	public void confirmUser(Long userId, String token) throws ServiceException {
+	public void confirmUser(Long userId, String token) throws ServiceException
+	{
 		User user = userService.getUserById(userId);
-		Confirmation confirmation  = getConfirmationByUserId(userId);
+		Confirmation confirmation = getConfirmationByUserId(userId);
 
-		try {
+		try
+		{
 			jwtService.parseConfirmToken(token);
-			if (confirmation.getAttempts() >= MAX_ATTEMPTS) {
+			if (confirmation.getAttempts() >= MAX_ATTEMPTS)
+			{
 				throw new ForbiddenOperationException("Count off attempts more than maximum");
 			}
-			if (confirmation.getLink().equals(token)) {
+			if (confirmation.getLink().equals(token))
+			{
 				user.setVerified(true);
 				userService.updateUser(user);
 				deleteConfirmationById(confirmation.getId());
 			}
-		} catch (ExpiredJwtException e) {
+		} catch (ExpiredJwtException e)
+		{
 			int attempts = confirmation.getAttempts();
-			if (attempts >= MAX_ATTEMPTS) {
+			if (attempts >= MAX_ATTEMPTS)
+			{
 				throw new ForbiddenOperationException("Count off attempts more than maximum");
 			}
 			confirmation.setAttempts(++attempts);
 			confirmation.setLink(jwtService.generateConfirmToken(user));
 			updateConfirmation(confirmation);
- 			String url = String.format(CONFIRMATION_PATH, wsURL, user.getId(), confirmation.getLink());
- 			emailService.sendEmail(user, SUBJECT, MESSAGE_TEXT_AGAIN, url);
+			String url = String.format(CONFIRMATION_PATH, wsURL, user.getId(), confirmation.getLink());
+			emailService.sendEmail(user, SUBJECT, MESSAGE_TEXT_AGAIN, url);
 			throw new ForbiddenOperationException("Token expired");
 		}
 	}

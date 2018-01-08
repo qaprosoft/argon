@@ -39,7 +39,7 @@ public class JwtUserType implements UserDetails
 			this.authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 		}
 	}
-	
+
 	public JwtUserType(long id, String userName, String password, List<Authority> authorities)
 	{
 		this(id, userName, authorities);

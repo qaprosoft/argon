@@ -19,7 +19,6 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNull;
 
-
 /**
  * @author kbugrim
  * @since 10 Dec 2017
@@ -139,7 +138,8 @@ public class ChatDAOTest extends AbstractTestNGSpringContextTests {
     private void checkChat(Chat chat)
     {
         assertEquals(chat.getName(), CHAT.getName(), "Chat name is not as expected.");
-        assertEquals(chat.isPrivateEnabled(), CHAT.isPrivateEnabled(), "Chat private is not as expected.");
+        assertEquals(chat.getPrivateEnabled(), CHAT.getPrivateEnabled(), "Chat private is not as expected.");
         assertEquals(chat.getUsersId().size(), CHAT.getUsersId().size(), "Chat size of user is not as expected.");
     }
+
 }

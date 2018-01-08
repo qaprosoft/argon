@@ -7,6 +7,17 @@ public class SearchResult<T> extends SearchCriteria
 	private List<T> results;
 	private Integer totalResults;
 
+	public SearchResult()
+	{
+	}
+
+	public SearchResult(SearchCriteria sc)
+	{
+		this.setPage(sc.getPage());
+		this.setPageSize(sc.getPageSize());
+		this.setSortOrder(sc.getSortOrder());
+	}
+
 	public List<T> getResults()
 	{
 		return results;

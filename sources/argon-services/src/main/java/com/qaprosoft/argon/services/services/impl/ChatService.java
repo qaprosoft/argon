@@ -33,7 +33,7 @@ public class ChatService {
     public Chat joinPublicChat(Long userId, Long chatId) throws ForbiddenOperationException
     {
         Chat chat = chatDAO.getChatById(chatId);
-        if (chat.isPrivateEnabled()) {
+        if (chat.getPrivateEnabled()) {
             throw new ForbiddenOperationException("Chat is private!You can't join to it");
         }
         chatDAO.addUserToChat(userId, chatId);

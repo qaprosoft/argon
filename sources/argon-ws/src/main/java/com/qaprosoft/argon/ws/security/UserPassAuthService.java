@@ -27,8 +27,7 @@ public class UserPassAuthService implements UserDetailsService
 			{
 				throw new Exception("Invalid user name " + username);
 			}
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			throw new UsernameNotFoundException("User not found", e);
 		}

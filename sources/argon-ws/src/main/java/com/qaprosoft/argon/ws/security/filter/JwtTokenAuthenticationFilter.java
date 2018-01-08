@@ -82,8 +82,7 @@ public class JwtTokenAuthenticationFilter extends GenericFilterBean
 			SecurityContextHolder.getContext().setAuthentication(auth);
 
 			chain.doFilter(request, response);
-		}
-		catch (ExpiredJwtException | MalformedJwtException | SignatureException | ParseException ex)
+		} catch (ExpiredJwtException | MalformedJwtException | SignatureException | ParseException ex)
 		{
 			throw new BadCredentialsException("JWT not valid");
 		}

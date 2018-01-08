@@ -21,8 +21,7 @@ public class WebDriverUtil
 				try
 				{
 					return ((Long) ((JavascriptExecutor) wd).executeScript("return jQuery.active") == 0);
-				}
-				catch (Exception e)
+				} catch (Exception e)
 				{
 					// no jQuery present
 					return true;

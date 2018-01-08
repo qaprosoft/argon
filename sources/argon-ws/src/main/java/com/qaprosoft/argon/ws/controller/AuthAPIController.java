@@ -27,7 +27,6 @@ import com.qaprosoft.argon.ws.swagger.annotations.ResponseStatusDetails;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-
 @Controller
 @Api(value = "Auth API")
 @CrossOrigin
@@ -48,7 +47,7 @@ public class AuthAPIController extends AbstractController
 
 	@Autowired
 	private Mapper mapper;
-	
+
 	@ResponseStatusDetails
 	@ApiOperation(value = "Registration", nickname = "register", code = 200, httpMethod = "POST")
 	@ResponseStatus(HttpStatus.OK)
@@ -62,7 +61,8 @@ public class AuthAPIController extends AbstractController
 	@ApiOperation(value = "Generates auth token", nickname = "login", code = 200, httpMethod = "POST", response = AuthTokenType.class)
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody AuthTokenType login(@Valid @RequestBody CredentialsType credentials) throws BadCredentialsException
+	public @ResponseBody AuthTokenType login(@Valid @RequestBody CredentialsType credentials)
+			throws BadCredentialsException
 	{
 		AuthTokenType authToken = null;
 		try
@@ -70,11 +70,11 @@ public class AuthAPIController extends AbstractController
 			Authentication authentication = this.authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword()));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-			
+
 			User user = userService.getUserByUserName(credentials.getUsername());
-			authToken = new AuthTokenType("Bearer", jwtService.generateAuthToken(user), jwtService.generateRefreshToken(user), jwtService.getExpiration());
-		}
-		catch (Exception e)
+			authToken = new AuthTokenType("Bearer", jwtService.generateAuthToken(user),
+					jwtService.generateRefreshToken(user), jwtService.getExpiration());
+		} catch (Exception e)
 		{
 			throw new BadCredentialsException(e.getMessage());
 		}
@@ -84,25 +84,23 @@ public class AuthAPIController extends AbstractController
 	@ResponseStatusDetails
 	@ApiOperation(value = "Refreshes auth token", nickname = "refreshToken", code = 200, httpMethod = "POST", response = AuthTokenType.class)
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value="refresh", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody AuthTokenType refresh(@RequestBody @Valid RefreshTokenType refreshToken) throws BadCredentialsException, ForbiddenOperationException
+	@RequestMapping(value = "refresh", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody AuthTokenType refresh(@RequestBody @Valid RefreshTokenType refreshToken)
+			throws BadCredentialsException, ForbiddenOperationException
 	{
 		AuthTokenType authToken = null;
 		try
 		{
 			User jwtUser = jwtService.parseRefreshToken(refreshToken.getRefreshToken());
 			User user = userService.getUserById(jwtUser.getId());
-			if(user == null || !user.getPassword().equals(jwtUser.getPassword()))
+			if (user == null || !user.getPassword().equals(jwtUser.getPassword()))
 			{
 				throw new Exception("User password changed");
 			}
 
-			authToken = new AuthTokenType("Bearer",
-					jwtService.generateAuthToken(user),
-					jwtService.generateRefreshToken(user),
-					jwtService.getExpiration());
-		}
-		catch(Exception e)
+			authToken = new AuthTokenType("Bearer", jwtService.generateAuthToken(user),
+					jwtService.generateRefreshToken(user), jwtService.getExpiration());
+		} catch (Exception e)
 		{
 			throw new ForbiddenOperationException(e);
 		}
@@ -110,12 +108,13 @@ public class AuthAPIController extends AbstractController
 		return authToken;
 	}
 
-
 	@ResponseStatusDetails
 	@ApiOperation(value = "Confirm registration", nickname = "confirmRegistration", code = 200, httpMethod = "GET")
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "confirm", method = RequestMethod.GET)
-	public void confirmAccount(@RequestParam("userId") Long userId, @RequestParam("token") String token) throws ServiceException {
+	public void confirmAccount(@RequestParam("userId") Long userId, @RequestParam("token") String token)
+			throws ServiceException
+	{
 		confirmationService.confirmUser(userId, token);
 	}
 }
