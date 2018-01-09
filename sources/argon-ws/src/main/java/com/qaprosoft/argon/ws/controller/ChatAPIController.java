@@ -56,6 +56,7 @@ public class ChatAPIController extends AbstractController
     @ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
     @RequestMapping(value = "{userId}/invite", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ChatType invite(@PathVariable(value = "userId") Long userId, @RequestBody @Valid ChatType chatType)
+            throws ForbiddenOperationException
     {
         Chat chat = chatService.addUserToChat(userId, chatType.getId());
         return mapper.map(chat, ChatType.class);
@@ -69,7 +70,7 @@ public class ChatAPIController extends AbstractController
     @RequestMapping(value = "{chatId}/join", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ChatType joinChat(@PathVariable("chatId") Long chatId) throws ForbiddenOperationException
     {
-        Chat chat = chatService.joinPublicChat(getPrincipalId(), chatId);
+        Chat chat = chatService.joinChat(getPrincipalId(), chatId);
         return mapper.map(chat, ChatType.class);
     }
 }

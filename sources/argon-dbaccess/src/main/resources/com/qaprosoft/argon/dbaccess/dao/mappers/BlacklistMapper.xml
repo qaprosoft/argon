@@ -32,6 +32,27 @@
 		]]>
 	</select>
 
+	<select id="getBlacklistsByUserId" resultMap = "BlacklistResultMap">
+		<include refid="getBlacklist" />
+		<![CDATA[
+			WHERE BL.USER_ID = #{userId}
+		]]>
+	</select>
+
+	<select id="getBlacklistsByChatId" resultMap = "BlacklistResultMap">
+		<include refid="getBlacklist" />
+		<![CDATA[
+			WHERE BL.CHAT_ID = #{chatId}
+		]]>
+	</select>
+
+	<select id="getBlacklistByUserIdAndChatId" resultMap = "BlacklistResultMap">
+		<include refid="getBlacklist" />
+		<![CDATA[
+			WHERE BL.CHAT_ID = #{chatId} and BL.USER_ID=#{userId}
+		]]>
+	</select>
+
 	<update id="updateBlacklist">
 		<![CDATA[
 			UPDATE argon.BLACKLIST B
