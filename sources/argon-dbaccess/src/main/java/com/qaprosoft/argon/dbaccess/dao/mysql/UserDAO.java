@@ -40,4 +40,5 @@ public interface UserDAO
 
 	Integer getUserSearchCount(UserSearchCriteria sc);
 
+	List<User> getBlacklistedUsersInChat(Long chatId);
 }

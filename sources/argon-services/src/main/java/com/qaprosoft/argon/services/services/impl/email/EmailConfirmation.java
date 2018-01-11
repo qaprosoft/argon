@@ -1,4 +1,4 @@
-package com.qaprosoft.argon.services.services.impl;
+package com.qaprosoft.argon.services.services.impl.email;
 
 import com.qaprosoft.argon.models.db.Message;
 import com.qaprosoft.argon.models.db.User;

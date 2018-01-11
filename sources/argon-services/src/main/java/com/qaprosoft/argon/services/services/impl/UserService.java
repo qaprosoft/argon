@@ -35,6 +35,12 @@ public class UserService
 	@Autowired
 	private PasswordEncryptor passwordEncryptor;
 
+	@Autowired
+ 	private ConfirmationService confirmationService;
+
+	@Autowired
+	private ResetPasswordService resetPasswordService;
+
 	@Transactional
 	public User createUser(User user)
 	{
@@ -55,6 +61,17 @@ public class UserService
 		if (user == null)
 		{
 			throw new UserNotFoundException("Invalid user id");
+		}
+		return user;
+	}
+
+	@Transactional(readOnly = true)
+	public User getNotNullUserByEmail(String email) throws UserNotFoundException
+	{
+		User user = userDAO.getUserByEmail(email);
+		if (user == null)
+		{
+			throw new UserNotFoundException("Invalid user email");
 		}
 		return user;
 	}
@@ -89,7 +106,14 @@ public class UserService
 		user.setEnabled(true);
 		user.setVerified(false);
 		userDAO.createUser(user);
+		confirmationService.generateUserConfirmation(user);
 		return user;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public void forgotUserPassword(User user, String newPassword) throws ServiceException
+	{
+		resetPasswordService.forgotUserPassword(user, newPassword);
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -108,5 +132,12 @@ public class UserService
 	public Authority getAuthorityByType(Authority.Type type)
 	{
 		return authorityDAO.getAuthorityByType(type);
+	}
+	@Transactional(rollbackFor = Exception.class)
+	public void updateUserPassword(long id, String password) throws ServiceException
+	{
+		User user = getNotNullUserById(id);
+		user.setPassword(passwordEncryptor.encryptPassword(password));
+		updateUser(user);
 	}
 }

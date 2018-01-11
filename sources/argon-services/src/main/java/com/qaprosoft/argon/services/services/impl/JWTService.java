@@ -37,7 +37,7 @@ public class JWTService
 	}
 
 	/**
-	 * Generates JWT confirm token storing id, username, email, roles of the user and specifies expiration date.
+	 * Generates JWT confirm token storing id, username of the user and specifies expiration date.
 	 *
 	 * @param user
 	 *            that is used for token generation
@@ -101,11 +101,39 @@ public class JWTService
 	public User parseConfirmToken(String token)
 	{
 		Claims body = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-
 		User user = new User();
 		user.setId(Long.valueOf(body.getSubject()));
 		user.setUsername((String) body.get("username"));
+		return user;
+	}
 
+
+	/**
+	 * Generates JWT reset password token storing id of the user and specifies expiration date.
+	 *
+	 * @param user
+	 *            that is used for token generation
+	 * @return generated JWT token
+	 */
+	public String generateResetPasswordToken(User user)
+	{
+		Claims claims = Jwts.claims().setSubject(user.getId().toString());
+		return buildToken(claims, authTokenExp);
+	}
+
+	/**
+	 * Parses user details from JWT token.
+	 *
+	 * @param JWT
+	 *            token to parse
+	 * @return retrieved user details
+	 */
+	@SuppressWarnings("unchecked")
+	public User parseResetPasswordToken(String token)
+	{
+		Claims body = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+		User user = new User();
+		user.setId(Long.valueOf(body.getSubject()));
 		return user;
 	}
 

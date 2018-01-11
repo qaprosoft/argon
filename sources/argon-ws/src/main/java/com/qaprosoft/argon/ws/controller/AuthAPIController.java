@@ -1,9 +1,14 @@
 package com.qaprosoft.argon.ws.controller;
 
 import javax.validation.Valid;
+
+import com.qaprosoft.argon.models.dto.ResetPasswordType;
 import com.qaprosoft.argon.models.dto.auth.RefreshTokenType;
 import com.qaprosoft.argon.services.exceptions.ForbiddenOperationException;
+import com.qaprosoft.argon.services.exceptions.InvalidCredentialsException;
+import com.qaprosoft.argon.services.exceptions.UserNotFoundException;
 import com.qaprosoft.argon.services.services.impl.ConfirmationService;
+import com.qaprosoft.argon.services.services.impl.ResetPasswordService;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,6 +46,9 @@ public class AuthAPIController extends AbstractController
 
 	@Autowired
 	private ConfirmationService confirmationService;
+
+	@Autowired
+	private ResetPasswordService resetPasswordService;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -116,5 +124,29 @@ public class AuthAPIController extends AbstractController
 			throws ServiceException
 	{
 		confirmationService.confirmUser(userId, token);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Forgot user password", nickname = "forgotPassword", code = 200, httpMethod = "POST")
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "password/forgot", method = RequestMethod.POST)
+	public void forgotPassword(@RequestBody @Valid ResetPasswordType resetPasswordType) throws ServiceException
+	{
+		User user = userService.getNotNullUserByEmail(resetPasswordType.getEmail());
+		if (!resetPasswordType.isConfirmationValid())
+		{
+			throw new InvalidCredentialsException("Password and repeat password not the same!");
+		}
+		userService.forgotUserPassword(user, resetPasswordType.getNewPassword());
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Reset user password", nickname = "resetPassword", code = 200, httpMethod = "GET")
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "password/reset", method = RequestMethod.GET)
+	public void resetPassword(@RequestParam("token") String token)
+			throws UserNotFoundException, ForbiddenOperationException
+	{
+		resetPasswordService.resetUserPassword(token);
 	}
 }

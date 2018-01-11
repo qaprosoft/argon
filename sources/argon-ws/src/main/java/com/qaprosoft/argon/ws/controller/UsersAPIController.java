@@ -1,14 +1,19 @@
 package com.qaprosoft.argon.ws.controller;
 
+
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.qaprosoft.argon.models.dto.PasswordType;
+import com.qaprosoft.argon.services.exceptions.ForbiddenOperationException;
+import com.qaprosoft.argon.services.exceptions.ServiceException;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +33,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+
+import javax.validation.Valid;
+import java.util.Objects;
 
 @Controller
 @Api(value = "Users API")
@@ -54,6 +62,19 @@ public class UsersAPIController extends AbstractController
 	}
 
 	@ResponseStatusDetails
+	@ApiOperation(value = "Update user password", nickname = "updateUserPassword", code = 200, httpMethod = "PUT")
+	@ResponseStatus(HttpStatus.OK)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@RequestMapping(value = "password", method = RequestMethod.PUT)
+	public void updateUserPassword(@Valid @RequestBody PasswordType password) throws ServiceException
+	{
+		if (!Objects.equals(getPrincipalId(), password.getUserId()))
+		{
+			throw new ForbiddenOperationException("No permissions to update password");
+		}
+		userService.updateUserPassword(password.getUserId(), password.getPassword());
+	}
+
 	@ApiOperation(value = "Search users", nickname = "searchUsers", code = 200, httpMethod = "POST", response = SearchResult.class)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiImplicitParams(
