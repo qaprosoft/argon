@@ -2,12 +2,16 @@ package com.qaprosoft.argon.services.services.impl;
 
 import com.qaprosoft.argon.dbaccess.dao.mysql.BlacklistDAO;
 import com.qaprosoft.argon.dbaccess.dao.mysql.ChatDAO;
+import com.qaprosoft.argon.dbaccess.dao.mysql.UserDAO;
 import com.qaprosoft.argon.models.db.Blacklist;
 import com.qaprosoft.argon.models.db.Chat;
+import com.qaprosoft.argon.models.db.User;
 import com.qaprosoft.argon.services.exceptions.ForbiddenOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class ChatService
@@ -18,6 +22,9 @@ public class ChatService
 
 	@Autowired
 	private BlacklistDAO blacklistDAO;
+
+	@Autowired
+	private UserDAO userDAO;
 
 	@Transactional(rollbackFor = Exception.class)
 	public Chat removeUserFromChat(Long userId, Long chatId)
@@ -58,7 +65,16 @@ public class ChatService
 	private boolean isUserInChatBlacklist(Long userId, Long chatId)
 	{
 		Blacklist blacklist = blacklistDAO.getBlacklistByUserIdAndChatId(userId, chatId);
-		if (blacklist == null) return false;
+		if (blacklist == null)
+		{
+			return false;
+		}
 		return true;
+	}
+
+	@Transactional(readOnly = true)
+	public List<User> getAllUsersInChatBlacklist(Long chatId)
+	{
+		return userDAO.getBlacklistedUsersInChat(chatId);
 	}
 }

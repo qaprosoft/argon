@@ -136,6 +136,16 @@
 		]]>
 	</select>
 
+
+	<select id="getBlacklistedUsersInChat" resultMap="UserResultMap">
+		<include refid="getUser" />
+		<![CDATA[
+			LEFT JOIN BLACKLIST BL
+       		ON U.ID = BL.USER_ID
+			WHERE BL.CHAT_ID = #{chatId}
+		]]>
+	</select>
+
 	<update id="updateUser">
 		<![CDATA[
 			UPDATE argon.USERS U
