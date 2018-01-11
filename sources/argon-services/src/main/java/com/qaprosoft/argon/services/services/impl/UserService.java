@@ -38,6 +38,9 @@ public class UserService
 	@Autowired
  	private ConfirmationService confirmationService;
 
+	@Autowired
+	private ResetPasswordService resetPasswordService;
+
 	@Transactional
 	public User createUser(User user)
 	{
@@ -58,6 +61,17 @@ public class UserService
 		if (user == null)
 		{
 			throw new UserNotFoundException("Invalid user id");
+		}
+		return user;
+	}
+
+	@Transactional(readOnly = true)
+	public User getNotNullUserByEmail(String email) throws UserNotFoundException
+	{
+		User user = userDAO.getUserByEmail(email);
+		if (user == null)
+		{
+			throw new UserNotFoundException("Invalid user email");
 		}
 		return user;
 	}
@@ -94,6 +108,12 @@ public class UserService
 		userDAO.createUser(user);
 		confirmationService.generateUserConfirmation(user);
 		return user;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public void forgotUserPassword(User user, String newPassword) throws ServiceException
+	{
+		resetPasswordService.forgotUserPassword(user, newPassword);
 	}
 
 	@Transactional(rollbackFor = Exception.class)

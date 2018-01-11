@@ -2,6 +2,8 @@ package com.qaprosoft.argon.services.services.impl;
 
 import com.qaprosoft.argon.services.exceptions.ForbiddenOperationException;
 import com.qaprosoft.argon.services.exceptions.ServiceException;
+import com.qaprosoft.argon.services.services.IEmailMessage;
+import com.qaprosoft.argon.services.services.impl.email.EmailConfirmation;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -47,7 +49,8 @@ public class ConfirmationService
 		confirmation.setLink(jwtService.generateConfirmToken(user));
 		confirmationDAO.createConfirmation(confirmation);
 		String url = String.format(CONFIRMATION_PATH, wsURL, user.getId(), confirmation.getLink());
-		emailService.sendEmail(user, SUBJECT, MESSAGE_TEXT, url);
+		IEmailMessage iEmailMessage = new EmailConfirmation(user, SUBJECT, MESSAGE_TEXT, url);
+		emailService.sendEmail(iEmailMessage);
 		return confirmation;
 	}
 
@@ -98,7 +101,8 @@ public class ConfirmationService
 			confirmation.setLink(jwtService.generateConfirmToken(user));
 			updateConfirmation(confirmation);
 			String url = String.format(CONFIRMATION_PATH, wsURL, user.getId(), confirmation.getLink());
-			emailService.sendEmail(user, SUBJECT, MESSAGE_TEXT_AGAIN, url);
+			IEmailMessage iEmailMessage = new EmailConfirmation(user, SUBJECT, MESSAGE_TEXT_AGAIN, url);
+			emailService.sendEmail(iEmailMessage);
 			throw new ForbiddenOperationException("Token expired");
 		}
 	}
