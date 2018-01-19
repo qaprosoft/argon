@@ -2,6 +2,7 @@ package com.qaprosoft.argon.ws.controller;
 
 import javax.validation.Valid;
 import com.qaprosoft.argon.models.dto.auth.RefreshTokenType;
+import com.qaprosoft.argon.models.dto.user.UserRegistrationType;
 import com.qaprosoft.argon.services.exceptions.ForbiddenOperationException;
 import com.qaprosoft.argon.services.services.impl.ConfirmationService;
 import org.dozer.Mapper;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import com.qaprosoft.argon.models.db.Authority;
 import com.qaprosoft.argon.models.db.User;
-import com.qaprosoft.argon.models.dto.UserType;
 import com.qaprosoft.argon.models.dto.auth.AuthTokenType;
 import com.qaprosoft.argon.models.dto.auth.CredentialsType;
 import com.qaprosoft.argon.services.exceptions.ServiceException;
@@ -52,9 +52,10 @@ public class AuthAPIController extends AbstractController
 	@ApiOperation(value = "Registration", nickname = "register", code = 200, httpMethod = "POST")
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void register(@Valid @RequestBody UserType userType) throws BadCredentialsException, ServiceException
+	public void register(@Valid @RequestBody UserRegistrationType userRegistrationType)
+			throws BadCredentialsException, ServiceException
 	{
-		userService.registerUser(mapper.map(userType, User.class), Authority.Type.USER);
+		userService.registerUser(mapper.map(userRegistrationType, User.class), Authority.Type.USER);
 	}
 
 	@ResponseStatusDetails
