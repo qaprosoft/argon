@@ -96,11 +96,11 @@ public class UsersAPIController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Search users", nickname = "searchUsers", code = 200, httpMethod = "POST", response = SearchResult.class)
+	@ApiOperation(value = "Search users", nickname = "searchUsers", code = 200, httpMethod = "GET", response = SearchResult.class)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
-	@RequestMapping(value = "search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "search", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody SearchResult<UserType> searchUsers(UserSearchCriteria sc)
 	{
 		SearchResult<User> userResults = userService.searchUsers(sc);
