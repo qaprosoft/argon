@@ -58,7 +58,7 @@ public abstract class AbstractController
 	public ErrorResponse handleForbiddenOperationException(ForbiddenOperationException e)
 	{
 		ErrorResponse result = new ErrorResponse();
-		result.setError(new Error(ErrorCode.FORBIDDENT));
+		result.setError(new Error(ErrorCode.FORBIDDEN));
 		return result;
 	}
 

@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+
+import com.qaprosoft.argon.services.exceptions.ServiceException;
 import com.qaprosoft.argon.services.services.impl.ConfirmationService;
 import com.qaprosoft.argon.services.services.impl.UserService;
 
@@ -26,8 +28,9 @@ public class TasksHolder
 					try
 					{
 						confirmationService.generateUserConfirmation(user);
-					} catch (Exception e)
+					} catch (ServiceException e)
 					{
+						e.printStackTrace();
 					}
 				});
 	}

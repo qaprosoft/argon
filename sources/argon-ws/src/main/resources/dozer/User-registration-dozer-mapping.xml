@@ -2,14 +2,10 @@
 <mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
-	<mapping type="bi-directional" wildcard="false">
-		<class-a>com.qaprosoft.argon.models.dto.user.UserType</class-a>
+	<mapping type="one-way" wildcard="false">
+		<class-a>com.qaprosoft.argon.models.dto.user.UserRegistrationType</class-a>
 		<class-b>com.qaprosoft.argon.models.db.User</class-b>
 
-		<field>
-			<a>id</a>
-			<b>id</b>
-		</field>
 		<field>
 			<a>userName</a>
 			<b>userName</b>
@@ -29,10 +25,6 @@
 		<field>
 			<a>lastName</a>
 			<b>lastName</b>
-		</field>
-		<field>
-			<a>status</a>
-			<b>status</b>
 		</field>
 		<field>
 			<a>dob</a>
