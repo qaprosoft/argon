@@ -21,6 +21,7 @@ etc
 .tmp
 dist
 bower_components
+/mysql
 /pgdata
 /sources/rapid-dbaccess/test-output
 /sources/rapid-services/test-output
