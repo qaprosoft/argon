@@ -1,7 +1,9 @@
 package com.qaprosoft.argon.services.services.impl;
 
 import java.util.Calendar;
-import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import com.qaprosoft.argon.models.db.Authority;
 import com.qaprosoft.argon.models.db.User;
 import io.jsonwebtoken.Claims;
@@ -32,7 +34,8 @@ public class JWTService
 	{
 		Claims claims = Jwts.claims().setSubject(user.getId().toString());
 		claims.put("username", user.getUsername());
-		claims.put("authorities", user.getAuthorities());
+		claims.put("authorities", user.getAuthorities().stream()
+				.map(a -> a.getType().name()).collect(Collectors.joining(",")));
 		return buildToken(claims, authTokenExp);
 	}
 
@@ -57,7 +60,6 @@ public class JWTService
 	 *            token to parse
 	 * @return retrieved user details
 	 */
-	@SuppressWarnings("unchecked")
 	public User parseAuthToken(String token)
 	{
 		Claims body = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
@@ -65,7 +67,10 @@ public class JWTService
 		User user = new User();
 		user.setId(Long.valueOf(body.getSubject()));
 		user.setUsername((String) body.get("username"));
-		user.setAuthorities((List<Authority>) body.get("authorities"));
+		user.setAuthorities(Stream.of(((String) body.get("authorities")).split(","))
+				.map(Authority.Type::valueOf)
+				.map(Authority::new)
+				.collect(Collectors.toList()));
 		return user;
 	}
 

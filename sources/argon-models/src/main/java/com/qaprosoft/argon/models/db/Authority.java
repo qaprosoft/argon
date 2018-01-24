@@ -11,6 +11,15 @@ public class Authority extends AbstractEntity
 		USER, ADMIN
 	}
 
+	public Authority()
+	{
+	}
+
+	public Authority(Type type)
+	{
+		this.type = type;
+	}
+
 	public Type getType()
 	{
 		return type;

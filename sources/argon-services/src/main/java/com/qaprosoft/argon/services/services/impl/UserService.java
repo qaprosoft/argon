@@ -93,6 +93,22 @@ public class UserService
 	}
 
 	@Transactional(rollbackFor = Exception.class)
+	public void updateUserProfile(User user) throws UserNotFoundException
+	{
+		// check whether the user exists
+		getNotNullUserById(user.getId());
+
+		User userCopy = new User();
+		userCopy.setId(user.getId());
+		userCopy.setDob(user.getDob());
+		userCopy.setEmail(user.getEmail());
+		userCopy.setFirstName(user.getFirstName());
+		userCopy.setLastName(user.getLastName());
+		userCopy.setUsername(user.getUsername());
+		userDAO.updateUser(userCopy);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
 	public void updateUser(User user)
 	{
 		userDAO.updateUser(user);

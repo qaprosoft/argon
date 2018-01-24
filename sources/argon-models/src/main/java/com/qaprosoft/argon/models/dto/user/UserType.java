@@ -1,36 +1,33 @@
-package com.qaprosoft.argon.models.dto;
+package com.qaprosoft.argon.models.dto.user;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.AssertTrue;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.qaprosoft.argon.models.db.Status;
+import com.qaprosoft.argon.models.dto.AbstractType;
 
 @JsonInclude(Include.NON_NULL)
 public class UserType extends AbstractType
 {
 	private static final long serialVersionUID = -6663692781158665080L;
 
-	@NotEmpty(message = "Email required")
 	private String email;
 
-	@NotEmpty(message = "Username required")
 	private String userName;
 
 	private String firstName;
 
 	private String lastName;
 
-	@NotEmpty(message = "Password required")
 	private String password;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	@NotNull(message = "DOB required")
 	private Date dob;
 
 	private Status status;
@@ -100,8 +97,25 @@ public class UserType extends AbstractType
 		return status;
 	}
 
+	@JsonGetter("status")
+	public Status.Type getJsonStatus()
+	{
+		return status.getType();
+	}
+
 	public void setStatus(Status status)
 	{
 		this.status = status;
+	}
+
+	@JsonIgnore
+	@AssertTrue(message = "At least one of the fields must be not null")
+	public boolean isAnyFieldNotNull()
+	{
+		return email != null ||
+				userName != null ||
+				firstName != null ||
+				lastName != null ||
+				dob != null;
 	}
 }

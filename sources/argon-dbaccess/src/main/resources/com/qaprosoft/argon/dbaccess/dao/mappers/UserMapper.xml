@@ -127,9 +127,15 @@
 	</select>
 
 	<select id="getUsersForConfirmationMailing" resultMap="UserResultMap">
-		<include refid="getUser" />
 		<![CDATA[
-			INNER JOIN CONFIRMATIONS C
+			SELECT
+				U.ID AS USER_ID,
+				U.LAST_NAME AS USER_LAST_NAME,
+				U.USERNAME AS USER_USERNAME,
+				U.EMAIL AS USER_EMAIL,
+				U.FIRST_NAME AS USER_FIRST_NAME
+			FROM argon.USERS U
+			LEFT JOIN CONFIRMATIONS C
 			ON U.ID = C.USER_ID
 			WHERE VERIFIED = 0
 			AND C.ID IS NULL
@@ -137,18 +143,55 @@
 	</select>
 
 	<update id="updateUser">
+		<![CDATA[UPDATE argon.USERS U]]>
+		<set>
+			<if test="null != username">
+				<![CDATA[
+					USERNAME = #{username},
+				]]>
+			</if>
+			<if test="null != password">
+				<![CDATA[
+					PASSWORD = #{password},
+				]]>
+			</if>
+			<if test="null != firstName">
+				<![CDATA[
+					FIRST_NAME = #{firstName},
+				]]>
+			</if>
+			<if test="null != lastName">
+				<![CDATA[
+					LAST_NAME = #{lastName},
+				]]>
+			</if>
+			<if test="null != dob">
+				<![CDATA[
+					DOB = #{dob},
+				]]>
+			</if>
+			<if test="null != email">
+				<![CDATA[
+					EMAIL = #{email},
+				]]>
+			</if>
+			<if test="null != enabled">
+				<![CDATA[
+					ENABLED = #{enabled},
+				]]>
+			</if>
+			<if test="null != verified">
+				<![CDATA[
+					VERIFIED = #{verified},
+				]]>
+			</if>
+			<if test="null != status">
+				<![CDATA[
+					STATUS_ID = #{status.id}
+				]]>
+			</if>
+		</set>
 		<![CDATA[
-			UPDATE argon.USERS U
-			SET
-				LAST_NAME = #{lastName},
-				DOB = #{dob},
-				USERNAME = #{username},
-				PASSWORD = #{password},
-				ENABLED = #{enabled},
-				VERIFIED = #{verified},
-				EMAIL = #{email},
-				FIRST_NAME = #{firstName},
-				STATUS_ID = #{status.id}
 			WHERE U.ID = #{id}
 		]]>
 	</update>
